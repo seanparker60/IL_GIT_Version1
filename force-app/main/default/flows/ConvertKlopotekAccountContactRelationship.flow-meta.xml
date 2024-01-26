@@ -10,14 +10,14 @@
             <assignToReference>GetAccountContactRelationship.AccountId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.KlopotekAccount__r.Account__c</elementReference>
+                <elementReference>form_update_acc</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>GetAccountContactRelationship.ContactId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.KlopotekContact__r.Contact__c</elementReference>
+                <elementReference>form_update_contact</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -133,6 +133,16 @@ ISCHANGED({!$Record.URL_COMMUNICATION_NUMBER__c}))</expression>
         <name>forFaultMessage</name>
         <dataType>String</dataType>
         <expression>LEFT({!$Flow.FaultMessage},Find(&quot;You can look up ExceptionCode&quot;, {!$Flow.FaultMessage})-1)</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_acc</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.KlopotekAccount__r.Account__c}), {!$Record__Prior.KlopotekAccount__r.Account__c}, {!$Record.KlopotekAccount__r.Account__c})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_contact</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.KlopotekContact__r.Contact__c}), {!$Record__Prior.KlopotekContact__r.Contact__c}, {!$Record.KlopotekContact__r.Contact__c})</expression>
     </formulas>
     <interviewLabel>Convert Klopotek Account Contact Relationship {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Convert Klopotek Account Contact Relationship</label>

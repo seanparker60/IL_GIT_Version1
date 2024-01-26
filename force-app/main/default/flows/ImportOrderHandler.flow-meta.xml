@@ -3,8 +3,8 @@
     <actionCalls>
         <name>ImportOrderItemGroupCreate</name>
         <label>ImportOrderItemGroupCreate</label>
-        <locationX>4483</locationX>
-        <locationY>1660</locationY>
+        <locationX>4292</locationX>
+        <locationY>1624</locationY>
         <actionName>Order_ImportOrderItemGroupCreate</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -31,8 +31,8 @@
     <actionCalls>
         <name>ImportOrderItemGroupUpdate</name>
         <label>ImportOrderItemGroupUpdate</label>
-        <locationX>4712</locationX>
-        <locationY>1807</locationY>
+        <locationX>4585</locationX>
+        <locationY>1905</locationY>
         <actionName>Order_ImportOrderItemGroupUpdate</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -57,14 +57,30 @@
         </outputParameters>
     </actionCalls>
     <actionCalls>
+        <description>global class ImportOrder_LockErrorRetryBatch</description>
+        <name>Rerun_Locked_Import_Orders</name>
+        <label>Rerun Locked Import Orders</label>
+        <locationX>5334</locationX>
+        <locationY>1723</locationY>
+        <actionName>ImportOrder_LockErrorRetryBatch</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>externalOrderId</name>
+            <value>
+                <elementReference>sov_NetsuiteOrder.ExternalOrderId__c</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
         <name>SuccessorUpdate</name>
         <label>SuccessorUpdate</label>
-        <locationX>4091</locationX>
-        <locationY>111</locationY>
+        <locationX>3778</locationX>
+        <locationY>292</locationY>
         <actionName>Order_ImportOrderSuccessorUpdate</actionName>
         <actionType>apex</actionType>
         <connector>
-            <targetReference>Source</targetReference>
+            <targetReference>Is_Successor_Item</targetReference>
         </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
@@ -89,7 +105,7 @@
         <name>Add_to_Updated_Import_Orders</name>
         <label>Add to Updated Import Orders</label>
         <locationX>5539</locationX>
-        <locationY>2758</locationY>
+        <locationY>2862</locationY>
         <assignmentItems>
             <assignToReference>varImportOrders</assignToReference>
             <operator>Add</operator>
@@ -105,7 +121,7 @@
         <name>assB2BDiscount</name>
         <label>assB2BDiscount</label>
         <locationX>4985</locationX>
-        <locationY>331</locationY>
+        <locationY>435</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.ManualDiscountPercent__c</assignToReference>
             <operator>Assign</operator>
@@ -128,7 +144,7 @@
         <name>assBillingAddress</name>
         <label>assBillingAddress</label>
         <locationX>4133</locationX>
-        <locationY>3679</locationY>
+        <locationY>3783</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.BillingStreet</assignToReference>
             <operator>Assign</operator>
@@ -165,7 +181,7 @@
         <name>assGetAccShippingAddress</name>
         <label>assGetAccShippingAddress</label>
         <locationX>3492</locationX>
-        <locationY>3363</locationY>
+        <locationY>3467</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.ShippingStreet</assignToReference>
             <operator>Assign</operator>
@@ -205,8 +221,8 @@
     <assignments>
         <name>Assign_BEX_Order_Type</name>
         <label>Assign BEX Order Type</label>
-        <locationX>4598</locationX>
-        <locationY>790</locationY>
+        <locationX>4519</locationX>
+        <locationY>941</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.OrderLineType__c</assignToReference>
             <operator>Assign</operator>
@@ -222,12 +238,12 @@
         <name>Assign_Bill_to_Ship_To_Error</name>
         <label>Assign Bill to Ship To Error</label>
         <locationX>3051</locationX>
-        <locationY>2434</locationY>
+        <locationY>2538</locationY>
         <assignmentItems>
             <assignToReference>BilltoShiptoErrorVariable</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Bill to/ Ship to value cannot be empty</stringValue>
+                <stringValue>Bill to/ Ship to value cannot be empty or could not be found</stringValue>
             </value>
         </assignmentItems>
         <connector>
@@ -238,7 +254,7 @@
         <name>Assign_CreatedAccount_to_OrderAccount</name>
         <label>Created to OrderAccount</label>
         <locationX>1216</locationX>
-        <locationY>2448</locationY>
+        <locationY>2552</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderAccount</assignToReference>
             <operator>Assign</operator>
@@ -253,8 +269,8 @@
     <assignments>
         <name>Assign_Empty_Order_Type</name>
         <label>Assign empty Order Type</label>
-        <locationX>5143</locationX>
-        <locationY>846</locationY>
+        <locationX>5138</locationX>
+        <locationY>935</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.OrderLineType__c</assignToReference>
             <operator>Assign</operator>
@@ -270,7 +286,7 @@
         <name>Assign_Invoice_Import_Location</name>
         <label>Assign Invoice Import Location</label>
         <locationX>1912</locationX>
-        <locationY>2857</locationY>
+        <locationY>2961</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Billto__c</assignToReference>
             <operator>Assign</operator>
@@ -286,7 +302,7 @@
         <name>Assign_Invoice_Location</name>
         <label>Assign Invoice Location</label>
         <locationX>2130</locationX>
-        <locationY>2906</locationY>
+        <locationY>3010</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Billto__c</assignToReference>
             <operator>Assign</operator>
@@ -299,10 +315,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_IO_ProductId</name>
+        <label>Assign IO ProductId</label>
+        <locationX>3037</locationX>
+        <locationY>1106</locationY>
+        <assignmentItems>
+            <assignToReference>var_ProductId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sov_NetsuiteOrder.ProductId__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_PriceBookEntry</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Order_Variables</name>
         <label>Assign Order Variables</label>
-        <locationX>2721</locationX>
-        <locationY>3574</locationY>
+        <locationX>2589</locationX>
+        <locationY>3717</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Status</assignToReference>
             <operator>Assign</operator>
@@ -510,7 +542,7 @@
             <assignToReference>sov_Order.PaymentStatus__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sov_NetsuiteOrder.PaymentStatus__c</elementReference>
+                <elementReference>formPaymentStatus</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -717,21 +749,28 @@
             </value>
         </assignmentItems>
         <assignmentItems>
-            <assignToReference>sov_Order.DUDOrder__c</assignToReference>
+            <assignToReference>sov_Order.FulfillmentLocation__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>sov_NetsuiteOrder.DUDOrder__c</elementReference>
+                <elementReference>f_FulfillmentLocation</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sov_Order.DontSendOrderConfirmation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sov_NetsuiteOrder.DontSendOrderConfirmation__c</elementReference>
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>GetOrderPricingMethodMdt</targetReference>
+            <targetReference>Should_Shipping_Costs_Exempt_be_set</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_OrderItem_Completed</name>
         <label>Assign OrderItem Completed</label>
-        <locationX>4718</locationX>
-        <locationY>1192</locationY>
+        <locationX>4587</locationX>
+        <locationY>1423</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Status__c</assignToReference>
             <operator>Assign</operator>
@@ -761,7 +800,7 @@
         <name>Assign_OrderItem_Variables</name>
         <label>Assign OrderItem Variables</label>
         <locationX>4122</locationX>
-        <locationY>724</locationY>
+        <locationY>828</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.Product2Id</assignToReference>
             <operator>Assign</operator>
@@ -958,15 +997,69 @@
                 <elementReference>sov_NetsuiteOrder.itemGroupId__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sov_OrderItem.OrderSource__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order.Source__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sov_OrderItem.OrderType__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Order.Type</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sov_OrderItem.Subtype__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sov_Product.ItemSubtype__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>DUD_Depot_Order</targetReference>
+            <targetReference>Apply_Custom_Sales_Price</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the Amount paid/received from the Import Order record because a successor item override won&apos;t have the pricing applied from the Import Order record</description>
+        <name>Assign_Original_Pricing</name>
+        <label>Assign Original Pricing</label>
+        <locationX>4467</locationX>
+        <locationY>50</locationY>
+        <assignmentItems>
+            <assignToReference>sov_OrderItem.ComponentListPrice__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_OriginalListPrice</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Source</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Original_Product_List_Price</name>
+        <label>Assign Original Product List Price</label>
+        <locationX>3514</locationX>
+        <locationY>847</locationY>
+        <assignmentItems>
+            <assignToReference>var_OriginalListPrice</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sov_PriceBookEntry.UnitPrice</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Pricebook_Entry</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Shipping_Import_Location</name>
         <label>Assign Shipping Import Location</label>
         <locationX>2200</locationX>
-        <locationY>3366</locationY>
+        <locationY>3470</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Shipto__c</assignToReference>
             <operator>Assign</operator>
@@ -982,7 +1075,7 @@
         <name>Assign_Shipping_Location</name>
         <label>Assign Shipping Location</label>
         <locationX>2313</locationX>
-        <locationY>3385</locationY>
+        <locationY>3489</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Shipto__c</assignToReference>
             <operator>Assign</operator>
@@ -998,7 +1091,7 @@
         <name>Assign_ShippingCostExempt</name>
         <label>Assign ShippingCostExempt</label>
         <locationX>4550</locationX>
-        <locationY>2712</locationY>
+        <locationY>2816</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.ShippingCostExempt__c</assignToReference>
             <operator>Assign</operator>
@@ -1013,8 +1106,8 @@
     <assignments>
         <name>Assign_Standard_Order_Type</name>
         <label>Assign Standard Order Type</label>
-        <locationX>4765</locationX>
-        <locationY>831</locationY>
+        <locationX>4809</locationX>
+        <locationY>921</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.OrderLineType__c</assignToReference>
             <operator>Assign</operator>
@@ -1027,10 +1120,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Successor_EAN</name>
+        <label>Assign Successor EAN</label>
+        <locationX>3598</locationX>
+        <locationY>1174</locationY>
+        <assignmentItems>
+            <assignToReference>var_ProductId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sov_Product.SuccessorItem__r.EAN__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>var_IsSuccessorItemCheck</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_PriceBookEntry</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assignB2BEmail</name>
         <label>assignB2BEmail</label>
         <locationX>4576</locationX>
-        <locationY>3018</locationY>
+        <locationY>3122</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.BillingReminderEmail__c</assignToReference>
             <operator>Assign</operator>
@@ -1067,7 +1183,7 @@
         <name>AssignComlpete_Order</name>
         <label>AssignComlpete Order</label>
         <locationX>4313</locationX>
-        <locationY>2231</locationY>
+        <locationY>2335</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Order__c</assignToReference>
             <operator>Assign</operator>
@@ -1090,7 +1206,7 @@
         <name>AssignComponentListPrice</name>
         <label>AssignComponentListPrice</label>
         <locationX>4345</locationX>
-        <locationY>570</locationY>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.ComponentListPrice__c</assignToReference>
             <operator>Assign</operator>
@@ -1106,7 +1222,7 @@
         <name>AssignItemGroupBlockError</name>
         <label>AssignItemGroupBlockError</label>
         <locationX>4180</locationX>
-        <locationY>1176</locationY>
+        <locationY>1280</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Status__c</assignToReference>
             <operator>Assign</operator>
@@ -1129,7 +1245,7 @@
         <name>assignNotificationEmailNonB2BShop</name>
         <label>assignNotificationEmailNonB2BShop</label>
         <locationX>3989</locationX>
-        <locationY>3116</locationY>
+        <locationY>3220</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.OrderNotificationEmail__c</assignToReference>
             <operator>Assign</operator>
@@ -1166,7 +1282,7 @@
         <name>AssignOpCoPB</name>
         <label>AssignOpCoPB</label>
         <locationX>2101</locationX>
-        <locationY>1698</locationY>
+        <locationY>1802</locationY>
         <assignmentItems>
             <assignToReference>PricebookName</assignToReference>
             <operator>Assign</operator>
@@ -1182,7 +1298,7 @@
         <name>assignPaymentMethod</name>
         <label>assignPaymentMethod</label>
         <locationX>4112</locationX>
-        <locationY>2888</locationY>
+        <locationY>2992</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.PaymentMethod__c</assignToReference>
             <operator>Assign</operator>
@@ -1195,10 +1311,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assignPaymentMethodAccount</name>
+        <label>assignPaymentMethodAccount</label>
+        <locationX>4577</locationX>
+        <locationY>2959</locationY>
+        <assignmentItems>
+            <assignToReference>sov_Order.PaymentMethod__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>sov_Order.Billto__r.PaymentMethod__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>CourierWholeSalerID_Populated</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignPBOverride</name>
         <label>AssignPBOverride</label>
         <locationX>1789</locationX>
-        <locationY>1686</locationY>
+        <locationY>1790</locationY>
         <assignmentItems>
             <assignToReference>PricebookName</assignToReference>
             <operator>Assign</operator>
@@ -1214,7 +1346,7 @@
         <name>AssignPricebookError</name>
         <label>AssignPricebookError</label>
         <locationX>3308</locationX>
-        <locationY>1321</locationY>
+        <locationY>1425</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Error__c</assignToReference>
             <operator>Assign</operator>
@@ -1237,7 +1369,7 @@
         <name>AssignPricebookError2</name>
         <label>AssignPricebookError2</label>
         <locationX>3833</locationX>
-        <locationY>1310</locationY>
+        <locationY>1414</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Error__c</assignToReference>
             <operator>Assign</operator>
@@ -1260,7 +1392,7 @@
         <name>assignPricingMethodDefault</name>
         <label>assignPricingMethodDefault</label>
         <locationX>2879</locationX>
-        <locationY>3187</locationY>
+        <locationY>3291</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.PricingMethod__c</assignToReference>
             <operator>Assign</operator>
@@ -1276,7 +1408,7 @@
         <name>assignPricingMethodDiscountGroup</name>
         <label>assignPricingMethodDiscountGroup</label>
         <locationX>2961</locationX>
-        <locationY>3058</locationY>
+        <locationY>3162</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.PricingMethod__c</assignToReference>
             <operator>Assign</operator>
@@ -1292,7 +1424,7 @@
         <name>assignShipbyDate</name>
         <label>assignShipbyDate</label>
         <locationX>4528</locationX>
-        <locationY>3472</locationY>
+        <locationY>3576</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.ShipbyDate__c</assignToReference>
             <operator>Assign</operator>
@@ -1308,7 +1440,7 @@
         <name>assignShipbyDateToEffectiveDate</name>
         <label>assignShipbyDateToEffectiveDate</label>
         <locationX>4767</locationX>
-        <locationY>3440</locationY>
+        <locationY>3544</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.ShipbyDate__c</assignToReference>
             <operator>Assign</operator>
@@ -1324,7 +1456,7 @@
         <name>assignWaitingStatus</name>
         <label>assignWaitingStatus</label>
         <locationX>976</locationX>
-        <locationY>2286</locationY>
+        <locationY>2390</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Status__c</assignToReference>
             <operator>Assign</operator>
@@ -1337,10 +1469,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>assJobCountsize</name>
+        <label>assJobCountsize</label>
+        <locationX>5448</locationX>
+        <locationY>1958</locationY>
+        <assignmentItems>
+            <assignToReference>JobCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>getImportOrderforJob</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>decIsJobCountSizeComplete</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>assOrderNotFound</name>
         <label>assOrderNotFound</label>
         <locationX>3442</locationX>
-        <locationY>1800</locationY>
+        <locationY>1904</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Error__c</assignToReference>
             <operator>Assign</operator>
@@ -1363,7 +1511,7 @@
         <name>assShippingAddres</name>
         <label>assShippingAddres</label>
         <locationX>3506</locationX>
-        <locationY>3743</locationY>
+        <locationY>3847</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.ShippingStreet</assignToReference>
             <operator>Assign</operator>
@@ -1407,7 +1555,7 @@
         <name>B2BDirectPaymentAssignment</name>
         <label>B2B DirectPayment</label>
         <locationX>4780</locationX>
-        <locationY>371</locationY>
+        <locationY>475</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.UnitPrice</assignToReference>
             <operator>Assign</operator>
@@ -1423,7 +1571,7 @@
         <name>B2BInvoiceAssignment</name>
         <label>B2B Invoice</label>
         <locationX>4542</locationX>
-        <locationY>359</locationY>
+        <locationY>463</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.UnitPrice</assignToReference>
             <operator>Assign</operator>
@@ -1460,7 +1608,7 @@
         <name>B2BSalesforceBatchActivate</name>
         <label>B2B Salesforce Batch Activate</label>
         <locationX>3056</locationX>
-        <locationY>3476</locationY>
+        <locationY>3580</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.ActivateforBatchProcessing__c</assignToReference>
             <operator>Assign</operator>
@@ -1473,10 +1621,24 @@
         </connector>
     </assignments>
     <assignments>
+        <description>Set to null if no delivery account was found for the {!sov_Order.Billto__c} reference to not fail when doing a check in a decision later in the flow</description>
+        <name>Billto_Acc_Null</name>
+        <label>Billto Acc Null</label>
+        <locationX>1370</locationX>
+        <locationY>3180</locationY>
+        <assignmentItems>
+            <assignToReference>sov_Order.Billto__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Delivery_Location_Account</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Default_ship_to</name>
         <label>Default ship to</label>
-        <locationX>1911</locationX>
-        <locationY>3637</locationY>
+        <locationX>1838</locationX>
+        <locationY>3782</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Shipto__c</assignToReference>
             <operator>Assign</operator>
@@ -1491,8 +1653,8 @@
     <assignments>
         <name>Default_ship_to_0</name>
         <label>Default ship to</label>
-        <locationX>3326</locationX>
-        <locationY>255</locationY>
+        <locationX>3581</locationX>
+        <locationY>188</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.ShipToAccount__c</assignToReference>
             <operator>Assign</operator>
@@ -1508,7 +1670,7 @@
         <name>DefaultInvoice</name>
         <label>Default Invoice</label>
         <locationX>1719</locationX>
-        <locationY>3046</locationY>
+        <locationY>3150</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Billto__c</assignToReference>
             <operator>Assign</operator>
@@ -1524,7 +1686,7 @@
         <name>Error</name>
         <label>Error</label>
         <locationX>3440</locationX>
-        <locationY>2048</locationY>
+        <locationY>2152</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.Status__c</assignToReference>
             <operator>Assign</operator>
@@ -1547,7 +1709,7 @@
         <name>Invoice</name>
         <label>Invoice</label>
         <locationX>1107</locationX>
-        <locationY>3088</locationY>
+        <locationY>3192</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Billto__c</assignToReference>
             <operator>Assign</operator>
@@ -1562,8 +1724,8 @@
     <assignments>
         <name>Set_ComponentListPrice_DUD</name>
         <label>Set ComponentListPrice - DUD</label>
-        <locationX>3886</locationX>
-        <locationY>573</locationY>
+        <locationX>4138</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.ComponentListPrice__c</assignToReference>
             <operator>Assign</operator>
@@ -1585,8 +1747,8 @@
     <assignments>
         <name>Set_Discount_rate</name>
         <label>Set Discount rate</label>
-        <locationX>3629</locationX>
-        <locationY>409</locationY>
+        <locationX>3945</locationX>
+        <locationY>574</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.ManualDiscount__c</assignToReference>
             <operator>Assign</operator>
@@ -1609,14 +1771,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>SuccessorUpdate</targetReference>
+            <targetReference>Skip_Successor_Update</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Set_Discount_value</name>
         <label>Set Discount value</label>
-        <locationX>3999</locationX>
-        <locationY>428</locationY>
+        <locationX>4236</locationX>
+        <locationY>359</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderItem.ManualDiscount__c</assignToReference>
             <operator>Assign</operator>
@@ -1639,14 +1801,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>SuccessorUpdate</targetReference>
+            <targetReference>Skip_Successor_Update</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Set_New_External_OrderId</name>
         <label>Set New External OrderId</label>
         <locationX>572</locationX>
-        <locationY>1173</locationY>
+        <locationY>1277</locationY>
         <assignmentItems>
             <assignToReference>sov_NetsuiteOrder.ExternalOrderId__c</assignToReference>
             <operator>Assign</operator>
@@ -1663,7 +1825,7 @@
         <name>Set_Override_Auto_Activate</name>
         <label>Set Override Auto Activate</label>
         <locationX>4439</locationX>
-        <locationY>2397</locationY>
+        <locationY>2501</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.OrderActivateOverride__c</assignToReference>
             <operator>Assign</operator>
@@ -1683,10 +1845,26 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Set_Shipping_Costs_Exempt_Tender</name>
+        <label>Set Shipping Costs Exempt - Tender</label>
+        <locationX>2744</locationX>
+        <locationY>4068</locationY>
+        <assignmentItems>
+            <assignToReference>sov_Order.ShippingCostExempt__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>GetOrderPricingMethodMdt</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>SetReadyForPrivateIndividual</name>
         <label>SetReadyForPrivateIndividual</label>
         <locationX>5528</locationX>
-        <locationY>2480</locationY>
+        <locationY>2584</locationY>
         <assignmentItems>
             <assignToReference>Loop_Import_Order_Lines.ReadyForPrivateIndividual__c</assignToReference>
             <operator>Assign</operator>
@@ -1701,8 +1879,8 @@
     <assignments>
         <name>Ship_to</name>
         <label>Ship to</label>
-        <locationX>1911</locationX>
-        <locationY>3531</locationY>
+        <locationX>1837</locationX>
+        <locationY>3528</locationY>
         <assignmentItems>
             <assignToReference>sov_Order.Shipto__c</assignToReference>
             <operator>Assign</operator>
@@ -1714,13 +1892,81 @@
             <targetReference>Bill_To_and_Ship_To</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <description>Set to null if no delivery account was found for the {!sov_Order.Shipto__c} reference to not fail when doing a check in a decision later in the flow</description>
+        <name>Shipto_Acc_Null</name>
+        <label>Shipto Acc Null</label>
+        <locationX>1798</locationX>
+        <locationY>3647</locationY>
+        <assignmentItems>
+            <assignToReference>sov_Order.Shipto__c</assignToReference>
+            <operator>Assign</operator>
+        </assignmentItems>
+        <connector>
+            <targetReference>Bill_To_and_Ship_To</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Previous label: DUD/Depot Order</description>
+        <name>Apply_Custom_Sales_Price</name>
+        <label>Apply Custom Sales Price</label>
+        <locationX>3769</locationX>
+        <locationY>823</locationY>
+        <defaultConnector>
+            <targetReference>SuccessorUpdate</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Assign_Custom_Price</name>
+            <conditionLogic>1 OR (2 AND 3) OR (4 AND 5)</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Depot</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Tender</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.LineItemType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Transfer</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.DiscountedPrice__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Studiemeister</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_ComponentListPrice_DUD</targetReference>
+            </connector>
+            <label>Assign Custom Price</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Are_there_manual_discounts</name>
         <label>Are there manual discounts?</label>
-        <locationX>3878</locationX>
-        <locationY>342</locationY>
+        <locationX>4130</locationX>
+        <locationY>492</locationY>
         <defaultConnector>
-            <targetReference>SuccessorUpdate</targetReference>
+            <targetReference>Skip_Successor_Update</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -1786,7 +2032,7 @@
         <name>B2BSalesforceOrderActivate</name>
         <label>B2B Salesforce Order Activate</label>
         <locationX>2953</locationX>
-        <locationY>3722</locationY>
+        <locationY>3826</locationY>
         <defaultConnector>
             <targetReference>decShippingAddress</targetReference>
         </defaultConnector>
@@ -1811,7 +2057,7 @@
         <name>Bill_To_and_Ship_To</name>
         <label>Bill To and Ship To</label>
         <locationX>2422</locationX>
-        <locationY>3569</locationY>
+        <locationY>3673</locationY>
         <defaultConnector>
             <targetReference>Assign_Order_Variables</targetReference>
         </defaultConnector>
@@ -1844,7 +2090,7 @@
         <name>Block_Auto_Activate</name>
         <label>Block Auto Activate-GEN2</label>
         <locationX>4412</locationX>
-        <locationY>2615</locationY>
+        <locationY>2719</locationY>
         <defaultConnector>
             <targetReference>Create_Order</targetReference>
         </defaultConnector>
@@ -1869,7 +2115,7 @@
         <name>Check_notification_emails</name>
         <label>Check notification emails</label>
         <locationX>4403</locationX>
-        <locationY>3806</locationY>
+        <locationY>3910</locationY>
         <defaultConnector>
             <targetReference>ImportOrderHasEffectiveDate</targetReference>
         </defaultConnector>
@@ -1895,14 +2141,14 @@
         <name>CourierWholeSalerID_Populated</name>
         <label>CourierWholeSalerID Populated</label>
         <locationX>4293</locationX>
-        <locationY>2734</locationY>
+        <locationY>2838</locationY>
         <defaultConnector>
             <targetReference>Block_Auto_Activate</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Set_ShippingCostExempt</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 AND 2) OR 3</conditionLogic>
             <conditions>
                 <leftValueReference>sov_Order.CourierWholeSalerId__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -1917,6 +2163,13 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>OrderTypeFormula</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Free Order</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Assign_ShippingCostExempt</targetReference>
             </connector>
@@ -1927,7 +2180,7 @@
         <name>decBillingAddress</name>
         <label>decBillingAddress</label>
         <locationX>3823</locationX>
-        <locationY>3517</locationY>
+        <locationY>3621</locationY>
         <defaultConnector>
             <targetReference>decShipByDate</targetReference>
         </defaultConnector>
@@ -1952,11 +2205,40 @@
         <name>decCheckifBussinessLogicTRue</name>
         <label>decCheckifBussinessLogicTRue</label>
         <locationX>4673</locationX>
-        <locationY>2068</locationY>
+        <locationY>2172</locationY>
         <defaultConnector>
             <targetReference>Is_PrivateIndividual_Import</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Header_and_lines_need_to_be_retriggered</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.TriggerBusinessLogic__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Error__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>No Order Found for the provided reference</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Error</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>GetImportOrderSetting</targetReference>
+            </connector>
+            <label>Header and lines need to be retriggered</label>
+        </rules>
         <rules>
             <name>Runbusinesslogic</name>
             <conditionLogic>and</conditionLogic>
@@ -1968,7 +2250,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>CreatB2BTriggerBusinesslogic</targetReference>
+                <targetReference>decTriggerJob</targetReference>
             </connector>
             <label>Runbusinesslogic</label>
         </rules>
@@ -1977,7 +2259,7 @@
         <name>decDiscontinuedProduct</name>
         <label>decDiscontinuedProduct</label>
         <locationX>3814</locationX>
-        <locationY>1122</locationY>
+        <locationY>1226</locationY>
         <defaultConnector>
             <targetReference>AssignPricebookError2</targetReference>
         </defaultConnector>
@@ -1997,12 +2279,41 @@
             </connector>
             <label>isDiscontinued</label>
         </rules>
+        <rules>
+            <name>HasSuccessorItem</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_Product.SuccessorItem__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_Product.IsSuccessorItemActive__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_Product.SuccessorItem__r.IsActive</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Successor_EAN</targetReference>
+            </connector>
+            <label>HasSuccessorItem</label>
+        </rules>
     </decisions>
     <decisions>
         <name>decInvoiceLocation</name>
         <label>decInvoiceLocation</label>
         <locationX>1360</locationX>
-        <locationY>2895</locationY>
+        <locationY>2999</locationY>
         <defaultConnector>
             <targetReference>Invoice</targetReference>
         </defaultConnector>
@@ -2029,12 +2340,34 @@
             </connector>
             <label>InvoiceLoactionExists</label>
         </rules>
+        <rules>
+            <name>InvoiceLoactionNotExist</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.invoiceIdLocation__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_InvoiceLocation</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Billto_Acc_Null</targetReference>
+            </connector>
+            <label>InvoiceLoactionNotExist</label>
+        </rules>
     </decisions>
     <decisions>
         <name>decIsBlockedItemGroup</name>
         <label>decIsBlockedItemGroup</label>
         <locationX>4169</locationX>
-        <locationY>922</locationY>
+        <locationY>1026</locationY>
         <defaultConnector>
             <targetReference>ItemGroupProduct</targetReference>
         </defaultConnector>
@@ -2056,17 +2389,39 @@
         </rules>
     </decisions>
     <decisions>
+        <name>decIsJobCountSizeComplete</name>
+        <label>decIsJobCountSizeComplete</label>
+        <locationX>5721</locationX>
+        <locationY>2062</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IsJobCountMatch</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>JobCount</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>sov_NetsuiteOrder.JobOrderCount__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>CreatB2BTriggerBusinesslogic</targetReference>
+            </connector>
+            <label>IsJobCountMatch</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>decItemGroupComponentCheck</name>
         <label>decItemGroupComponentCheck</label>
-        <locationX>4707</locationX>
-        <locationY>1422</locationY>
+        <locationX>4580</locationX>
+        <locationY>1627</locationY>
         <defaultConnector>
             <targetReference>ImportOrderItemGroupUpdate</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>checkrequired</name>
-            <conditionLogic>1 OR 2 OR 3 OR (4 AND 5)</conditionLogic>
+            <conditionLogic>1 OR 2 OR 3 OR 4 OR 5 OR (6 AND 7)</conditionLogic>
             <conditions>
                 <leftValueReference>Get_Order.Source__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -2086,6 +2441,20 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>B2B Salesforce</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Trade - Early Season Order</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Order.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Tender</stringValue>
                 </rightValue>
             </conditions>
             <conditions>
@@ -2112,7 +2481,7 @@
         <name>decNotificationEmail</name>
         <label>decNotificationEmail</label>
         <locationX>4310</locationX>
-        <locationY>3208</locationY>
+        <locationY>3312</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>NotB2BShopNotification</name>
@@ -2149,14 +2518,14 @@
         <name>decPaymentMethod</name>
         <label>decPaymentMethod</label>
         <locationX>4364</locationX>
-        <locationY>2952</locationY>
+        <locationY>3056</locationY>
         <defaultConnector>
             <targetReference>CourierWholeSalerID_Populated</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>PaidTrue</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Prepayment</name>
+            <conditionLogic>or</conditionLogic>
             <conditions>
                 <leftValueReference>sov_NetsuiteOrder.PaymentMethodType__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -2164,17 +2533,53 @@
                     <stringValue>bancontact</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.PaymentMethodType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>ideal</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.PaymentMethodType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Ideal</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>assignPaymentMethod</targetReference>
             </connector>
-            <label>PaidTrue</label>
+            <label>Prepayment</label>
+        </rules>
+        <rules>
+            <name>From_Account</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.PaymentMethodType__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.PaymentMethodType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>invoice</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>assignPaymentMethodAccount</targetReference>
+            </connector>
+            <label>From Account</label>
         </rules>
     </decisions>
     <decisions>
         <name>decShipByDate</name>
         <label>decShipByDate</label>
         <locationX>4308</locationX>
-        <locationY>3611</locationY>
+        <locationY>3715</locationY>
         <defaultConnector>
             <targetReference>decNotificationEmail</targetReference>
         </defaultConnector>
@@ -2206,7 +2611,7 @@
         <name>decShippingAddress</name>
         <label>decShippingAddress</label>
         <locationX>3300</locationX>
-        <locationY>3536</locationY>
+        <locationY>3640</locationY>
         <defaultConnector>
             <targetReference>decBillingAddress</targetReference>
         </defaultConnector>
@@ -2266,8 +2671,8 @@
     <decisions>
         <name>decTradeShipto</name>
         <label>decTradeShipto</label>
-        <locationX>3599</locationX>
-        <locationY>649</locationY>
+        <locationX>3539</locationX>
+        <locationY>444</locationY>
         <defaultConnector>
             <targetReference>SuccessorUpdate</targetReference>
         </defaultConnector>
@@ -2296,35 +2701,42 @@
         </rules>
     </decisions>
     <decisions>
-        <name>DUD_Depot_Order</name>
-        <label>DUD/Depot Order</label>
-        <locationX>4114</locationX>
-        <locationY>449</locationY>
+        <name>decTriggerJob</name>
+        <label>decTriggerJob</label>
+        <locationX>4987</locationX>
+        <locationY>2130</locationY>
         <defaultConnector>
-            <targetReference>SuccessorUpdate</targetReference>
+            <targetReference>CreatB2BTriggerBusinesslogic</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Is_DUD_DepotOrder</name>
+            <name>IsJob</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
-                <operator>EqualTo</operator>
+                <leftValueReference>sov_NetsuiteOrder.JobId__c</leftValueReference>
+                <operator>IsNull</operator>
                 <rightValue>
-                    <stringValue>Depot</stringValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.JobOrderCount__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Set_ComponentListPrice_DUD</targetReference>
+                <targetReference>getImportOrderforJob</targetReference>
             </connector>
-            <label>Is DUD/Depot Order</label>
+            <label>IsJob</label>
         </rules>
     </decisions>
     <decisions>
         <name>Found_Discount_Group_Pricing_Method</name>
         <label>Found Discount Group Pricing Method</label>
         <locationX>2634</locationX>
-        <locationY>3061</locationY>
+        <locationY>3165</locationY>
         <defaultConnector>
             <targetReference>LoopOrderPricingMdt</targetReference>
         </defaultConnector>
@@ -2364,9 +2776,9 @@
         <name>Fount_Order</name>
         <label>Fount Order</label>
         <locationX>2797</locationX>
-        <locationY>1495</locationY>
+        <locationY>1599</locationY>
         <defaultConnector>
-            <targetReference>Get_PriceBookEntry</targetReference>
+            <targetReference>Assign_IO_ProductId</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -2389,7 +2801,7 @@
         <name>ImportOrder_Has_Order_Lookup</name>
         <label>ImportOrder Order Lookup</label>
         <locationX>2234</locationX>
-        <locationY>852</locationY>
+        <locationY>956</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Has_Order</name>
@@ -2411,7 +2823,7 @@
         <name>ImportOrderHasEffectiveDate</name>
         <label>Import Order Has Effective Date</label>
         <locationX>4629</locationX>
-        <locationY>3735</locationY>
+        <locationY>3839</locationY>
         <defaultConnector>
             <targetReference>assignShipbyDate</targetReference>
         </defaultConnector>
@@ -2443,7 +2855,7 @@
         <name>Is_PrivateIndividual_Import</name>
         <label>Is PrivateIndividual Import</label>
         <locationX>4680</locationX>
-        <locationY>2269</locationY>
+        <locationY>2373</locationY>
         <defaultConnectorLabel>Not PrivateIndividual</defaultConnectorLabel>
         <rules>
             <name>PrivateIndividual_eCom</name>
@@ -2483,17 +2895,92 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_Successor_Item</name>
+        <label>Is Successor Item</label>
+        <locationX>4138</locationX>
+        <locationY>148</locationY>
+        <defaultConnector>
+            <targetReference>Source</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Successor_Item</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_IsSuccessorItemCheck</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Assign_Successor_EAN</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Original_Pricing</targetReference>
+            </connector>
+            <label>Successor Item</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_the_header_locked</name>
+        <label>Is the header locked?</label>
+        <locationX>4985</locationX>
+        <locationY>1723</locationY>
+        <defaultConnector>
+            <targetReference>decTriggerJob</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_HeaderLocked</name>
+            <conditionLogic>1 AND 2 AND (3 OR 4)</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_IO_Header.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Error</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_IO_Header.Error__c</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>UNABLE_TO_LOCK_ROW</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.NoOfRetries__c</leftValueReference>
+                <operator>EqualTo</operator>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.NoOfRetries__c</leftValueReference>
+                <operator>LessThanOrEqualTo</operator>
+                <rightValue>
+                    <elementReference>form_maxRetries</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Rerun_Locked_Import_Orders</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>ItemGroupProduct</name>
         <label>ItemGroupProduct</label>
         <locationX>4338</locationX>
-        <locationY>781</locationY>
+        <locationY>885</locationY>
         <defaultConnector>
             <targetReference>Assign_OrderItem_Variables</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>HasItemGroupId</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>sov_NetsuiteOrder.itemGroupId__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -2508,6 +2995,13 @@
                     <stringValue>eCommerce</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Studiemeister</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>AssignComponentListPrice</targetReference>
             </connector>
@@ -2518,7 +3012,7 @@
         <name>NetsuiteId_populated</name>
         <label>NetsuiteId populated</label>
         <locationX>969</locationX>
-        <locationY>2448</locationY>
+        <locationY>2552</locationY>
         <defaultConnector>
             <targetReference>assignWaitingStatus</targetReference>
         </defaultConnector>
@@ -2543,14 +3037,36 @@
         <name>No_Delivery_Account</name>
         <label>No Delivery Account</label>
         <locationX>1390</locationX>
-        <locationY>3542</locationY>
+        <locationY>3645</locationY>
         <defaultConnector>
-            <targetReference>Default_ship_to</targetReference>
+            <targetReference>Ship_to</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Empty</name>
-            <conditionLogic>or</conditionLogic>
+            <name>DeliveryLoactionExists</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_DeliveryLocation</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.deliveryIdLocation__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Default_ship_to</targetReference>
+            </connector>
+            <label>DeliveryLoactionExists</label>
+        </rules>
+        <rules>
+            <name>DeliveryLoactionNotExists</name>
+            <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>sov_DeliveryLocation</leftValueReference>
                 <operator>IsNull</operator>
@@ -2562,32 +3078,20 @@
                 <leftValueReference>sov_NetsuiteOrder.deliveryIdLocation__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Ship_to</targetReference>
-            </connector>
-            <label>Empty</label>
-        </rules>
-        <rules>
-            <name>ImportOrderLocation</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>sov_ImportOrderShippingLocation</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
-            <label>ImportOrderLocation</label>
+            <connector>
+                <targetReference>Shipto_Acc_Null</targetReference>
+            </connector>
+            <label>DeliveryLoactionNotExists</label>
         </rules>
     </decisions>
     <decisions>
         <name>No_Delivery_Account_0</name>
         <label>No Delivery Account</label>
-        <locationX>3327</locationX>
-        <locationY>495</locationY>
+        <locationX>3323</locationX>
+        <locationY>289</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>NullDeliveryAccount</name>
@@ -2631,7 +3135,7 @@
         <name>Order_Item_Type</name>
         <label>Order Item Type</label>
         <locationX>4745</locationX>
-        <locationY>629</locationY>
+        <locationY>733</locationY>
         <defaultConnector>
             <targetReference>Create_OrderItem</targetReference>
         </defaultConnector>
@@ -2693,7 +3197,7 @@
         <name>Order_Location_Account</name>
         <label>Order Location Account</label>
         <locationX>1905</locationX>
-        <locationY>2640</locationY>
+        <locationY>2744</locationY>
         <defaultConnector>
             <targetReference>Get_Invoice_Import_Location_Account</targetReference>
         </defaultConnector>
@@ -2718,7 +3222,7 @@
         <name>Order_or_OrderItem</name>
         <label>Order or OrderItem</label>
         <locationX>951</locationX>
-        <locationY>1176</locationY>
+        <locationY>1280</locationY>
         <defaultConnector>
             <targetReference>UseOverridePricebook</targetReference>
         </defaultConnector>
@@ -2779,7 +3283,7 @@
         <name>Order_Shipping_Account</name>
         <label>Order Shipping Account</label>
         <locationX>2066</locationX>
-        <locationY>3047</locationY>
+        <locationY>3151</locationY>
         <defaultConnector>
             <targetReference>Get_Shipping_Import_Location_Account</targetReference>
         </defaultConnector>
@@ -2804,7 +3308,7 @@
         <name>OrderIDcontainscharsitshouldnt</name>
         <label>OrderID contains chars it shouldnt?</label>
         <locationX>754</locationX>
-        <locationY>770</locationY>
+        <locationY>874</locationY>
         <defaultConnector>
             <targetReference>Order_or_OrderItem</targetReference>
         </defaultConnector>
@@ -2829,7 +3333,7 @@
         <name>Pricebook_Entry</name>
         <label>Pricebook Entry</label>
         <locationX>3506</locationX>
-        <locationY>937</locationY>
+        <locationY>1041</locationY>
         <defaultConnector>
             <targetReference>Get_Product</targetReference>
         </defaultConnector>
@@ -2859,8 +3363,15 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Depot</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Get_Disontinued_Product</targetReference>
+                <targetReference>Get_Discontinued_Product</targetReference>
             </connector>
             <label>Pricebook entry is inactive</label>
         </rules>
@@ -2869,7 +3380,7 @@
         <name>Ready_For_PrivateIndividual</name>
         <label>Ready For PrivateIndividual</label>
         <locationX>1767</locationX>
-        <locationY>874</locationY>
+        <locationY>978</locationY>
         <defaultConnector>
             <targetReference>Get_PrivateIndividual_Import_Order_Header</targetReference>
         </defaultConnector>
@@ -2898,10 +3409,43 @@
         </rules>
     </decisions>
     <decisions>
+        <description>This check is done to always set the Original Pricebook Entry List price so it&apos;s not overwritten when a successor item is selected and the PB Entry required for the successor. This is done to calculate the discount correctly from the Original price and not the successor price.</description>
+        <name>Set_Product_List_Price</name>
+        <label>Set Product List Price</label>
+        <locationX>3218</locationX>
+        <locationY>991</locationY>
+        <defaultConnector>
+            <targetReference>Pricebook_Entry</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>List Price Set</defaultConnectorLabel>
+        <rules>
+            <name>Set_List_Price</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_IsSuccessorItemCheck</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Assign_Successor_EAN</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Original_Product_List_Price</targetReference>
+            </connector>
+            <label>Set List Price</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Should_Create_Private_Individual</name>
         <label>Should Create Private Individual?</label>
         <locationX>1358</locationX>
-        <locationY>2041</locationY>
+        <locationY>2145</locationY>
         <defaultConnector>
             <targetReference>Use_Import_Order_Location</targetReference>
         </defaultConnector>
@@ -2951,10 +3495,67 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Should_Shipping_Costs_Exempt_be_set</name>
+        <label>Should Shipping Costs Exempt be set?</label>
+        <locationX>2581</locationX>
+        <locationY>3935</locationY>
+        <defaultConnector>
+            <targetReference>GetOrderPricingMethodMdt</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Set_Shipping_Costs_Exempt</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.orderType__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Transfer Order</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Tender</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Shipping_Costs_Exempt_Tender</targetReference>
+            </connector>
+            <label>Set Shipping Costs Exempt</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Skip_Successor_Update</name>
+        <label>Skip Successor Update</label>
+        <locationX>4039</locationX>
+        <locationY>301</locationY>
+        <defaultConnector>
+            <targetReference>SuccessorUpdate</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Do Not Skip</defaultConnectorLabel>
+        <rules>
+            <name>Skip</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Depot</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Source</targetReference>
+            </connector>
+            <label>Skip</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Source</name>
         <label>Source</label>
         <locationX>4781</locationX>
-        <locationY>50</locationY>
+        <locationY>154</locationY>
         <defaultConnector>
             <targetReference>Order_Item_Type</targetReference>
         </defaultConnector>
@@ -3088,7 +3689,7 @@
         <name>Use_Import_Order_Location</name>
         <label>Use Import Order Location</label>
         <locationX>1537</locationX>
-        <locationY>2448</locationY>
+        <locationY>2552</locationY>
         <defaultConnector>
             <targetReference>Get_Invoice_Location_Account</targetReference>
         </defaultConnector>
@@ -3120,7 +3721,7 @@
         <name>UseOverridePricebook</name>
         <label>Use Override Pricebook</label>
         <locationX>1787</locationX>
-        <locationY>1460</locationY>
+        <locationY>1564</locationY>
         <defaultConnector>
             <targetReference>getPricebookOperatingCompany</targetReference>
         </defaultConnector>
@@ -3166,7 +3767,27 @@ CH: 2023/04/14 Set Invoicing Frequency to Daily for Private Individuals
 CH: 2023/04/18 Added DUD Order assignment
 CH: 2023/04/21 Added DUD Order manual discount assignment
 DB: 2023/05/31 Updates the Import Location searches on how the Account is found and assigned
-CH: 2023/06/01 Changed a decision for Trade (changed an equals to Contains)</description>
+CH: 2023/06/01 Changed a decision for Trade (changed an equals to Contains)
+DB: 2023/06/02 Added Logic for Tender/Transfer Sales Order
+DB: 2023/07/05 Included successor item check for inactive pricebook entry products
+CH: 2023/07/07 Removed DUD Checkbox assignment
+DB: 2023/07/10 Successor Item price assignment fix
+DB: 2023/07/23 Payment Mothed assignment fix
+DB: 2023/08/11 Get Order searching for Orders with Status &apos;Draft&apos; only
+CH: 2023/08/22 Added unable to lock row retry on last line check
+DB: 2023/09/04 Apply custom price assignment for source eCommerce Order Products with Discounted Price
+DB: 2023/09/13 Studiemeister added to decision conditions where eCommerce B2C is referenced
+CH: 2023/09/15 removed custom list pricing for eCommerce
+DB: 2023/09/28 map Order Source and Type onto Order Product record
+HdG: 2023/10/04 add sources to decItemGroupComponentCheck
+DB: 2023/10/04 revise invoice and deliveryIdLocation for not finding account(s) based on search value
+DB: 2023/10/04 skip successor update &amp; inactive pricebook entry check for Depot Orders
+CH: 2023/10/05 shipping costs exempt for Tender Transfer orders
+HdG: 2023/10/06 change assignment of payment status (pending =&gt; payment_pending)
+CH: 2023/10/16 added subtype__c mapping
+CH: 2023/10/31 PBE get excludes delivery status = null
+DB: 2023/11/20 Payment method on Order set to Prepayment if Payment Method Type is Ideal
+CH: 2023/11/22 Fixed &quot;Free&quot; Line Item Type not actually being free</description>
     <environments>Default</environments>
     <formulas>
         <name>billToAttentionOfFormula</name>
@@ -3184,6 +3805,13 @@ SUBSTITUTE({!sov_NetsuiteOrder.ExternalOrderId__c}, &apos;.txt&apos;, &apos;&apo
         <name>debugFormula</name>
         <dataType>String</dataType>
         <expression>IF(CONTAINS({!sov_OrderItem.Order.Pricebook2.Name}, &quot; Informat&quot;) = false, &quot;3&quot;, &quot;2&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>f_FulfillmentLocation</name>
+        <dataType>String</dataType>
+        <expression>IF( {!sov_NetsuiteOrder.orderType__c} = &apos;Transfer Order&apos;, 
+TEXT({!sov_Order.Shipto__r.FulfillmentLocation__c}), 
+TEXT({!sov_Order.Billto__r.TenderDistributor__r.FulfillmentLocation__c}) )</expression>
     </formulas>
     <formulas>
         <name>form_1MinutesFromNow</name>
@@ -3216,8 +3844,14 @@ SUBSTITUTE({!sov_NetsuiteOrder.ExternalOrderId__c}, &apos;.txt&apos;, &apos;&apo
     <formulas>
         <name>form_ManualDiscount</name>
         <dataType>Number</dataType>
-        <expression>{!sov_PriceBookEntry.UnitPrice}-{!sov_NetsuiteOrder.NetSalesPrice__c}</expression>
+        <expression>{!var_OriginalListPrice}-{!sov_NetsuiteOrder.NetSalesPrice__c}</expression>
         <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>form_maxRetries</name>
+        <dataType>Number</dataType>
+        <expression>IF(ISBLANK({!GetImportOrderSetting.MaxNoOfRetries__c}), 5, {!GetImportOrderSetting.MaxNoOfRetries__c})</expression>
+        <scale>0</scale>
     </formulas>
     <formulas>
         <name>form_OrderItemRef</name>
@@ -3230,6 +3864,12 @@ SUBSTITUTE({!sov_NetsuiteOrder.ExternalOrderId__c}, &apos;.txt&apos;, &apos;&apo
         <expression>IF(AND({!sov_NetsuiteOrder.Source__c}=&quot;Trade&quot; , ISBLANK({!sov_NetsuiteOrder.orderRef__c})),RIGHT({!sov_NetsuiteOrder.ExternalOrderId__c},10),{!sov_NetsuiteOrder.orderRef__c})</expression>
     </formulas>
     <formulas>
+        <name>form_retriesDone</name>
+        <dataType>Number</dataType>
+        <expression>IF(ISBLANK({!sov_NetsuiteOrder.NoOfRetries__c}), 1, {!sov_NetsuiteOrder.NoOfRetries__c}+1)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
         <name>form_TotalDiscount</name>
         <dataType>Number</dataType>
         <expression>({!sov_NetsuiteOrder.ListPrice__c}-{!sov_NetsuiteOrder.NetSalesPrice__c})*{!sov_NetsuiteOrder.quantity__c}</expression>
@@ -3238,9 +3878,14 @@ SUBSTITUTE({!sov_NetsuiteOrder.ExternalOrderId__c}, &apos;.txt&apos;, &apos;&apo
     <formulas>
         <name>form_UnitPrice</name>
         <dataType>Currency</dataType>
-        <expression>IF( NOT(ISBLANK({!sov_NetsuiteOrder.NetSalesPrice__c})), {!sov_NetsuiteOrder.NetSalesPrice__c},
-IF(ISBLANK({!sov_NetsuiteOrder.ListPrice__c} ), {!sov_PriceBookEntry.UnitPrice}, {!sov_NetsuiteOrder.ListPrice__c}))</expression>
+        <expression>IF({!sov_NetsuiteOrder.LineItemType__c}=&apos;Free&apos;, 0, IF( NOT(ISBLANK({!sov_NetsuiteOrder.NetSalesPrice__c})), {!sov_NetsuiteOrder.NetSalesPrice__c},
+IF(ISBLANK({!sov_NetsuiteOrder.ListPrice__c} ), {!sov_PriceBookEntry.UnitPrice}, {!sov_NetsuiteOrder.ListPrice__c})))</expression>
         <scale>2</scale>
+    </formulas>
+    <formulas>
+        <name>form_utilDescription</name>
+        <dataType>String</dataType>
+        <expression>&apos;JobCount:&apos; &amp; TEXT({!JobCount}) &amp; &apos;, ImportOrder Job Count: &apos; &amp; TEXT({!sov_NetsuiteOrder.JobOrderCount__c})</expression>
     </formulas>
     <formulas>
         <name>formDeliveryEmail</name>
@@ -3251,6 +3896,11 @@ IF(ISBLANK({!sov_NetsuiteOrder.ListPrice__c} ), {!sov_PriceBookEntry.UnitPrice},
         <name>formDeliveryPhone</name>
         <dataType>String</dataType>
         <expression>IF(ISBLANK({!sov_NetsuiteOrder.DeliveryPhone__c}),{!sov_DeliveryLocation.Phone},{!sov_NetsuiteOrder.DeliveryPhone__c})</expression>
+    </formulas>
+    <formulas>
+        <name>formPaymentStatus</name>
+        <dataType>String</dataType>
+        <expression>IF(CONTAINS({!sov_NetsuiteOrder.PaymentStatus__c},&quot;pending&quot;),&quot;payment_pending&quot;,{!sov_NetsuiteOrder.PaymentStatus__c})</expression>
     </formulas>
     <formulas>
         <description>If Email__c on import order is filled, use this value - else, get the email value (Billing Reminder) from the account</description>
@@ -3308,7 +3958,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Loop_Import_Order_Lines</name>
         <label>Loop Import Order Lines</label>
         <locationX>5297</locationX>
-        <locationY>2610</locationY>
+        <locationY>2714</locationY>
         <collectionReference>Get_PrivateIndividual_Import_Order_Lines</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -3322,7 +3972,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>LoopOrderPricingMdt</name>
         <label>LoopOrderPricingMdt</label>
         <locationX>2746</locationX>
-        <locationY>3370</locationY>
+        <locationY>3474</locationY>
         <collectionReference>GetOrderPricingMethodMdt</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -3354,8 +4004,8 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
     <recordCreates>
         <name>CreatB2BTriggerBusinesslogic</name>
         <label>CreatB2BTriggerBusinesslogic</label>
-        <locationX>4933</locationX>
-        <locationY>2119</locationY>
+        <locationX>5366</locationX>
+        <locationY>2262</locationY>
         <inputAssignments>
             <field>CurrencyIsoCode</field>
             <value>
@@ -3363,9 +4013,21 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Description__c</field>
+            <value>
+                <elementReference>form_utilDescription</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>OwnerId</field>
             <value>
                 <elementReference>$User.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>recordId__c</field>
+            <value>
+                <elementReference>sov_NetsuiteOrder.Id</elementReference>
             </value>
         </inputAssignments>
         <object>B2BOrderTriggerUtil__c</object>
@@ -3375,7 +4037,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Create_Order</name>
         <label>Create Order</label>
         <locationX>4301</locationX>
-        <locationY>2466</locationY>
+        <locationY>2570</locationY>
         <connector>
             <targetReference>AssignComlpete_Order</targetReference>
         </connector>
@@ -3387,8 +4049,8 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
     <recordCreates>
         <name>Create_OrderItem</name>
         <label>Create OrderItem</label>
-        <locationX>4728</locationX>
-        <locationY>1025</locationY>
+        <locationX>4667</locationX>
+        <locationY>1191</locationY>
         <connector>
             <targetReference>Assign_OrderItem_Completed</targetReference>
         </connector>
@@ -3401,7 +4063,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Create_Private_Individual_Account</name>
         <label>Create Private Individual Account</label>
         <locationX>790</locationX>
-        <locationY>2218</locationY>
+        <locationY>2322</locationY>
         <connector>
             <targetReference>Get_Created_Private_Individual</targetReference>
         </connector>
@@ -3547,7 +4209,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Created_Private_Individual</name>
         <label>Get Created Private Individual</label>
         <locationX>790</locationX>
-        <locationY>2446</locationY>
+        <locationY>2550</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>NetsuiteId_populated</targetReference>
@@ -3565,10 +4227,10 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Disontinued_Product</name>
-        <label>Get Disontinued Product</label>
-        <locationX>3614</locationX>
-        <locationY>1142</locationY>
+        <name>Get_Discontinued_Product</name>
+        <label>Get Discontinued Product</label>
+        <locationX>3769</locationX>
+        <locationY>1095</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>decDiscontinuedProduct</targetReference>
@@ -3589,12 +4251,15 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <queriedFields>Renewable__c</queriedFields>
         <queriedFields>maxQuantity__c</queriedFields>
         <queriedFields>DeliveryStatus__c</queriedFields>
+        <queriedFields>SuccessorItem__c</queriedFields>
+        <queriedFields>IsSuccessorItemActive__c</queriedFields>
+        <queriedFields>ItemSubtype__c</queriedFields>
     </recordLookups>
     <recordLookups>
         <name>Get_Import_Order_Invoice_Location</name>
         <label>Get Import Order Invoice Location</label>
         <locationX>1913</locationX>
-        <locationY>2451</locationY>
+        <locationY>2555</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Order_Location_Account</targetReference>
@@ -3618,7 +4283,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Import_Order_Shipping_Location</name>
         <label>Get Import Order Shipping Location</label>
         <locationX>1912</locationX>
-        <locationY>3037</locationY>
+        <locationY>3141</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Order_Shipping_Account</targetReference>
@@ -3639,10 +4304,38 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <queriedFields>KlopotekId__c</queriedFields>
     </recordLookups>
     <recordLookups>
+        <name>Get_IO_Header</name>
+        <label>Get IO Header</label>
+        <locationX>4683</locationX>
+        <locationY>1721</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_the_header_locked</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ExternalOrderId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sov_NetsuiteOrder.ExternalOrderId__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ProductId__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ImportOrder__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Order</name>
         <label>Get Order</label>
         <locationX>1963</locationX>
-        <locationY>1051</locationY>
+        <locationY>1155</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Fount_Order</targetReference>
@@ -3660,9 +4353,9 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         </filters>
         <filters>
             <field>Status</field>
-            <operator>NotEqualTo</operator>
+            <operator>EqualTo</operator>
             <value>
-                <stringValue>Activated</stringValue>
+                <stringValue>Draft</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -3675,7 +4368,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_pricebook</name>
         <label>Get pricebook</label>
         <locationX>1957</locationX>
-        <locationY>1863</locationY>
+        <locationY>1967</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Order_Account_Flow</targetReference>
@@ -3707,27 +4400,27 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_PriceBookEntry</name>
         <label>Get PriceBookEntry</label>
         <locationX>3228</locationX>
-        <locationY>1002</locationY>
+        <locationY>1106</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Pricebook_Entry</targetReference>
+            <targetReference>Set_Product_List_Price</targetReference>
         </connector>
         <faultConnector>
             <targetReference>Error</targetReference>
         </faultConnector>
-        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <filterLogic>(1 OR 2) AND 3 AND 4</filterLogic>
         <filters>
             <field>ProductEAN__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>sov_NetsuiteOrder.ProductId__c</elementReference>
+                <elementReference>var_ProductId</elementReference>
             </value>
         </filters>
         <filters>
             <field>ISBN__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>sov_NetsuiteOrder.ProductId__c</elementReference>
+                <elementReference>var_ProductId</elementReference>
             </value>
         </filters>
         <filters>
@@ -3735,6 +4428,13 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
             <operator>EqualTo</operator>
             <value>
                 <elementReference>Get_Order.Pricebook2Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ProductDeliveryStatus__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <object>PricebookEntry</object>
@@ -3748,7 +4448,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Private_Individual_Record_Type</name>
         <label>Get Private Individual Record Type</label>
         <locationX>994</locationX>
-        <locationY>1977</locationY>
+        <locationY>2081</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>GetCommunicationLanguageSetting</targetReference>
@@ -3779,7 +4479,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_PrivateIndividual_Import_Order_Header</name>
         <label>Get PrivateIndividual Import Order Header</label>
         <locationX>1914</locationX>
-        <locationY>734</locationY>
+        <locationY>838</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>ImportOrder_Has_Order_Lookup</targetReference>
@@ -3810,7 +4510,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_PrivateIndividual_Import_Order_Lines</name>
         <label>Get PrivateIndividual Import Order Lines</label>
         <locationX>4940</locationX>
-        <locationY>2522</locationY>
+        <locationY>2626</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Loop_Import_Order_Lines</targetReference>
@@ -3855,7 +4555,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Product</name>
         <label>Get Product</label>
         <locationX>3935</locationX>
-        <locationY>925</locationY>
+        <locationY>1029</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>decIsBlockedItemGroup</targetReference>
@@ -3878,13 +4578,14 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <queriedFields>itemGroupManualBlock__c</queriedFields>
         <queriedFields>Renewable__c</queriedFields>
         <queriedFields>maxQuantity__c</queriedFields>
+        <queriedFields>ItemSubtype__c</queriedFields>
     </recordLookups>
     <recordLookups>
         <description>This get takes the Communication Language on the Import Order and get the metadata record mapped to the expected value to retrieve the valid picklist value that is used on the Account</description>
         <name>GetCommunicationLanguageSetting</name>
         <label>Get Communication Language Setting</label>
         <locationX>789</locationX>
-        <locationY>1977</locationY>
+        <locationY>2081</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Create_Private_Individual_Account</targetReference>
@@ -3903,10 +4604,73 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <queriedFields>SalesforceCommunicationLanguage__c</queriedFields>
     </recordLookups>
     <recordLookups>
+        <name>getImportOrderforJob</name>
+        <label>getImportOrderforJob</label>
+        <locationX>5230</locationX>
+        <locationY>1953</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assJobCountsize</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ProductId__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>itemGroupId__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>JobId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>sov_NetsuiteOrder.JobId__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>CanCreateB2BTriggerUtil__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>ImportOrder__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>GetImportOrderSetting</name>
+        <label>Get Import Order Setting</label>
+        <locationX>4683</locationX>
+        <locationY>1971</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_IO_Header</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>ImportOrderSetting__mdt</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>GetOrderPricingMethodMdt</name>
         <label>GetOrderPricingMethodMdt</label>
-        <locationX>2512</locationX>
-        <locationY>3438</locationY>
+        <locationX>2745</locationX>
+        <locationY>3738</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>LoopOrderPricingMdt</targetReference>
@@ -3937,7 +4701,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>getPricebookOperatingCompany</name>
         <label>getPricebookOperatingCompany</label>
         <locationX>2071</locationX>
-        <locationY>1484</locationY>
+        <locationY>1588</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AssignOpCoPB</targetReference>
@@ -3960,8 +4724,8 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
     <recordLookups>
         <name>sov_ItemShiptoAccount</name>
         <label>sov_ItemShiptoAccount</label>
-        <locationX>3338</locationX>
-        <locationY>639</locationY>
+        <locationX>3331</locationX>
+        <locationY>448</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>No_Delivery_Account_0</targetReference>
@@ -3989,7 +4753,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Update_ImportOrder_Lines</name>
         <label>Update ImportOrder Lines</label>
         <locationX>4939</locationX>
-        <locationY>2742</locationY>
+        <locationY>2846</locationY>
         <faultConnector>
             <targetReference>Error</targetReference>
         </faultConnector>
@@ -3999,7 +4763,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Update_NetSuiteRecord</name>
         <label>Update NetSuiteRecord</label>
         <locationX>4174</locationX>
-        <locationY>1896</locationY>
+        <locationY>2000</locationY>
         <connector>
             <targetReference>decCheckifBussinessLogicTRue</targetReference>
         </connector>
@@ -4007,7 +4771,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
     </recordUpdates>
     <start>
         <locationX>235</locationX>
-        <locationY>750</locationY>
+        <locationY>854</locationY>
         <connector>
             <targetReference>OrderIDcontainscharsitshouldnt</targetReference>
         </connector>
@@ -4017,7 +4781,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Delivery_Location_Account</name>
         <label>Get Delivery Location Account</label>
         <locationX>1399</locationX>
-        <locationY>3214</locationY>
+        <locationY>3318</locationY>
         <connector>
             <targetReference>No_Delivery_Account</targetReference>
         </connector>
@@ -4043,7 +4807,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Invoice_Import_Location_Account</name>
         <label>Get Invoice Import Location Account</label>
         <locationX>2138</locationX>
-        <locationY>2739</locationY>
+        <locationY>2843</locationY>
         <connector>
             <targetReference>Assign_Invoice_Location</targetReference>
         </connector>
@@ -4069,7 +4833,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Invoice_Location_Account</name>
         <label>Get Invoice Location Account</label>
         <locationX>1546</locationX>
-        <locationY>2745</locationY>
+        <locationY>2849</locationY>
         <connector>
             <targetReference>decInvoiceLocation</targetReference>
         </connector>
@@ -4095,7 +4859,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Order_Account_Flow</name>
         <label>Get Order Account Flow</label>
         <locationX>1957</locationX>
-        <locationY>2040</locationY>
+        <locationY>2144</locationY>
         <connector>
             <targetReference>Should_Create_Private_Individual</targetReference>
         </connector>
@@ -4121,7 +4885,7 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <name>Get_Shipping_Import_Location_Account</name>
         <label>Get Shipping Import Location Account</label>
         <locationX>2313</locationX>
-        <locationY>3048</locationY>
+        <locationY>3152</locationY>
         <connector>
             <targetReference>Assign_Shipping_Location</targetReference>
         </connector>
@@ -4172,6 +4936,14 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <isCollection>true</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>JobCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
     </variables>
     <variables>
         <name>PricebookId</name>
@@ -4282,6 +5054,31 @@ IF(AND(ISBLANK({!sov_NetsuiteOrder.UserEmail__c}), NOT(ISBLANK({!sov_NetsuiteOrd
         <isInput>false</isInput>
         <isOutput>false</isOutput>
         <objectType>Product2</objectType>
+    </variables>
+    <variables>
+        <name>var_IsSuccessorItemCheck</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <name>var_OriginalListPrice</name>
+        <dataType>Currency</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+    <variables>
+        <name>var_ProductId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
     </variables>
     <variables>
         <name>var_ResumeTime</name>

@@ -3,8 +3,8 @@
     <actionCalls>
         <name>bg_AllObjectInvocableHandler</name>
         <label>bg_AllObjectInvocableHandler</label>
-        <locationX>2516</locationX>
-        <locationY>985</locationY>
+        <locationX>2826</locationX>
+        <locationY>1018</locationY>
         <actionName>bg_AllObjectInvocableHandler</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -19,10 +19,28 @@
         </inputParameters>
     </actionCalls>
     <actionCalls>
+        <name>NonIntegrationAssetCreation</name>
+        <label>NonIntegrationAssetCreation</label>
+        <locationX>2411</locationX>
+        <locationY>1097</locationY>
+        <actionName>Order_AssetsCreateOnOrderActivation</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Assign_Activated_variables</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>OrderId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <actionCalls>
         <name>NS_NetSuite</name>
         <label>NS_NetSuite</label>
-        <locationX>2253</locationX>
-        <locationY>1183</locationY>
+        <locationX>2835</locationX>
+        <locationY>1324</locationY>
         <actionName>NS_NetSuite</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -39,8 +57,8 @@
     <actionCalls>
         <name>Order_ActivateAPISendOrderItems</name>
         <label>Order_ActivateAPISendOrderItems</label>
-        <locationX>1688</locationX>
-        <locationY>835</locationY>
+        <locationX>2095</locationX>
+        <locationY>909</locationY>
         <actionName>Order_ActivateAPISendOrderItems</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -75,8 +93,8 @@
     <actionCalls>
         <name>Order_OrdeItemFromOrderTypeChange</name>
         <label>Order_OrdeItemFromOrderTypeChange</label>
-        <locationX>1312</locationX>
-        <locationY>50</locationY>
+        <locationX>1298</locationX>
+        <locationY>52</locationY>
         <actionName>Order_OrdeItemFromOrderTypeChange</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -99,8 +117,8 @@
     <actionCalls>
         <name>Order_OrderandOrdeItemHandler</name>
         <label>Order_OrderandOrdeItemHandler</label>
-        <locationX>676</locationX>
-        <locationY>626</locationY>
+        <locationX>1102</locationX>
+        <locationY>422</locationY>
         <actionName>Order_OrderandOrdeItemHandler</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -113,6 +131,31 @@
                 <elementReference>$Record.Id</elementReference>
             </value>
         </inputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>ValidateComponentCount</name>
+        <label>ValidateComponentCount</label>
+        <locationX>1551</locationX>
+        <locationY>1022</locationY>
+        <actionName>Order_CheckItemGroupComponents</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>Send_or_Retrigger_Order</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>UpdateValidateIGComponentMismatch</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>OrderId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <outputParameters>
+            <assignToReference>ItemGroupResponse</assignToReference>
+            <name>returOrder</name>
+        </outputParameters>
     </actionCalls>
     <apiVersion>52.0</apiVersion>
     <assignments>
@@ -157,10 +200,17 @@
     <assignments>
         <name>Assign_Activated_variables</name>
         <label>Assign Activated variables</label>
-        <locationX>2018</locationX>
-        <locationY>1166</locationY>
+        <locationX>2318</locationX>
+        <locationY>1389</locationY>
         <assignmentItems>
             <assignToReference>$Record.IntegrationFactorySend__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.ValidateIGComponentMismatch__c</assignToReference>
             <operator>Assign</operator>
             <value>
                 <booleanValue>false</booleanValue>
@@ -189,8 +239,8 @@
     <assignments>
         <name>Assign_Free_Orders</name>
         <label>Assign Free Orders</label>
-        <locationX>1169</locationX>
-        <locationY>221</locationY>
+        <locationX>1190</locationX>
+        <locationY>211</locationY>
         <assignmentItems>
             <assignToReference>$Record.OrderTypeJobRun__c</assignToReference>
             <operator>Assign</operator>
@@ -203,26 +253,10 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Order_start_date</name>
-        <label>Assign Order start date</label>
-        <locationX>888</locationX>
-        <locationY>529</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.EffectiveDate</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.ShipbyDate__c</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Order_OrderandOrdeItemHandler</targetReference>
-        </connector>
-    </assignments>
-    <assignments>
         <name>Assign_Regular_Orders</name>
         <label>Assign Regular Orders</label>
-        <locationX>1322</locationX>
-        <locationY>230</locationY>
+        <locationX>1376</locationX>
+        <locationY>214</locationY>
         <assignmentItems>
             <assignToReference>$Record.OrderTypeJobRun__c</assignToReference>
             <operator>Assign</operator>
@@ -237,8 +271,8 @@
     <assignments>
         <name>Assign_Service_Orders</name>
         <label>Assign Service Orders</label>
-        <locationX>1482</locationX>
-        <locationY>217</locationY>
+        <locationX>1539</locationX>
+        <locationY>213</locationY>
         <assignmentItems>
             <assignToReference>$Record.OrderTypeJobRun__c</assignToReference>
             <operator>Assign</operator>
@@ -269,8 +303,8 @@
     <assignments>
         <name>AssignOrderNumberId</name>
         <label>Assign OrderNumberId</label>
-        <locationX>1104</locationX>
-        <locationY>1406</locationY>
+        <locationX>992</locationX>
+        <locationY>1524</locationY>
         <assignmentItems>
             <assignToReference>$Record.OrderNumberId__c</assignToReference>
             <operator>Assign</operator>
@@ -285,8 +319,8 @@
     <assignments>
         <name>AssignOrderShipComplete</name>
         <label>Assign Order Ship Complete</label>
-        <locationX>1507</locationX>
-        <locationY>1409</locationY>
+        <locationX>1587</locationX>
+        <locationY>1557</locationY>
         <assignmentItems>
             <assignToReference>$Record.ShipComplete__c</assignToReference>
             <operator>Assign</operator>
@@ -414,11 +448,18 @@
             <targetReference>AssignOrderNumberId</targetReference>
         </connector>
     </assignments>
+    <constants>
+        <name>ProductionOrgId</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>00D3V0000008fs9</stringValue>
+        </value>
+    </constants>
     <decisions>
         <name>Check_if_hfdtstructuur_renewal_on_ship_to_is_valid_for_order</name>
         <label>Check if hfdtstructuur (renewal) on ship to is valid for order</label>
-        <locationX>931</locationX>
-        <locationY>2014</locationY>
+        <locationX>925</locationX>
+        <locationY>2057</locationY>
         <defaultConnector>
             <targetReference>AssignOrderNumberId</targetReference>
         </defaultConnector>
@@ -581,7 +622,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Order_ActivateAPISendOrderItems</targetReference>
+                <targetReference>decItemGroupComponentCheck</targetReference>
             </connector>
             <label>Activated &amp; Integration</label>
         </rules>
@@ -603,7 +644,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Order_ActivateAPISendOrderItems</targetReference>
+                <targetReference>decItemGroupComponentCheck</targetReference>
             </connector>
             <label>Activated</label>
         </rules>
@@ -812,21 +853,21 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>Assign_Order_start_date</leftValueReference>
-                <operator>WasVisited</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
                 <leftValueReference>$Record.ShipbyDate__c</leftValueReference>
                 <operator>IsNull</operator>
                 <rightValue>
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Order_OrderandOrdeItemHandler</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
-                <targetReference>Assign_Order_start_date</targetReference>
+                <targetReference>Order_OrderandOrdeItemHandler</targetReference>
             </connector>
             <label>ShipByDate</label>
         </rules>
@@ -865,6 +906,31 @@
                 <targetReference>Order_OrderandOrdeItemHandler</targetReference>
             </connector>
             <label>ShippingCost</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>decItemGroupComponentCheck</name>
+        <label>decItemGroupComponentCheck</label>
+        <locationX>1500</locationX>
+        <locationY>839</locationY>
+        <defaultConnector>
+            <targetReference>Send_or_Retrigger_Order</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>hasItemGroups</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ItemGroupCount__c</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ValidateComponentCount</targetReference>
+            </connector>
+            <label>hasItemGroups</label>
         </rules>
     </decisions>
     <decisions>
@@ -958,22 +1024,61 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Found_Unsynced_Order_Items</name>
+        <label>Found Unsynced Order Items</label>
+        <locationX>1958</locationX>
+        <locationY>701</locationY>
+        <defaultConnector>
+            <targetReference>Order_ActivateAPISendOrderItems</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Resend Full Order</defaultConnectorLabel>
+        <rules>
+            <name>Continue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_OrderItems</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Resend_OrderNumber_to_IF_API</targetReference>
+            </connector>
+            <label>Continue</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Isactive</name>
         <label>Isactive</label>
-        <locationX>2204</locationX>
-        <locationY>863</locationY>
+        <locationX>2514</locationX>
+        <locationY>896</locationY>
         <defaultConnector>
-            <targetReference>Assign_Activated_variables</targetReference>
+            <targetReference>NonIntegrationAssetCreation</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>ActiveTrue</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>(1 AND 2) OR (3 AND 1)</conditionLogic>
             <conditions>
                 <leftValueReference>ActivateOrderSwitch.Active__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OperatingCompany__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Noordhoff Professional</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Organization.Id</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>ProductionOrgId</elementReference>
                 </rightValue>
             </conditions>
             <connector>
@@ -1017,8 +1122,8 @@
     <decisions>
         <name>PriceBookShippingComplete</name>
         <label>Price Book Shipping Complete?</label>
-        <locationX>1260</locationX>
-        <locationY>1324</locationY>
+        <locationX>1138</locationX>
+        <locationY>1425</locationY>
         <defaultConnector>
             <targetReference>Update_Order</targetReference>
         </defaultConnector>
@@ -1047,10 +1152,96 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Send_or_Retrigger_Order</name>
+        <label>Send or Retrigger Order</label>
+        <locationX>1820</locationX>
+        <locationY>909</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Retrigger_Order_Sync</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Activated</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SyncedWithNS__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.NSOrderStatus__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.OperatingCompany__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ErrorReason__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>None</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ValidationErrorsOrder__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SuccessStatusOfLastAWSUpdate__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BlockSync__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_OrderItems</targetReference>
+            </connector>
+            <label>Retrigger Order Sync</label>
+        </rules>
+        <rules>
+            <name>Send_Full_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BlockSync__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Order_ActivateAPISendOrderItems</targetReference>
+            </connector>
+            <label>Send Full Order</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Ship_Complete</name>
         <label>Ship Complete</label>
-        <locationX>853</locationX>
-        <locationY>308</locationY>
+        <locationX>731</locationX>
+        <locationY>363</locationY>
         <defaultConnector>
             <targetReference>Decision</targetReference>
         </defaultConnector>
@@ -1076,7 +1267,12 @@ DB 2022/12/23 Retrigger Business Rules functionality on Decision element when Sh
 CH 2023/03/2023 - Removed Order Notification 2 assignment from Account
 CH 2023/03/28 - changed logic for order notification email 1 and 2
 CH 2023/04/19 - added logic for not sending confirmation emails
-CH 2023/05/10 - added logic for hfdstructuur assignment</description>
+CH 2023/05/10 - added logic for hfdstructuur assignment
+DB 2023/09/05 -  added condition to isactive to block sync for Noordhoff and NH Professional OpCo Orders
+SP 2023/09/22 - added abiblity to create Assets for NH professional 00D3V0000008fs9
+DB 2023/10/11 - added Resync Order via API functionality
+HdG 2023/11/17 - allowing orders to be activated for Noordhoff again
+DB 2023/11/30 - When IF Send clicked resend full order if order products weren&apos;t synced</description>
     <environments>Default</environments>
     <formulas>
         <name>form_HfdStructuurCount</name>
@@ -1114,8 +1310,8 @@ CH 2023/05/10 - added logic for hfdstructuur assignment</description>
     <recordLookups>
         <name>ActivateOrderSwitch</name>
         <label>ActivateOrderSwitch</label>
-        <locationX>1964</locationX>
-        <locationY>776</locationY>
+        <locationX>2274</locationX>
+        <locationY>809</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Isactive</targetReference>
@@ -1132,11 +1328,41 @@ CH 2023/05/10 - added logic for hfdstructuur assignment</description>
         <object>AWSSwitches__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
+    <recordLookups>
+        <description>Get OrderItems with SuccessStatusOfLastAWSUpdate__c empty</description>
+        <name>Get_OrderItems</name>
+        <label>Get OrderItems</label>
+        <locationX>1825</locationX>
+        <locationY>625</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Found_Unsynced_Order_Items</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OrderId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>SuccessStatusOfLastAWSUpdate__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>OrderItem</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordUpdates>
         <name>ShipComplete_True</name>
         <label>ShipComplete True</label>
-        <locationX>808</locationX>
-        <locationY>381</locationY>
+        <locationX>738</locationX>
+        <locationY>558</locationY>
         <connector>
             <targetReference>Decision</targetReference>
         </connector>
@@ -1166,13 +1392,32 @@ CH 2023/05/10 - added logic for hfdstructuur assignment</description>
     <recordUpdates>
         <name>Update_Order</name>
         <label>Update Order</label>
-        <locationX>1507</locationX>
-        <locationY>1248</locationY>
+        <locationX>1461</locationX>
+        <locationY>1389</locationY>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>UpdateValidateIGComponentMismatch</name>
+        <label>UpdateValidateIGComponentMismatch</label>
+        <locationX>1565</locationX>
+        <locationY>1225</locationY>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Draft</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ValidateIGComponentMismatch__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>50</locationX>
-        <locationY>646</locationY>
+        <locationX>67</locationX>
+        <locationY>635</locationY>
         <connector>
             <targetReference>Decision</targetReference>
         </connector>
@@ -1189,6 +1434,19 @@ CH 2023/05/10 - added logic for hfdstructuur assignment</description>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>Resend_OrderNumber_to_IF_API</name>
+        <label>Resend OrderNumber to IF API</label>
+        <locationX>2137</locationX>
+        <locationY>694</locationY>
+        <flowName>Order_RetriggerIntegrationFactorySync</flowName>
+        <inputAssignments>
+            <name>var_Order</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
     <textTemplates>
         <name>varapex_StoreShippingCost</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
@@ -1196,4 +1454,12 @@ CH 2023/05/10 - added logic for hfdstructuur assignment</description>
 &quot;recordId&quot;:&quot;{!$Record.Id}&quot;
 }</text>
     </textTemplates>
+    <variables>
+        <name>ItemGroupResponse</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Order</objectType>
+    </variables>
 </Flow>

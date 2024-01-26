@@ -9,8 +9,10 @@ export default class OrderProductReferences extends NavigationMixin(LightningEle
     @api lstRecords;
     @api referenceMax;
     @track trackedRecords;
+    @track isOrder;
+    @api objectApiName;
 
-    @wire(getOrderProducts, {orderId: '$orderId'}) 
+    @wire(getOrderProducts, {recordId: '$orderId'}) 
     wiredOrderProducts ({ error, data }){
         if(data){
             let result = JSON.parse(JSON.stringify(data));
@@ -36,6 +38,15 @@ export default class OrderProductReferences extends NavigationMixin(LightningEle
         console.log("[MOUNTED]");
         console.log("orderId", this.orderId);
         console.log("wiredOrderProducts", this.wiredOrderProducts);
+        console.log("this.objectApiName ", this.objectApiName);
+
+        if(this.objectApiName == 'Opportunity'){
+            this.isOrder = false;
+        } else {
+            this.isOrder = true;
+        }
+
+        console.log("this.isOrder ", this.isOrder);
     }
 
     redirectToOrder(){

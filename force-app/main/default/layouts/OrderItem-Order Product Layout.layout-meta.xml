@@ -25,6 +25,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Subtype__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>MultiShiptoInventoryRollingCount__c</field>
             </layoutItems>
             <layoutItems>
@@ -55,6 +59,18 @@
                 <behavior>Edit</behavior>
                 <field>Hfdstructuur__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ItemAndItemGroupIntegration__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OrderComponentCount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>ProductComponentCount__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -80,6 +96,10 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Lead__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Opportunity__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
@@ -182,12 +202,20 @@
                 <field>Renewable__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Terms__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>LicenseDuration__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Terms__c</field>
+                <field>ProRataMonths__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ProRataRate__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -343,6 +371,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>DigitalActivationEMail__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>FulfillmentLocation__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -536,6 +568,10 @@
                 <behavior>Edit</behavior>
                 <field>OrderImportVAT__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OrderSource__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -565,6 +601,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>OrderImportLineTotal__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OrderType__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>

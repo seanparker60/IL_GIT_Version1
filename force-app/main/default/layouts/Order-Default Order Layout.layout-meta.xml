@@ -51,6 +51,10 @@
                 <behavior>Edit</behavior>
                 <field>Hfdstructuur__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IGComponentMismatch__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -81,6 +85,10 @@
                 <behavior>Edit</behavior>
                 <field>ContractId</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ConsultancyProjectStarted__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -97,10 +105,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Billto__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>BilltoName__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -128,6 +132,10 @@
                 <behavior>Readonly</behavior>
                 <field>DoNotSendOrderConfirmation__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>FulfillmentLocation__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -144,10 +152,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Shipto__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>ShiptoName__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -393,6 +397,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>ValidateIGComponentMismatch__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>TriggerBusinessRulesRetries__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Note__c</field>
             </layoutItems>
             <layoutItems>
@@ -479,6 +491,7 @@
     </quickActionList>
     <relatedLists>
         <customButtons>ManageProducts</customButtons>
+        <customButtons>ViewOrderProducts</customButtons>
         <customButtons>UpdateShippingInfo</customButtons>
         <customButtons>Update_References</customButtons>
         <customButtons>Update_Hfdstructuurs</customButtons>
@@ -492,10 +505,9 @@
         <fields>Product2</fields>
         <fields>ProductType__c</fields>
         <fields>Quantity</fields>
+        <fields>ListPrice</fields>
+        <fields>DiscountedPrice__c</fields>
         <fields>UnitPrice</fields>
-        <fields>Discount__c</fields>
-        <fields>ManualDiscountPercent__c</fields>
-        <fields>ShipToAccount__c</fields>
         <fields>OrderLineType__c</fields>
         <fields>ProductEAN__c</fields>
         <fields>CustomerReference__c</fields>

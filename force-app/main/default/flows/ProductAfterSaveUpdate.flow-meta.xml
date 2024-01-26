@@ -4,7 +4,7 @@
         <name>Upate_PricebookEntry</name>
         <label>Upate PricebookEntry</label>
         <locationX>248</locationX>
-        <locationY>455</locationY>
+        <locationY>431</locationY>
         <actionName>Order_PricebookUpdateFromProduct</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -23,7 +23,7 @@
         <name>assMatchisTrue</name>
         <label>assMatchisTrue</label>
         <locationX>50</locationX>
-        <locationY>1031</locationY>
+        <locationY>947</locationY>
         <assignmentItems>
             <assignToReference>getProduct.itemGroupManualBlock__c</assignToReference>
             <operator>Assign</operator>
@@ -39,7 +39,7 @@
         <name>assMatchisTrueFalse</name>
         <label>assMatchisFalse</label>
         <locationX>314</locationX>
-        <locationY>1031</locationY>
+        <locationY>947</locationY>
         <assignmentItems>
             <assignToReference>getProduct.itemGroupManualBlock__c</assignToReference>
             <operator>Assign</operator>
@@ -55,19 +55,33 @@
         <name>decComponentsMatch</name>
         <label>decComponentsMatch</label>
         <locationX>182</locationX>
-        <locationY>911</locationY>
+        <locationY>839</locationY>
         <defaultConnector>
             <targetReference>assMatchisTrueFalse</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>ComponentsMatch</name>
-            <conditionLogic>and</conditionLogic>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
             <conditions>
                 <leftValueReference>getProduct.itemGroupCount__c</leftValueReference>
                 <operator>EqualTo</operator>
                 <rightValue>
                     <elementReference>getProduct.ItemGroupCountActual__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getProduct.MissingComponentPriceCount__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getProduct.MissingComponentPriceCount__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -80,7 +94,7 @@
         <name>Item_Group_and_Count_Check</name>
         <label>Item Group and Count Check</label>
         <locationX>380</locationX>
-        <locationY>671</locationY>
+        <locationY>623</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Item_Group_True</name>
@@ -109,7 +123,7 @@
         <name>PricebookEntryUpdate</name>
         <label>PricebookEntryUpdate</label>
         <locationX>380</locationX>
-        <locationY>335</locationY>
+        <locationY>323</locationY>
         <defaultConnector>
             <targetReference>Item_Group_and_Count_Check</targetReference>
         </defaultConnector>
@@ -213,7 +227,7 @@
         <name>getProduct</name>
         <label>getProduct</label>
         <locationX>182</locationX>
-        <locationY>791</locationY>
+        <locationY>731</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>decComponentsMatch</targetReference>
@@ -234,7 +248,7 @@
         <name>updateItemGroup</name>
         <label>updateItemGroup</label>
         <locationX>182</locationX>
-        <locationY>1247</locationY>
+        <locationY>1139</locationY>
         <inputReference>getProduct</inputReference>
     </recordUpdates>
     <start>

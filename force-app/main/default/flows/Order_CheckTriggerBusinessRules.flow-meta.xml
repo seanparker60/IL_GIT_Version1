@@ -21,7 +21,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>InsertBulkBusinessRulesRecord</targetReference>
+                <targetReference>Update_Order</targetReference>
             </connector>
             <label>IsGreaterThanMaxlineCount</label>
         </rules>
@@ -52,8 +52,8 @@
     <recordCreates>
         <name>InsertBulkBusinessRulesRecord</name>
         <label>InsertBulkBusinessRulesRecord</label>
-        <locationX>918</locationX>
-        <locationY>687</locationY>
+        <locationX>1014</locationX>
+        <locationY>669</locationY>
         <connector>
             <targetReference>FinishScreen_0</targetReference>
         </connector>
@@ -146,6 +146,30 @@
         </inputAssignments>
         <object>Order</object>
     </recordUpdates>
+    <recordUpdates>
+        <name>Update_Order</name>
+        <label>Update Order</label>
+        <locationX>1013</locationX>
+        <locationY>465</locationY>
+        <connector>
+            <targetReference>InsertBulkBusinessRulesRecord</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>recordId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>TriggerBusinessRulesRetries__c</field>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </inputAssignments>
+        <object>Order</object>
+    </recordUpdates>
     <screens>
         <name>FinishScreen</name>
         <label>FinishScreen</label>
@@ -165,8 +189,8 @@
     <screens>
         <name>FinishScreen_0</name>
         <label>FinishScreen</label>
-        <locationX>892</locationX>
-        <locationY>861</locationY>
+        <locationX>1015</locationX>
+        <locationY>842</locationY>
         <allowBack>false</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>

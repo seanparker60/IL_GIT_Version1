@@ -134,6 +134,36 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Tender_Sales_Order</name>
+        <label>Assign Tender Sales Order</label>
+        <locationX>1806</locationX>
+        <locationY>4316</locationY>
+        <assignmentItems>
+            <assignToReference>varSource</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Tender</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varOrderType</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>RegularOrder</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varFulfillmentLocation</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getFinalBillTo.TenderDistributor__r.FulfillmentLocation__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>UseWarehouseRefferenceAccount</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <description>Assign Purchasing Group as Bill to from account</description>
         <name>assignAccount</name>
         <label>assignAccount</label>
@@ -613,8 +643,8 @@
         <description>Assign Default Bill To from account</description>
         <name>assignDefaultBillTo</name>
         <label>assignDefaultBillTo</label>
-        <locationX>2077</locationX>
-        <locationY>1709</locationY>
+        <locationX>1723</locationX>
+        <locationY>1306</locationY>
         <assignmentItems>
             <assignToReference>varBillToParty</assignToReference>
             <operator>Assign</operator>
@@ -1135,8 +1165,15 @@
                 <elementReference>loopSinglePriceBookAssignment.CurrencyIsoCode</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varSinglePricebookName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loopSinglePriceBookAssignment.Name</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
-            <targetReference>screenOrderDetails</targetReference>
+            <targetReference>GetOrderPricingTableMdt</targetReference>
         </connector>
     </assignments>
     <assignments>
@@ -1476,6 +1513,14 @@
         <dataType>String</dataType>
         <value>
             <stringValue>ServiceOrder</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>choiceTenderSalesOrder</name>
+        <choiceText>Tender Sales Order</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>TenderSalesOrder</stringValue>
         </value>
     </choices>
     <choices>
@@ -2268,6 +2313,60 @@
         </rules>
     </decisions>
     <decisions>
+        <name>Is_Tender_Sales_Order</name>
+        <label>Is Tender Sales Order</label>
+        <locationX>1992</locationX>
+        <locationY>4166</locationY>
+        <defaultConnector>
+            <targetReference>UseWarehouseRefferenceAccount</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Tender_Sales_Order</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>picklistOrderType2</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>choiceTenderSalesOrder</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getFinalBillTo.TenderDistributor__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_Tender_Sales_Order</targetReference>
+            </connector>
+            <label>Tender Sales Order</label>
+        </rules>
+        <rules>
+            <name>Tender_Distributor_Blank</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>picklistOrderType2</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>choiceTenderSalesOrder</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>getFinalBillTo.TenderDistributor__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Tender_Distributor_Check</targetReference>
+            </connector>
+            <label>Tender Distributor Blank</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>Is_this_an_Informat_order</name>
         <label>Is this an Informat order?</label>
         <locationX>2811</locationX>
@@ -2441,8 +2540,8 @@
     <decisions>
         <name>PriceBookSearch</name>
         <label>PriceBook Search</label>
-        <locationX>1729</locationX>
-        <locationY>2834</locationY>
+        <locationX>1704</locationX>
+        <locationY>2783</locationY>
         <defaultConnector>
             <targetReference>getPricebook1</targetReference>
         </defaultConnector>
@@ -2715,7 +2814,12 @@
 20230329: DB added Order Notification Email 2 input and assignment to Order
 20230404: CH added new logic around delivery email and phone
 202304019: CH added new logic for not sending order confirmation emails - NH Prof
-20230511: CH added new screen for selecting Hfdstructuur for Informat</description>
+20230511: CH added new screen for selecting Hfdstructuur for Informat
+20230619: DB Tender Sales Order functionality added
+20230906: CH added shipping state assignment
+20231211: CH rerouted assignPricebook -&gt; GetOrderPricingTable
+20231212: CH mapped attention of fields
+20232012: CH added filter for pricebooks where PricingMethod != null</description>
     <dynamicChoiceSets>
         <name>choicePreferredCourier</name>
         <dataType>String</dataType>
@@ -2781,6 +2885,12 @@
         <object>Account</object>
     </dynamicChoiceSets>
     <environments>Default</environments>
+    <formulas>
+        <description>FullfillmentLocation assigned and mapped when the selected Order Type is Tender Sales Order. Otherwise it&apos;s null for all other order types.</description>
+        <name>f_FulfillmentLocation</name>
+        <dataType>String</dataType>
+        <expression>IF( {!picklistOrderType2} = {!choiceTenderSalesOrder}, TEXT({!getFinalBillTo.TenderDistributor__r.FulfillmentLocation__c}), null )</expression>
+    </formulas>
     <formulas>
         <name>form_ValidateItemInformat</name>
         <dataType>Number</dataType>
@@ -2902,6 +3012,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>BillToAddress__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingAddress__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>BillingAddressNote__c</field>
             <value>
                 <elementReference>getAccountDetails.BillingAddressNotes__c</elementReference>
@@ -2920,6 +3036,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>BillingHouseNumberAddition__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingHouseNumberAddition__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingHouseNumber__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingHouseNumber__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>BillingPostalCode</field>
             <value>
                 <elementReference>getFinalBillTo.BillingPostalCode</elementReference>
@@ -2935,6 +3063,12 @@
             <field>BillingStreet</field>
             <value>
                 <elementReference>getFinalBillTo.BillingStreet</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingStreetName__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingStreetName__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3013,6 +3147,18 @@
             <field>EndDate</field>
             <value>
                 <elementReference>varOrderEndDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ForTheAttentionOf__c</field>
+            <value>
+                <elementReference>getFinalBillTo.billToAttentionOf__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FulfillmentLocation__c</field>
+            <value>
+                <elementReference>varFulfillmentLocation</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3082,6 +3228,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>Source__c</field>
+            <value>
+                <elementReference>varSource</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Status</field>
             <value>
                 <elementReference>constantOrderStatus</elementReference>
@@ -3090,7 +3242,7 @@
         <inputAssignments>
             <field>Type</field>
             <value>
-                <elementReference>picklistOrderType2</elementReference>
+                <elementReference>varOrderType</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3110,7 +3262,7 @@
     <recordCreates>
         <name>createOrderShipping</name>
         <label>createOrderShipping</label>
-        <locationX>2458</locationX>
+        <locationX>2456</locationX>
         <locationY>4546</locationY>
         <assignRecordIdToReference>varOrderId</assignRecordIdToReference>
         <connector>
@@ -3123,6 +3275,12 @@
             <field>AccountId</field>
             <value>
                 <elementReference>varAccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillToAddress__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingAddress__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3144,6 +3302,18 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>BillingHouseNumberAddition__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingHouseNumberAddition__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingHouseNumber__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingHouseNumber__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>BillingPostalCode</field>
             <value>
                 <elementReference>getFinalBillTo.BillingPostalCode</elementReference>
@@ -3159,6 +3329,12 @@
             <field>BillingStreet</field>
             <value>
                 <elementReference>getFinalBillTo.BillingStreet</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>BillingStreetName__c</field>
+            <value>
+                <elementReference>getFinalBillTo.BillingStreetName__c</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3237,6 +3413,18 @@
             <field>EndDate</field>
             <value>
                 <elementReference>varOrderEndDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ForTheAttentionOf__c</field>
+            <value>
+                <elementReference>getFinalBillTo.billToAttentionOf__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FulfillmentLocation__c</field>
+            <value>
+                <elementReference>varFulfillmentLocation</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3294,6 +3482,12 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>ShipToAddress__c</field>
+            <value>
+                <elementReference>getFinalShipTo.ShippingAddress__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>ShipbyDate__c</field>
             <value>
                 <elementReference>inputShipByDate</elementReference>
@@ -3330,9 +3524,27 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>ShippingHouseNumberAddition__c</field>
+            <value>
+                <elementReference>getFinalShipTo.ShippingHouseNumberAddition__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ShippingHouseNumber__c</field>
+            <value>
+                <elementReference>getFinalShipTo.ShippingHouseNumber__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>ShippingPostalCode</field>
             <value>
                 <elementReference>getFinalShipTo.ShippingPostalCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ShippingState</field>
+            <value>
+                <elementReference>getFinalShipTo.ShippingState</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3342,9 +3554,21 @@
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>ShippingStreetName__c</field>
+            <value>
+                <elementReference>getFinalShipTo.ShippingStreetName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>Shipto__c</field>
             <value>
                 <elementReference>varShipToParty</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Source__c</field>
+            <value>
+                <elementReference>varSource</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -3356,13 +3580,19 @@
         <inputAssignments>
             <field>Type</field>
             <value>
-                <elementReference>picklistOrderType2</elementReference>
+                <elementReference>varOrderType</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
             <field>WarehouseReferenceActive__c</field>
             <value>
                 <elementReference>useWarehouseReference</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>shipToAttentionOf__c</field>
+            <value>
+                <elementReference>getFinalShipTo.shipToAttentionOf__c</elementReference>
             </value>
         </inputAssignments>
         <object>Order</object>
@@ -3489,7 +3719,7 @@
         <locationY>4022</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>UseWarehouseRefferenceAccount</targetReference>
+            <targetReference>Is_Tender_Sales_Order</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -3527,8 +3757,8 @@
     <recordLookups>
         <name>getNonProfPricebook</name>
         <label>getNonProfPricebook</label>
-        <locationX>1632</locationX>
-        <locationY>3015</locationY>
+        <locationX>1633</locationX>
+        <locationY>2952</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Pricebook2</targetReference>
@@ -3556,6 +3786,13 @@
             <operator>NotEqualTo</operator>
             <value>
                 <stringValue>Professional</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>PricingMethod__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -3595,7 +3832,7 @@
         <connector>
             <targetReference>LoopOrderPricingMdt</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>(1 OR 3) AND 2</filterLogic>
         <filters>
             <field>Pricebook__c</field>
             <operator>EqualTo</operator>
@@ -3610,6 +3847,13 @@
                 <elementReference>getBillToDetails.OperatingCompany__c</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>Pricebook__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varSinglePricebookName</elementReference>
+            </value>
+        </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
         <object>OrderPricingTable__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -3617,8 +3861,8 @@
     <recordLookups>
         <name>getPricebook1</name>
         <label>getPricebook</label>
-        <locationX>1847</locationX>
-        <locationY>2970</locationY>
+        <locationX>1870</locationX>
+        <locationY>2868</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Pricebook3</targetReference>
@@ -3639,6 +3883,13 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>getAccountDetails.OperatingCompany__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>PricingMethod__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -3677,6 +3928,13 @@
             <operator>EqualTo</operator>
             <value>
                 <stringValue>Professional</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>PricingMethod__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
             </value>
         </filters>
         <getFirstRecordOnly>false</getFirstRecordOnly>
@@ -4352,6 +4610,7 @@
             <choiceReferences>choiceRegularOrder</choiceReferences>
             <choiceReferences>choiceServiceOrder</choiceReferences>
             <choiceReferences>choiceFreeOrder</choiceReferences>
+            <choiceReferences>choiceTenderSalesOrder</choiceReferences>
             <dataType>String</dataType>
             <defaultSelectedChoiceReference>choiceRegularOrder</defaultSelectedChoiceReference>
             <fieldText>Order Type</fieldText>
@@ -4914,6 +5173,25 @@
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
+    <screens>
+        <name>Tender_Distributor_Check</name>
+        <label>Tender Distributor Check</label>
+        <locationX>1500</locationX>
+        <locationY>4182</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>screenOrderDetails</targetReference>
+        </connector>
+        <fields>
+            <name>NoTenderDistributor</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;The Bill To Account: &quot;{!getFinalBillTo.Name}&quot; does not have a Tender Distributor populated. Only Bill To Accounts with a Tender Distributor may be used for Tender Sales Orders.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 18px;&quot;&gt;Please ensure that the Bill To Account has a Tender Distributor populated before this Tender Sales Order will be allowed.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <start>
         <locationX>1801</locationX>
         <locationY>235</locationY>
@@ -5252,6 +5530,13 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>varFulfillmentLocation</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
         <name>varLineItemShipping</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -5331,6 +5616,16 @@
         <isOutput>false</isOutput>
     </variables>
     <variables>
+        <name>varOrderType</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <elementReference>picklistOrderType2</elementReference>
+        </value>
+    </variables>
+    <variables>
         <name>varPalletRegistrationNumber</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
@@ -5402,6 +5697,23 @@
         <isCollection>false</isCollection>
         <isInput>false</isInput>
         <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varSinglePricebookName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varSource</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>B2B Salesforce</stringValue>
+        </value>
     </variables>
     <variables>
         <name>varUpdate</name>

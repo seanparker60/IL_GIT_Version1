@@ -95,6 +95,18 @@
                 <behavior>Edit</behavior>
                 <field>QuantityUpdateCheckYearly__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ApplyIndexationPercentage__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IndexationPercentage__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>PotentialDuplicate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -396,6 +408,7 @@
         <fields>Status__c</fields>
         <fields>Quantity__c</fields>
         <fields>Error__c</fields>
+        <fields>Wasnotinimport__c</fields>
         <relatedList>ImportAssets__c.Asset__c</relatedList>
     </relatedLists>
     <relatedLists>

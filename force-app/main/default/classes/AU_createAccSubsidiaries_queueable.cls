@@ -1,4 +1,4 @@
-public class AU_createAccSubsidiaries_queueable implements Queueable {
+public class AU_createAccSubsidiaries_queueable implements Queueable, Database.AllowsCallouts {
 
     public List<Id> createdAccountIdList,updatedAccountIdList;
     Integer batchSize = 200;
@@ -40,14 +40,16 @@ public class AU_createAccSubsidiaries_queueable implements Queueable {
             }            
         }
 
+        List<Id> accountIdList = new List<Id>();
         for (Id accId : this.updatedAccountIdList) {
 
             if (accountCount < this.batchSize) {
-                Account acc = new Account();
-                acc.Id = accId;
-                acc.AgodiUpdateInProgress__c = false;
-                accountUpdateList.add(acc);
+                // Account acc = new Account();
+                // acc.Id = accId;
+                // acc.AgodiUpdateInProgress__c = false;
+                // accountUpdateList.add(acc);
 
+                accountIdList.add(accId);
                 accountCount ++;
             } else {
                 newUpdatedAccountIdList.add(accId);
@@ -59,7 +61,7 @@ public class AU_createAccSubsidiaries_queueable implements Queueable {
             updateFinished = true;
         }
 
-        update accountUpdateList;
+        AU_UpdateAccountViaRESRTAPI.clearAgodiUpdateInProcess(accountIdList);
 
         if (accountCount == batchSize && !updateFinished) {
             if (!Test.isRunningTest()) {
@@ -70,7 +72,9 @@ public class AU_createAccSubsidiaries_queueable implements Queueable {
             }
         } else {
             System.debug('AU_createAccSubsidiaries_queueable - execute - END');
-            System.enqueueJob(new AU_getCurrentAgodiAccounts());
+            if (!Test.isRunningTest()) {
+                System.enqueueJob(new AU_getCurrentAgodiAccounts());   
+            }
             System.debug('===> Agodi Account Update is completed. Proceding to Agodi Student number update.');
         }
     }

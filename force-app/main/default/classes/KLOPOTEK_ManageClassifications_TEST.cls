@@ -15,7 +15,7 @@ public class KLOPOTEK_ManageClassifications_TEST {
             KLOPOTEK_ManageClassifications.createClassifications(kcLst);
         Test.stopTest();
         
-        System.assertEquals(10, [SELECT Id FROM ClassificationData__c].size());
+        System.assertEquals(20, [SELECT Id FROM ClassificationData__c].size());
 
     }
 }

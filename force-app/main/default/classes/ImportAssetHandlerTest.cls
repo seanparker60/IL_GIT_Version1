@@ -5,7 +5,7 @@ public class ImportAssetHandlerTest {
         List<Account> lstAccount = TestDataFactory.insertAccountsSubsidiary(2, 'Plantyn',true,false); 
         lstAccount[0].RenewalAssetToday__c = true;
         lstAccount[0].ExternalCustomerId__c = 'zonc_100';
-        lstAccount[0].Hfdstructuur__c = '311;321;411';
+        lstAccount[0].Hfdstructuur__c = '311;321;411;111;221;312';
 
         lstAccount[1].RenewalAssetToday__c = true;
         lstAccount[1].ExternalCustomerId__c = 'zonc_ext';
@@ -224,6 +224,103 @@ public class ImportAssetHandlerTest {
     
     
     @isTest
+    public static void testData7(){
+        List<Asset> assetLs = [SELECT Id, Informhfdstructuur__c from Asset];
+        for(Asset ass : assetLs){
+            ass.Informhfdstructuur__c = '411'; // 311;321;411;111;221;312
+        }
+        
+        update assetLs;
+        
+        ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = 'zonc_100';
+        ia2.Hfdstructuur__c = '411';
+        ia2.Quantity__c = 100;
+        insert ia2;
+        
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+        test.stopTest();
+    }
+    
+    @isTest
+    public static void testData8(){
+        List<Asset> assetLs = [SELECT Id, Informhfdstructuur__c from Asset];
+        for(Asset ass : assetLs){
+            ass.Informhfdstructuur__c = '111'; // 311;321;411;111;221;312
+        }
+        
+        update assetLs;
+        
+        ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = 'zonc_100';
+        ia2.Hfdstructuur__c = '111';
+        ia2.Quantity__c = 100;
+        insert ia2;
+        
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+        test.stopTest();
+    }
+    
+    @isTest
+    public static void testData9(){
+        List<Asset> assetLs = [SELECT Id, Informhfdstructuur__c from Asset];
+        for(Asset ass : assetLs){
+            ass.Informhfdstructuur__c = '221'; // 311;321;411;111;221;312
+        }
+        
+        update assetLs;
+        
+        ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = 'zonc_100';
+        ia2.Hfdstructuur__c = '221';
+        ia2.Quantity__c = 100;
+        insert ia2;
+        
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+        test.stopTest();
+    }
+    
+    @isTest
+    public static void testData10(){
+        List<Asset> assetLs = [SELECT Id, Informhfdstructuur__c from Asset];
+        for(Asset ass : assetLs){
+            ass.Informhfdstructuur__c = '312'; // 311;321;411;111;221;312
+        }
+        
+        update assetLs;
+        
+        ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = 'zonc_100';
+        ia2.Hfdstructuur__c = '312';
+        ia2.Quantity__c = 100;
+        insert ia2;
+        
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+        test.stopTest();
+    }
+    
+    
+    @isTest
     public static void testDataNoHfdstructuur(){
         ImportAssets__c ia2 = new ImportAssets__c();
         ia2.ExternalCustomerId__c = 'zonc_100';
@@ -380,7 +477,6 @@ public class ImportAssetHandlerTest {
         
         List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
         iaLs.add(ia2);
-        //iaLs.add(ia3);
         
         test.startTest();
         ImportAssetHandler.handleAssetImports(iaLs);
@@ -484,6 +580,95 @@ public class ImportAssetHandlerTest {
     }
     
     @isTest
+    public static void testMultiAssetsAndStudentNum6(){
+        ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = 'dupe_test_1';
+        ia2.Hfdstructuur__c = '311';
+        ia2.Quantity__c = 100;
+        ia2.Approved__c = true;
+        insert ia2;
+        
+        List<Asset> assLs = [Select Id, AccountId, Product2Id from Asset where Informhfdstructuur__c = '311' AND ShiptoExternalId__c = 'dupe_test_1'];
+        delete assLs[0];
+        assLs = [Select Id, AccountId, Product2Id from Asset where Informhfdstructuur__c = '311' AND ShiptoExternalId__c = 'dupe_test_1'];
+        system.debug('testMultiAssetsAndStudentNum6 assLs: ' + assLs);
+        
+        
+        List<StudentAndUsernumbers__c> studentANDUserNumberLs = new List<StudentAndUsernumbers__c>();
+        for(Asset ass : AssLs){
+            ass.CancellationDate__c = Date.today().addDays(-5);
+            ass.CancellationReason__c = 'Unknown';
+            ass.IsActive__c = false;
+            
+            StudentAndUsernumbers__c studentANDUserNumber = new StudentAndUsernumbers__c();
+            studentANDUserNumber.Account__c = ass.AccountId;
+            
+            studentANDUserNumber.Asset__c = ass.Id;
+            studentANDUserNumber.Type__c = 'User Numbers';
+            studentANDUserNumber.TotalNumber__c = 100;
+            studentANDUserNumber.StartDate__c = Date.newInstance(System.Today().year(), 02, 01);
+            studentANDUserNumber.EndDate__c = Date.newInstance(System.Today().year()+1, 01, 31);
+            
+            studentANDUserNumberLs.add(studentANDUserNumber);
+        }
+        update assLs;
+        insert studentANDUserNumberLs;
+        
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+        test.stopTest();
+    }
+    
+    @isTest
+    public static void testMultiAssetsAndStudentNum7(){
+        ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = 'dupe_test_1';
+        ia2.Hfdstructuur__c = '311';
+        ia2.Quantity__c = 100;
+        ia2.Approved__c = true;
+        ia2.Error__c = '[Potential Duplicate] Multiple assets have been found for this hfdstructuur and customer number';
+        insert ia2;
+        
+        List<Asset> assLs = [Select Id, AccountId, Product2Id from Asset where Informhfdstructuur__c = '311' AND ShiptoExternalId__c = 'dupe_test_1'];
+        delete assLs[0];
+        assLs = [Select Id, AccountId, Product2Id from Asset where Informhfdstructuur__c = '311' AND ShiptoExternalId__c = 'dupe_test_1'];
+        system.debug('testMultiAssetsAndStudentNum7 assLs: ' + assLs);
+        
+        
+        List<StudentAndUsernumbers__c> studentANDUserNumberLs = new List<StudentAndUsernumbers__c>();
+        for(Asset ass : AssLs){
+            ass.CancellationDate__c = Date.today().addDays(-5);
+            ass.CancellationReason__c = 'Unknown';
+            ass.IsActive__c = false;
+            
+            StudentAndUsernumbers__c studentANDUserNumber = new StudentAndUsernumbers__c();
+            studentANDUserNumber.Account__c = ass.AccountId;
+            
+            studentANDUserNumber.Asset__c = ass.Id;
+            studentANDUserNumber.Type__c = 'User Numbers';
+            studentANDUserNumber.TotalNumber__c = 100;
+            studentANDUserNumber.StartDate__c = Date.newInstance(System.Today().year(), 02, 01);
+            studentANDUserNumber.EndDate__c = Date.newInstance(System.Today().year()+1, 01, 31);
+            
+            studentANDUserNumberLs.add(studentANDUserNumber);
+        }
+        update assLs;
+        insert studentANDUserNumberLs;
+        
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+        test.stopTest();
+    }
+    
+    @isTest
     public static void testCancelledApprovedAsset(){
         ImportAssets__c ia2 = new ImportAssets__c();
         ia2.ExternalCustomerId__c = 'zonc_100';
@@ -567,7 +752,7 @@ public class ImportAssetHandlerTest {
         Date startDate = Date.newInstance(System.Today().year(), 02, 01); 
         Date endDate = Date.newInstance(System.Today().year()+1, 01, 31);
         
-List<Asset> assetsWithoutInfRecs = [SELECT Id, ShiptoExternalId__c,AccountId, Informhfdstructuur__c, Quantity, Product2Id FROM Asset WHERE Id NOT IN (SELECT Asset__c FROM ImportAssets__c WHERE QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate) 
+List<Asset> assetsWithoutInfRecs = [SELECT Id, ShiptoExternalId__c,AccountId, Informhfdstructuur__c, Quantity, Product2Id, OperatingCompany__c, PriceBook__c FROM Asset WHERE Id NOT IN (SELECT Asset__c FROM ImportAssets__c WHERE QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate) 
                                             AND IsInformat__c = true
                                             AND Informhfdstructuur__c != NULL
                                             AND ShiptoExternalId__c != NULL
@@ -576,10 +761,17 @@ List<Asset> assetsWithoutInfRecs = [SELECT Id, ShiptoExternalId__c,AccountId, In
         
         system.debug('tests assetsWithoutInfRecs: ' + assetsWithoutInfRecs);
         
+        Asset asstest = new Asset();
+        //asstest.ShiptoExternalId__c = assetsWithoutInfRecs[0].ShiptoExternalId__c;
+        asstest.AccountId = assetsWithoutInfRecs[0].AccountId;
+        asstest.Informhfdstructuur__c = assetsWithoutInfRecs[0].Informhfdstructuur__c;
+        asstest.Quantity = assetsWithoutInfRecs[0].Quantity;
+        asstest.Product2Id = assetsWithoutInfRecs[0].Product2Id;
+        asstest.OperatingCompany__c = assetsWithoutInfRecs[0].OperatingCompany__c;
+        asstest.PriceBook__c = assetsWithoutInfRecs[0].PriceBook__c;
+        asstest.name = 'test';
+        insert asstest;
         
-        test.startTest();
-        ImportAssetInsertBatch batchJob2 = new ImportAssetInsertBatch();
-        Id batchJob2Id = Database.executeBatch(batchJob2, 1);
         ImportAssets__c ia2 = new ImportAssets__c();
         ia2.ExternalCustomerId__c = assetsWithoutInfRecs[0].ShiptoExternalId__c;
         ia2.Hfdstructuur__c = assetsWithoutInfRecs[0].Informhfdstructuur__c;
@@ -588,6 +780,23 @@ List<Asset> assetsWithoutInfRecs = [SELECT Id, ShiptoExternalId__c,AccountId, In
         ia2.QuantityStartDate__c = startDate;
         ia2.QuantityEndDate__c = endDate;
         insert ia2;
+        
+        /*ImportAssets__c ia2 = new ImportAssets__c();
+        ia2.ExternalCustomerId__c = assetsWithoutInfRecs[0].ShiptoExternalId__c;
+        ia2.Hfdstructuur__c = assetsWithoutInfRecs[0].Informhfdstructuur__c;
+        ia2.Quantity__c = assetsWithoutInfRecs[0].Quantity;
+        ia2.Asset__c = assetsWithoutInfRecs[0].Id;
+        ia2.QuantityStartDate__c = startDate;
+        ia2.QuantityEndDate__c = endDate;
+        ia2.Status__c = 'Pending';
+        insert ia2;*/
+        
+        List<ImportAssets__c> iaLs = new List<ImportAssets__c>();
+        iaLs.add(ia2);
+        
+        test.startTest();
+        ImportAssetHandler.handleAssetImports(iaLs);
+
         test.stopTest();
     }
     

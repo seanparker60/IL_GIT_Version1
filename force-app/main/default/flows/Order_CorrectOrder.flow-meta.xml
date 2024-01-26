@@ -4,7 +4,7 @@
         <name>Clone_with_Related</name>
         <label>Clone with Related</label>
         <locationX>50</locationX>
-        <locationY>398</locationY>
+        <locationY>458</locationY>
         <actionName>UTIL_CloneObjectAndRelatedrecord</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -41,7 +41,7 @@
         <name>Copy_1_of_Clone_with_Related</name>
         <label>Clone with Related</label>
         <locationX>578</locationX>
-        <locationY>398</locationY>
+        <locationY>458</locationY>
         <actionName>UTIL_CloneObjectAndRelatedrecord</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -69,27 +69,43 @@
         </outputParameters>
     </actionCalls>
     <actionCalls>
-        <name>Redirect_Flow_Record_Id</name>
-        <label>Redirect Flow - Record Id</label>
+        <name>Redirect_to_new_record</name>
+        <label>Redirect to new record</label>
         <locationX>182</locationX>
-        <locationY>1334</locationY>
-        <actionName>ecflc:flowIdRedirect</actionName>
+        <locationY>1298</locationY>
+        <actionName>ecflc:flowURLRedirect</actionName>
         <actionType>component</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
-            <name>recordId</name>
+            <name>urlRedirect</name>
             <value>
-                <elementReference>insertedRecId</elementReference>
+                <stringValue>/{!insertedRecId}</stringValue>
             </value>
         </inputParameters>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </actionCalls>
     <apiVersion>57.0</apiVersion>
     <assignments>
+        <name>Set_as_correction_order</name>
+        <label>Set as correction order</label>
+        <locationX>314</locationX>
+        <locationY>134</locationY>
+        <assignmentItems>
+            <assignToReference>bIsCorrection</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Correction_Order_or_Clone</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_inserted_rec_ID</name>
         <label>Set inserted rec ID</label>
         <locationX>270</locationX>
-        <locationY>1118</locationY>
+        <locationY>1106</locationY>
         <assignmentItems>
             <assignToReference>insertedRecId</assignToReference>
             <operator>Assign</operator>
@@ -121,23 +137,23 @@
         <name>Correction_Order_or_Clone</name>
         <label>Correction Order or Clone</label>
         <locationX>314</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <defaultConnector>
-            <targetReference>Copy_1_of_Clone_with_Related</targetReference>
+            <targetReference>sureAboutCloningScr</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Correction</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
-                <leftValueReference>Create_correction_order</leftValueReference>
-                <operator>WasSelected</operator>
+                <leftValueReference>bIsCorrection</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Clone_with_Related</targetReference>
+                <targetReference>sureAboutCorrectionScr</targetReference>
             </connector>
             <label>Correction</label>
         </rules>
@@ -146,7 +162,7 @@
         <name>Were_records_inserted</name>
         <label>Were records inserted?</label>
         <locationX>314</locationX>
-        <locationY>878</locationY>
+        <locationY>890</locationY>
         <defaultConnector>
             <targetReference>recsNotInsertedScr</targetReference>
         </defaultConnector>
@@ -181,7 +197,7 @@
             <targetReference>Set_inserted_rec_ID</targetReference>
         </nextValueConnector>
         <noMoreValuesConnector>
-            <targetReference>Redirect_Flow_Record_Id</targetReference>
+            <targetReference>Redirect_to_new_record</targetReference>
         </noMoreValuesConnector>
     </loops>
     <processMetadataValues>
@@ -207,7 +223,7 @@
         <name>Update_Original_Order</name>
         <label>Update Original Order</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>566</locationY>
         <connector>
             <targetReference>Were_records_inserted</targetReference>
         </connector>
@@ -232,7 +248,7 @@
         <name>faultScr1</name>
         <label>faultScr1</label>
         <locationX>314</locationX>
-        <locationY>518</locationY>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -248,7 +264,7 @@
         <name>faultScr2</name>
         <label>faultScr2</label>
         <locationX>842</locationX>
-        <locationY>518</locationY>
+        <locationY>566</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -256,29 +272,6 @@
             <name>errorTxt2</name>
             <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(255, 1, 1);&quot;&gt;It looks like something went wrong when trying to clone this record.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;Please contact your system admin, and give them this error message: {!$Flow.FaultMessage}&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
-        </fields>
-        <showFooter>true</showFooter>
-        <showHeader>true</showHeader>
-    </screens>
-    <screens>
-        <name>NormalCloneOrScrapScr</name>
-        <label>NormalCloneOrScrapScr</label>
-        <locationX>314</locationX>
-        <locationY>158</locationY>
-        <allowBack>true</allowBack>
-        <allowFinish>true</allowFinish>
-        <allowPause>true</allowPause>
-        <connector>
-            <targetReference>Correction_Order_or_Clone</targetReference>
-        </connector>
-        <fields>
-            <name>What_would_you_like_to_do_with_this_order</name>
-            <choiceReferences>Create_correction_order</choiceReferences>
-            <choiceReferences>CloneOrder</choiceReferences>
-            <dataType>String</dataType>
-            <fieldText>What would you like to do with this order?</fieldText>
-            <fieldType>RadioButtons</fieldType>
-            <isRequired>true</isRequired>
         </fields>
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
@@ -299,14 +292,62 @@
         <showFooter>true</showFooter>
         <showHeader>true</showHeader>
     </screens>
+    <screens>
+        <name>sureAboutCloningScr</name>
+        <label>sureAboutCloningScr?</label>
+        <locationX>578</locationX>
+        <locationY>350</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Copy_1_of_Clone_with_Related</targetReference>
+        </connector>
+        <fields>
+            <name>Copy_1_of_dsp1</name>
+            <fieldText>&lt;p style=&quot;user-select: auto;&quot;&gt;Clicking on &apos;Next&apos; will create a clone order for this order.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <screens>
+        <name>sureAboutCorrectionScr</name>
+        <label>sureAboutCorrectionScr?</label>
+        <locationX>50</locationX>
+        <locationY>350</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <connector>
+            <targetReference>Clone_with_Related</targetReference>
+        </connector>
+        <fields>
+            <name>dsp1</name>
+            <fieldText>&lt;p style=&quot;user-select: auto;&quot;&gt;Clicking on &apos;Next&apos; will create a correction order for this order. &lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
     <start>
         <locationX>188</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>NormalCloneOrScrapScr</targetReference>
+            <targetReference>Set_as_correction_order</targetReference>
         </connector>
     </start>
     <status>Active</status>
+    <variables>
+        <name>bIsCorrection</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
     <variables>
         <name>insertedRecId</name>
         <dataType>String</dataType>

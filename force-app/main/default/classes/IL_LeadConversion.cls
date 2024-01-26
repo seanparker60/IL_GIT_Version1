@@ -204,7 +204,10 @@ public class IL_LeadConversion {
         }
         
         if(String.isNotBlank(OpportunityId) && !createOpp && leadId != OpportunityId){
+            System.debug('%%% inside opp if converted lead: ' + OpportunityId);
             lc.setOpportunityId(OpportunityId);
+            lead ld = new lead (id = leadId, Opportunity__c = OpportunityId);
+            update ld;
         }
         
         try{

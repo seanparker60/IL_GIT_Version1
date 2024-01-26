@@ -35,6 +35,10 @@ global class UTIL_CleanObjectRecords_Excel implements Database.Batchable<sObject
             dynamicQuery = 'SELECT {0} FROM {1} WHERE DAY_ONLY(CreatedDate) >= :startDate AND DAY_ONLY(CreatedDate) <= :endDate ORDER BY OperatingCompany__c, Object__c';
         } else {
             dynamicQuery = 'SELECT {0} FROM {1} WHERE DAY_ONLY(CreatedDate) >= :startDate AND DAY_ONLY(CreatedDate) <= :endDate';
+
+            if(mdtObject.WhereClause__c != null){
+                dynamicQuery += ' AND ' + mdtObject.WhereClause__c;
+            }
         }
         
         return Database.getQueryLocator(String.format(dynamicQuery, new List<String>{String.join(accessibleFieldApiNames, ', '), mdtObject.ObjectAPIName__c}));

@@ -74,7 +74,8 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                          AND Informhfdstructuur__c =: record.Hfdstructuur__c AND OperatingCompany__c = 'Plantyn'
                                          AND IsInformat__c = true
                                          AND Product2Id != NULL
-                                         AND Product2.EAN__c IN :eanStrLs];
+                                         AND Product2.EAN__c IN :eanStrLs
+                                         ORDER BY Product2.EAN__c];
             
             system.debug('MATCHED ASSETS.SIZE(): ' + matchedAssets.SIZE());
             
@@ -144,10 +145,38 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                 
                                 
                                 studentANDUserNumber.Asset__c = matchedAssets[0].Id;
-                                studentANDUserNumber.Type__c = 'User Numbers';
+                                studentANDUserNumber.Type__c = 'Student Numbers';
                                 studentANDUserNumber.TotalNumber__c = record.Quantity__c;
                                 studentANDUserNumber.StartDate__c = startDate;
                                 studentANDUserNumber.EndDate__c = endDate;
+
+                                // apply qty to correct student number category
+                                switch on record.Hfdstructuur__c {
+                                    when '111', '121'{	
+                                        // Kingergarten
+                                        studentANDUserNumber.KindergartenNumber__c = record.Quantity__c;
+                                    }	
+                                    when '211','221' {		
+                                        // primary
+                                        studentANDUserNumber.PrimaryEducationNumber__c = record.Quantity__c;
+                                    }
+                                    when '311','321','313','314'{
+                                        // secondary education - full time
+                                        studentANDUserNumber.SecondaryEducationNumber__c = record.Quantity__c;
+                                    }
+                                    when '312'{
+                                        // secondary education - part time
+                                        studentANDUserNumber.SecondaryEducationPartTime__c = record.Quantity__c;
+                                    }
+                                    when '411', '511' {		
+                                        // higher
+                                        studentANDUserNumber.HigherEducationNumber__c = record.Quantity__c;
+                                    }
+                                    when else {		  
+                                        // other
+                                        studentANDUserNumber.OtherInstitution__c = record.Quantity__c;
+                                    }
+                                }
                                 
                                 matchedAssets[0].Quantity = record.Quantity__c;
                                 matchedAssets[0].QuantityStartDate__c = startDate;
@@ -217,10 +246,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                             
                             
                             studentANDUserNumber.Asset__c = matchedAssets[0].Id;
-                            studentANDUserNumber.Type__c = 'User Numbers';
+                            studentANDUserNumber.Type__c = 'Student Numbers';
                             studentANDUserNumber.TotalNumber__c = record.Quantity__c;
                             studentANDUserNumber.StartDate__c = startDate;
                             studentANDUserNumber.EndDate__c = endDate;
+                            // apply qty to correct student number category
+                            switch on record.Hfdstructuur__c {
+                                when '111', '121'{	
+                                    // Kingergarten
+                                    studentANDUserNumber.KindergartenNumber__c = record.Quantity__c;
+                                }	
+                                when '211','221' {		
+                                    // primary
+                                    studentANDUserNumber.PrimaryEducationNumber__c = record.Quantity__c;
+                                }
+                                when '311','321','313','314'{
+                                    // secondary education - full time
+                                    studentANDUserNumber.SecondaryEducationNumber__c = record.Quantity__c;
+                                }
+                                when '312'{
+                                    // secondary education - part time
+                                    studentANDUserNumber.SecondaryEducationPartTime__c = record.Quantity__c;
+                                }
+                                when '411', '511' {		
+                                    // higher
+                                    studentANDUserNumber.HigherEducationNumber__c = record.Quantity__c;
+                                }
+                                when else {		  
+                                    // other
+                                    studentANDUserNumber.OtherInstitution__c = record.Quantity__c;
+                                }
+                            }
                             
                             matchedAssets[0].Quantity = record.Quantity__c;
                             matchedAssets[0].QuantityStartDate__c = startDate;
@@ -331,10 +387,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                     
                                     
                                     studentANDUserNumber.Asset__c = assId;
-                                    studentANDUserNumber.Type__c = 'User Numbers';
+                                    studentANDUserNumber.Type__c = 'Student Numbers';
                                     studentANDUserNumber.TotalNumber__c = record.Quantity__c;
                                     studentANDUserNumber.StartDate__c = startDate;
                                     studentANDUserNumber.EndDate__c = endDate;
+                                    // apply qty to correct student number category
+                                    switch on record.Hfdstructuur__c {
+                                        when '111', '121'{	
+                                            // Kingergarten
+                                            studentANDUserNumber.KindergartenNumber__c = record.Quantity__c;
+                                        }	
+                                        when '211','221' {		
+                                            // primary
+                                            studentANDUserNumber.PrimaryEducationNumber__c = record.Quantity__c;
+                                        }
+                                        when '311','321','313','314'{
+                                            // secondary education - full time
+                                            studentANDUserNumber.SecondaryEducationNumber__c = record.Quantity__c;
+                                        }
+                                        when '312'{
+                                            // secondary education - part time
+                                            studentANDUserNumber.SecondaryEducationPartTime__c = record.Quantity__c;
+                                        }
+                                        when '411', '511' {		
+                                            // higher
+                                            studentANDUserNumber.HigherEducationNumber__c = record.Quantity__c;
+                                        }
+                                        when else {		  
+                                            // other
+                                            studentANDUserNumber.OtherInstitution__c = record.Quantity__c;
+                                        }
+                                    }
                                     
                                     matchedAssets[0].Quantity = record.Quantity__c;
                                     matchedAssets[0].QuantityStartDate__c = startDate;
@@ -524,11 +607,39 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                         studentANDUserNumber.Account__c = assRec.AccountId;
                         
                         studentANDUserNumber.Asset__c = record.Asset__c;
-                        studentANDUserNumber.Type__c = 'User Numbers';
+                        studentANDUserNumber.Type__c = 'Student Numbers';
                         studentANDUserNumber.TotalNumber__c = record.Quantity__c;
                         studentANDUserNumber.StartDate__c = startDate;
                         studentANDUserNumber.EndDate__c = endDate;
                         
+
+                        // apply qty to correct student number category
+                        switch on record.Hfdstructuur__c {
+                            when '111', '121'{	
+                                // Kingergarten
+                                studentANDUserNumber.KindergartenNumber__c = record.Quantity__c;
+                            }	
+                            when '211','221' {		
+                                // primary
+                                studentANDUserNumber.PrimaryEducationNumber__c = record.Quantity__c;
+                            }
+                            when '311','321','313','314'{
+                                // secondary education - full time
+                                studentANDUserNumber.SecondaryEducationNumber__c = record.Quantity__c;
+                            }
+                            when '312'{
+                                // secondary education - part time
+                                studentANDUserNumber.SecondaryEducationPartTime__c = record.Quantity__c;
+                            }
+                            when '411', '511' {		
+                                // higher
+                                studentANDUserNumber.HigherEducationNumber__c = record.Quantity__c;
+                            }
+                            when else {		  
+                                // other
+                                studentANDUserNumber.OtherInstitution__c = record.Quantity__c;
+                            }
+                        }
 
                         record.Status__c = 'Success';
                         record.Asset__c = record.Asset__c;
@@ -632,10 +743,12 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
         system.debug('startDate: ' + startDate);
         system.debug('endDate: ' + endDate);
         
-        List<Asset> assetLs = [SELECT Id, Quantity,AccountId,QuantityStartDate__c, QuantityEndDate__c,SubscriptionIdNumber__c,Informhfdstructuur__c, ShiptoExternalId__c,CancellationDate__c,CancellationReason__c,Product2Id,(SELECT Id, Name, Status__c, Quantity__c, Wasnotinimport__c,Approved__c, QuantityStartDate__c,QuantityEndDate__c,Type__c FROM Import_Assets__r WHERE QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate) FROM Asset 
+        List<Asset> assetLs = [SELECT Id, Quantity,AccountId,QuantityStartDate__c, QuantityEndDate__c,SubscriptionIdNumber__c,Informhfdstructuur__c, ShiptoExternalId__c,CancellationDate__c,CancellationReason__c,Product2Id,(SELECT Id, Name, Status__c, Hfdstructuur__c,Quantity__c, Wasnotinimport__c,Approved__c, QuantityStartDate__c,QuantityEndDate__c,Type__c FROM Import_Assets__r WHERE QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate) FROM Asset 
                                WHERE Id IN (SELECT Asset__c FROM ImportAssets__c 
                                             WHERE Error__c = '[Potential Duplicate] Multiple assets have been found for this hfdstructuur and customer number'
-                                            AND QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate)];
+                                            AND QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate)
+                                            AND ImportAssetProcessedDate__c != TODAY
+                                            ORDER BY Product2.EAN__c];
         
         Set<Id> assetIdSet = (new Map<Id,SObject>(assetLs)).keySet();
         system.debug('assetIdSet.size(): ' + assetIdSet.size());
@@ -643,6 +756,8 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
         //List<StudentAndUsernumbers__c> studentNumRecordsToInsert = new List<StudentAndUsernumbers__c>();
         
         for(Asset ass : assetLs){
+            Boolean approved = false;
+            ass.ImportAssetProcessedDate__c = Date.today();
             system.debug('ass: ' + ass);
             system.debug('Asset Id: ' + ass.Id);
             system.debug('Asset productId: ' + ass.Product2Id);
@@ -666,7 +781,8 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                               AND QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate
                                               AND Product2Id = : ass.Product2Id
                                               AND Informhfdstructuur__c =: ass.Informhfdstructuur__c
-                                              AND ShiptoExternalId__c =: ass.ShiptoExternalId__c];
+                                              AND ShiptoExternalId__c =: ass.ShiptoExternalId__c
+                                              ORDER BY Product2.EAN__c];
             
             system.debug('== dupeProductAssetLs.size(): ' + dupeProductAssetLs.size());
             
@@ -676,6 +792,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                     iaRec.ShipToAccount__c = ass.AccountId;
                     
                     if(iaRec.Approved__c || Test.isRunningTest()){
+                        approved = true;
                         system.debug('approved check 4');
                         Integer variableQtyDiff = ass.Quantity > iaRec.Quantity__c ? Integer.valueOf(ass.Quantity - iaRec.Quantity__c) : Integer.valueOf(iaRec.Quantity__c - ass.Quantity); 
                         
@@ -694,10 +811,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                             
                             
                             studentANDUserNumber.Asset__c = ass.Id;
-                            studentANDUserNumber.Type__c = 'User Numbers';
+                            studentANDUserNumber.Type__c = 'Student Numbers';
                             studentANDUserNumber.TotalNumber__c = iaRec.Quantity__c;
                             studentANDUserNumber.StartDate__c = startDate;
                             studentANDUserNumber.EndDate__c = endDate;
+                            // apply qty to correct student number category
+                            switch on iaRec.Hfdstructuur__c {
+                                when '111', '121'{	
+                                    // Kingergarten
+                                    studentANDUserNumber.KindergartenNumber__c = iaRec.Quantity__c;
+                                }	
+                                when '211','221' {		
+                                    // primary
+                                    studentANDUserNumber.PrimaryEducationNumber__c = iaRec.Quantity__c;
+                                }
+                                when '311','321','313','314'{
+                                    // secondary education - full time
+                                    studentANDUserNumber.SecondaryEducationNumber__c = iaRec.Quantity__c;
+                                }
+                                when '312'{
+                                    // secondary education - part time
+                                    studentANDUserNumber.SecondaryEducationPartTime__c = iaRec.Quantity__c;
+                                }
+                                when '411', '511' {		
+                                    // higher
+                                    studentANDUserNumber.HigherEducationNumber__c = iaRec.Quantity__c;
+                                }
+                                when else {		  
+                                    // other
+                                    studentANDUserNumber.OtherInstitution__c = iaRec.Quantity__c;
+                                }
+                            }
                             
                             ass.Quantity = iaRec.Quantity__c;
                             ass.QuantityStartDate__c = startDate;
@@ -755,6 +899,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                             Integer variableQtyDiff = ass.Quantity > ass.Import_Assets__r[0].Quantity__c ? Integer.valueOf(ass.Quantity - ass.Import_Assets__r[0].Quantity__c) : Integer.valueOf(ass.Import_Assets__r[0].Quantity__c - ass.Quantity); 
                             
                             if(variableQtyDiff < qtyThreshold || ass.Import_Assets__r[0].Approved__c == true){
+                                approved = true;
                                 system.debug('approved check 5');
                                 // 1. On match create a new studentnumber record with new quantity: start date 1 Feb Current year : End date 28(9)th Feb following year.
                                 // - Update Asset Quantity
@@ -768,10 +913,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                 
                                 
                                 studentANDUserNumber.Asset__c = ass.Id;
-                                studentANDUserNumber.Type__c = 'User Numbers';
+                                studentANDUserNumber.Type__c = 'Student Numbers';
                                 studentANDUserNumber.TotalNumber__c = ass.Import_Assets__r[0].Quantity__c;
                                 studentANDUserNumber.StartDate__c = startDate;
                                 studentANDUserNumber.EndDate__c = endDate;
+                                // apply qty to correct student number category
+                                switch on ass.Import_Assets__r[0].Hfdstructuur__c {
+                                    when '111', '121'{	
+                                        // Kingergarten
+                                        studentANDUserNumber.KindergartenNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }	
+                                    when '211','221' {		
+                                        // primary
+                                        studentANDUserNumber.PrimaryEducationNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when '311','321','313','314'{
+                                        // secondary education - full time
+                                        studentANDUserNumber.SecondaryEducationNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when '312'{
+                                        // secondary education - part time
+                                        studentANDUserNumber.SecondaryEducationPartTime__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when '411', '511' {		
+                                        // higher
+                                        studentANDUserNumber.HigherEducationNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when else {		  
+                                        // other
+                                        studentANDUserNumber.OtherInstitution__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                }
                                 
                                 ass.Quantity = ass.Import_Assets__r[0].Quantity__c;
                                 ass.QuantityStartDate__c = startDate;
@@ -820,6 +992,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                 // get the related import assets to the asset (where the import asset has just been approved)
                                 // flag the related ones and say "Duplicate Approved"
                                 
+                                approved = true;
                                 List<ImportAssets__c> iaLs = [SELECT Id, Name, Hfdstructuur__c, ExternalCustomerId__c, Type__c, Status__c, Quantity__c 
                                                               FROM ImportAssets__c
                                                               WHERE Hfdstructuur__c =: ass.Informhfdstructuur__c AND ExternalCustomerId__c =: ass.ShiptoExternalId__c
@@ -860,10 +1033,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                 studentANDUserNumber.Account__c = ass.AccountId;
                                 
                                 studentANDUserNumber.Asset__c = ass.Id;
-                                studentANDUserNumber.Type__c = 'User Numbers';
+                                studentANDUserNumber.Type__c = 'Student Numbers';
                                 studentANDUserNumber.TotalNumber__c = ass.Import_Assets__r[0].Quantity__c;
                                 studentANDUserNumber.StartDate__c = startDate;
                                 studentANDUserNumber.EndDate__c = endDate;
+                                // apply qty to correct student number category
+                                switch on ass.Import_Assets__r[0].Hfdstructuur__c {
+                                    when '111', '121'{	
+                                        // Kingergarten
+                                        studentANDUserNumber.KindergartenNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }	
+                                    when '211','221' {		
+                                        // primary
+                                        studentANDUserNumber.PrimaryEducationNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when '311','321','313','314'{
+                                        // secondary education - full time
+                                        studentANDUserNumber.SecondaryEducationNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when '312'{
+                                        // secondary education - part time
+                                        studentANDUserNumber.SecondaryEducationPartTime__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when '411', '511' {		
+                                        // higher
+                                        studentANDUserNumber.HigherEducationNumber__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                    when else {		  
+                                        // other
+                                        studentANDUserNumber.OtherInstitution__c = ass.Import_Assets__r[0].Quantity__c;
+                                    }
+                                }
                                 
                                 
                                 ass.Import_Assets__r[0].Status__c = 'Success';
@@ -896,7 +1096,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                         // only process successfully if there are no other assets with the exact same productId for the hfdstructuur and shipto
                         if(dupeProductAssetLs.size() == 0 || Test.isRunningTest()){
                             // get the info from a similar import asset record that has been processed where Wasnotinimport__c == false
-                            List<ImportAssets__c> iaRecLs = [SELECT Id, Status__c, Quantity__c, Wasnotinimport__c,Approved__c FROM ImportAssets__c
+                            List<ImportAssets__c> iaRecLs = [SELECT Id, Status__c, Quantity__c, Wasnotinimport__c,Approved__c, Hfdstructuur__c FROM ImportAssets__c
                                                              WHERE Hfdstructuur__c =: ass.Informhfdstructuur__c AND ExternalCustomerId__c =: ass.ShiptoExternalId__c 
                                                              AND Wasnotinimport__c = false
                                                              AND QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate];
@@ -905,6 +1105,8 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                             
                             if(variableQtyDiff < qtyThreshold || ass.Import_Assets__r[0].Approved__c == true){
                                 system.debug('approved check 6');
+                                approved = true;
+
                                 // 1. On match create a new studentnumber record with new quantity: start date 1 Feb Current year : End date 28(9)th Feb following year.
                                 // - Update Asset Quantity
                                 // Populate latest start and end date of quantity. Will add the fields to the Asset
@@ -917,10 +1119,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                 
                                 
                                 studentANDUserNumber.Asset__c = ass.Id;
-                                studentANDUserNumber.Type__c = 'User Numbers';
+                                studentANDUserNumber.Type__c = 'Student Numbers';
                                 studentANDUserNumber.TotalNumber__c = iaRecLs[0].Quantity__c;
                                 studentANDUserNumber.StartDate__c = startDate;
                                 studentANDUserNumber.EndDate__c = endDate;
+                                // apply qty to correct student number category
+                                switch on iaRecLs[0].Hfdstructuur__c {
+                                    when '111', '121'{	
+                                        // Kingergarten
+                                        studentANDUserNumber.KindergartenNumber__c = iaRecLs[0].Quantity__c;
+                                    }	
+                                    when '211','221' {		
+                                        // primary
+                                        studentANDUserNumber.PrimaryEducationNumber__c = iaRecLs[0].Quantity__c;
+                                    }
+                                    when '311','321','313','314'{
+                                        // secondary education - full time
+                                        studentANDUserNumber.SecondaryEducationNumber__c = iaRecLs[0].Quantity__c;
+                                    }
+                                    when '312'{
+                                        // secondary education - part time
+                                        studentANDUserNumber.SecondaryEducationPartTime__c = iaRecLs[0].Quantity__c;
+                                    }
+                                    when '411', '511' {		
+                                        // higher
+                                        studentANDUserNumber.HigherEducationNumber__c = iaRecLs[0].Quantity__c;
+                                    }
+                                    when else {		  
+                                        // other
+                                        studentANDUserNumber.OtherInstitution__c = iaRecLs[0].Quantity__c;
+                                    }
+                                }
                                 
                                 ass.Quantity = iaRecLs[0].Quantity__c;
                                 ass.QuantityStartDate__c = startDate;
@@ -981,6 +1210,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                             iaRec.ShipToAccount__c = ass.AccountId;
                             
                             if(iaRec.Approved__c){
+                                approved = true;
                                 system.debug('approved check 7');
                                 Integer variableQtyDiff = ass.Quantity > iaRec.Quantity__c ? Integer.valueOf(ass.Quantity - iaRec.Quantity__c) : Integer.valueOf(iaRec.Quantity__c - ass.Quantity); 
                                 
@@ -999,10 +1229,37 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                                     
                                     
                                     studentANDUserNumber.Asset__c = ass.Id;
-                                    studentANDUserNumber.Type__c = 'User Numbers';
+                                    studentANDUserNumber.Type__c = 'Student Numbers';
                                     studentANDUserNumber.TotalNumber__c = iaRec.Quantity__c;
                                     studentANDUserNumber.StartDate__c = startDate;
                                     studentANDUserNumber.EndDate__c = endDate;
+                                    // apply qty to correct student number category
+                                    switch on iaRec.Hfdstructuur__c {
+                                        when '111', '121'{	
+                                            // Kingergarten
+                                            studentANDUserNumber.KindergartenNumber__c = iaRec.Quantity__c;
+                                        }	
+                                        when '211','221' {		
+                                            // primary
+                                            studentANDUserNumber.PrimaryEducationNumber__c = iaRec.Quantity__c;
+                                        }
+                                        when '311','321','313','314'{
+                                            // secondary education - full time
+                                            studentANDUserNumber.SecondaryEducationNumber__c = iaRec.Quantity__c;
+                                        }
+                                        when '312'{
+                                            // secondary education - part time
+                                            studentANDUserNumber.SecondaryEducationPartTime__c = iaRec.Quantity__c;
+                                        }
+                                        when '411', '511' {		
+                                            // higher
+                                            studentANDUserNumber.HigherEducationNumber__c = iaRec.Quantity__c;
+                                        }
+                                        when else {		  
+                                            // other
+                                            studentANDUserNumber.OtherInstitution__c = iaRec.Quantity__c;
+                                        }
+                                    }
                                     
                                     ass.Quantity = iaRec.Quantity__c;
                                     ass.QuantityStartDate__c = startDate;
@@ -1054,7 +1311,12 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
                     }
                 }
             }
-            update ass;
+
+            if((ass.CancellationDate__c != null && ass.CancellationDate__c <= Date.today() && approved == true)
+            || ass.CancellationDate__c == null){
+                // only update asset if its not cancelled and if cancelled, then only if its approved
+                update ass;
+            }
         }
     } 
     

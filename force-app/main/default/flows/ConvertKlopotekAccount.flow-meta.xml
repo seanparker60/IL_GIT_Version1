@@ -9,89 +9,85 @@
         <assignmentItems>
             <assignToReference>Get_Account.Email__c</assignToReference>
             <operator>Assign</operator>
+            <value>
+                <elementReference>form_update_accEmail</elementReference>
+            </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.ExternalCustomerId__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.SCHNR__c</elementReference>
+                <elementReference>form_update_externalCustID</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.KlopotekNumber__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.SCHNR__c</elementReference>
+                <elementReference>form_update_klopotekNumber</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.Name</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.INSTITUTION__c</elementReference>
+                <elementReference>form_update_accName</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.Phone</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forAccountPhone</elementReference>
+                <elementReference>form_update_accPhone</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.RecordTypeId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forRecordTypeEducational</elementReference>
+                <elementReference>form_update_accRecType</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.ShippingCity</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.CITY__c</elementReference>
+                <elementReference>form_update_accCity</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.ShippingCountry</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Country.COUNTRY_NAME_ENGLISH__c</elementReference>
+                <elementReference>form_update_accCountry</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.ShippingPostalCode</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.POSTAL_CODE__c</elementReference>
+                <elementReference>form_update_accPostalCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.ShippingStreet</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forStreet</elementReference>
+                <elementReference>form_update_accStreet</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.Website</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forWebsite</elementReference>
+                <elementReference>form_update_accWebsite</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Get_Account.Department__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forDepartment</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>Get_Account.ShortCompanyName__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.INSTITUTION__c</elementReference>
+                <elementReference>form_update_accDepartment</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -131,7 +127,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Account__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -146,13 +142,21 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.Inactive__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Get_Account</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>CH 16/05/2023: Enabled updating of accounts</description>
+    <description>CH 16/05/2023: Enabled updating of accounts
+CH 04/08/2023: Removed reference to Short Company Name</description>
     <environments>Default</environments>
     <formulas>
         <name>bValueshaveChanged</name>
@@ -236,7 +240,7 @@ IF(AND(ISBLANK({!$Record.TEL_COUNTRY_PREFIX__c}),ISBLANK({!$Record.TEL_CITY_PREF
     <formulas>
         <name>form_update_accDepartment</name>
         <dataType>String</dataType>
-        <expression>IF(ISBLANK({!forDepartment}), {!$Record__Prior.Account__r.Department__c}, {!forDepartment})</expression>
+        <expression>IF(ISBLANK({!forDepartment}), {!$Record__Prior.Account__r.Department__c}, LEFT({!forDepartment}, 50))</expression>
     </formulas>
     <formulas>
         <name>form_update_accEmail</name>
@@ -544,6 +548,14 @@ IF(LEFT(LOWER({!$Record.URL_COMMUNICATION_NUMBER__c}),4)=&quot;http&quot;,{!$Rec
         <connector>
             <targetReference>Should_Run</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Inactive__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <object>KlopotekAccount__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

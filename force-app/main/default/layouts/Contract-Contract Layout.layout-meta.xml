@@ -56,6 +56,18 @@
                 <behavior>Edit</behavior>
                 <field>FollowUpContract__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OriginalStartDate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OriginalTerm__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>OriginalEndDate__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -89,10 +101,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>ContractType__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>AutoRenewalDate__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -369,6 +377,11 @@
             <actionType>StandardButton</actionType>
             <sortOrder>14</sortOrder>
         </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Contract.UpdateIndexation</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>15</sortOrder>
+        </platformActionListItems>
     </platformActionList>
     <relatedContent>
         <relatedContentItems>
@@ -380,14 +393,17 @@
     </relatedContent>
     <relatedLists>
         <fields>ASSET.NAME</fields>
-        <fields>ASSET.SERIAL_NUMBER</fields>
-        <fields>ASSET.INSTALL_DATE</fields>
-        <fields>ACCOUNT.NAME</fields>
-        <fields>CONTACT.NAME</fields>
-        <fields>PRODUCT2.NAME</fields>
+        <fields>ActivationDate__c</fields>
+        <fields>EndDate__c</fields>
         <fields>ASSET.QUANTITY</fields>
-        <fields>NumberofActiveUsers__c</fields>
+        <fields>ListPrice__c</fields>
+        <fields>DiscountedPrice__c</fields>
+        <fields>ASSET.PRICE</fields>
+        <fields>Reference__c</fields>
+        <fields>IsActive__c</fields>
         <relatedList>Asset.Contract__c</relatedList>
+        <sortField>IsActive__c</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
@@ -401,6 +417,13 @@
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedApprovalList</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>OPPORTUNITY.NAME</fields>
+        <fields>OPPORTUNITY.STAGE_NAME</fields>
+        <fields>OPPORTUNITY.AMOUNT</fields>
+        <fields>OPPORTUNITY.CLOSE_DATE</fields>
+        <relatedList>RelatedOpportunityList</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedEntityHistoryList</relatedList>

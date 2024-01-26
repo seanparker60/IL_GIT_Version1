@@ -45,7 +45,10 @@
             <label>Account</label>
         </rules>
     </decisions>
-    <description>This is a screen flow used to show the error message text of a record if there is any errors to display</description>
+    <description>This is a screen flow used to show the error message text of a record if there is any errors to display
+
+CH 31/07/2023: Added validation for account name
+CH 09/11/2023: Added validation for first name/last name</description>
     <environments>Default</environments>
     <interviewLabel>Error Message Flow Screen {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Error Message Flow Screen</label>
@@ -99,8 +102,67 @@
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <fields>
+            <name>Validate_NameMaxChars</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;The Account Name is too long. The maximum number of characters is 83.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Account.Validate_NameMaxCharacters__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ValidatePackingSlipLiber</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;The Packing Slip Name Name is too long. The maximum number of characters is 83.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Account.OperatingCompany__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>Liber</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Account.Validate_PackingSlipNameMaxCharacter__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ValidatePackingSlipNonLiber</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;The Packing Slip Name Name is too long. The maximum number of characters is 45.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Account.OperatingCompany__c</leftValueReference>
+                    <operator>NotEqualTo</operator>
+                    <rightValue>
+                        <stringValue>Liber</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Account.Validate_PackingSlipNameMaxCharacter__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
             <name>AccountMissingInfoText</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;This account is missing key information. No new orders can be created for this account until the required values have been captured.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;This account is missing key information. No new orders can be created for this account until the required values have been captured.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>1</conditionLogic>
@@ -130,12 +192,27 @@
         </fields>
         <fields>
             <name>ValidateStudentNum</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;The Number of Students for this account needs to be filled out.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;The Number of Students for this account needs to be filled out.&lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
                     <leftValueReference>Get_Account.Validate_Student_Numbers__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>ValidateFirstNameLastName</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(255, 0, 0); font-size: 14px;&quot;&gt;Please ensure that both the First Name and Last Name is filled out for this account.&lt;/strong&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Account.ValidateFirstNameLastName__c</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
@@ -181,36 +258,6 @@
                 <conditionLogic>and</conditionLogic>
                 <conditions>
                     <leftValueReference>Get_Account.Validate_Invoicing_Frequency__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>ValidateShortCompanyName</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 14px; color: rgb(255, 0, 0);&quot;&gt;The Short Company Name for this account is too long.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Get_Account.Validate_Short_Company_Name__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>ValidateShortNameAgainstAccName</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(97, 173, 3); font-size: 14px;&quot;&gt;Note:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;color: rgb(97, 173, 3); font-size: 14px;&quot;&gt;The Short Company Name is different to the Account Name. This will not block anything and is just for informational purposes.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Get_Account.ValidateShortNameAgainstAccName__c</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
@@ -448,6 +495,13 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
+                    <leftValueReference>Get_Account.DefaultBillto__c</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
                     <leftValueReference>Get_Account.DefaultBillto__r.ValidateErrors__c</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
@@ -463,29 +517,14 @@
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
                 <conditions>
+                    <leftValueReference>Get_Account.DefaultShipTo__c</leftValueReference>
+                    <operator>IsNull</operator>
+                    <rightValue>
+                        <booleanValue>false</booleanValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
                     <leftValueReference>Get_Account.DefaultShipTo__r.ValidateErrors__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <booleanValue>true</booleanValue>
-                    </rightValue>
-                </conditions>
-                <conditions>
-                    <leftValueReference>Get_Account.OperatingCompany__c</leftValueReference>
-                    <operator>EqualTo</operator>
-                    <rightValue>
-                        <stringValue>Plantyn</stringValue>
-                    </rightValue>
-                </conditions>
-            </visibilityRule>
-        </fields>
-        <fields>
-            <name>ValidatePhoneNum</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 15px; color: rgb(250, 0, 0); background-color: rgb(248, 248, 248); font-family: Slack-Lato, appleLogo, sans-serif;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 15px; color: rgb(250, 0, 0); background-color: rgb(248, 248, 248); font-family: Slack-Lato, appleLogo, sans-serif;&quot;&gt;﻿This account has an invalid phone number. Phone numbers must be a minimum of 7 digits long, and a maximum of 10 digits long.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
-            <visibilityRule>
-                <conditionLogic>and</conditionLogic>
-                <conditions>
-                    <leftValueReference>Get_Account.Validate_Phone__c</leftValueReference>
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
@@ -525,7 +564,7 @@
         </fields>
         <fields>
             <name>ValidateLegalName</name>
-            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 15px; color: rgb(250, 0, 0); background-color: rgb(248, 248, 248); font-family: Slack-Lato, appleLogo, sans-serif;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 15px; color: rgb(250, 0, 0); background-color: rgb(248, 248, 248); font-family: Slack-Lato, appleLogo, sans-serif;&quot;&gt;﻿This account does not have a legal name. &lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-family: Slack-Lato, appleLogo, sans-serif; background-color: rgb(248, 248, 248); color: rgb(250, 0, 0); font-size: 15px;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-family: Slack-Lato, appleLogo, sans-serif; background-color: rgb(248, 248, 248); color: rgb(250, 0, 0); font-size: 15px;&quot;&gt;﻿This account does not have a legal name. &lt;/strong&gt;&lt;/p&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
             <visibilityRule>
                 <conditionLogic>and</conditionLogic>
@@ -534,6 +573,28 @@
                     <operator>EqualTo</operator>
                     <rightValue>
                         <booleanValue>true</booleanValue>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>PendingInactive_Inactive</name>
+            <fieldText>&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 15px; color: rgb(250, 0, 0); background-color: rgb(248, 248, 248); font-family: Slack-Lato, appleLogo, sans-serif;&quot;&gt;Warning:&lt;/strong&gt;&lt;/p&gt;&lt;p style=&quot;text-align: center;&quot;&gt;&lt;strong style=&quot;font-size: 15px; color: rgb(250, 0, 0); background-color: rgb(248, 248, 248); font-family: Slack-Lato, appleLogo, sans-serif;&quot;&gt;﻿This account is either deactivated or is pending deactivation.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <visibilityRule>
+                <conditionLogic>or</conditionLogic>
+                <conditions>
+                    <leftValueReference>Get_Account.Status__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>Pending Inactive</stringValue>
+                    </rightValue>
+                </conditions>
+                <conditions>
+                    <leftValueReference>Get_Account.Status__c</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <stringValue>Inactive</stringValue>
                     </rightValue>
                 </conditions>
             </visibilityRule>

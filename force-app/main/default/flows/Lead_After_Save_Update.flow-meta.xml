@@ -5,7 +5,7 @@
         <name>Add_interaction_to_list_to_update</name>
         <label>Add interaction to list to update</label>
         <locationX>270</locationX>
-        <locationY>1511</locationY>
+        <locationY>1379</locationY>
         <assignmentItems>
             <assignToReference>InteractionsToUpdate</assignToReference>
             <operator>Add</operator>
@@ -21,7 +21,7 @@
         <name>Set_Opportunity_on_Interaction</name>
         <label>Set Opportunity on Interaction</label>
         <locationX>270</locationX>
-        <locationY>1391</locationY>
+        <locationY>1271</locationY>
         <assignmentItems>
             <assignToReference>Iterate_through_each_interaction.Opportunity__c</assignToReference>
             <operator>Assign</operator>
@@ -37,7 +37,7 @@
         <name>Are_there_interactions_to_update</name>
         <label>Are there interactions to update?</label>
         <locationX>182</locationX>
-        <locationY>1823</locationY>
+        <locationY>1655</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes_UpdateInteractions</name>
@@ -59,7 +59,7 @@
         <name>Does_the_opportunity_need_to_be_set_on_the_interaction</name>
         <label>Does the opportunity need to be set on the interaction?</label>
         <locationX>402</locationX>
-        <locationY>1271</locationY>
+        <locationY>1163</locationY>
         <defaultConnector>
             <targetReference>Iterate_through_each_interaction</targetReference>
         </defaultConnector>
@@ -90,8 +90,8 @@
     <decisions>
         <name>Modify_Interact_with_Lead</name>
         <label>Modify/Interact with Lead</label>
-        <locationX>644</locationX>
-        <locationY>455</locationY>
+        <locationX>908</locationX>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Set_Opportunity_Date</name>
@@ -187,12 +187,56 @@
             </connector>
             <label>Auto Convert</label>
         </rules>
+        <rules>
+            <name>test</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.IsConverted</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update</targetReference>
+            </connector>
+            <label>test</label>
+        </rules>
+        <rules>
+            <name>Set_No_Students</name>
+            <conditionLogic>1 OR (2 AND 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Account__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>IsNew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Account__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>get_Account_Data</targetReference>
+            </connector>
+            <label>Set No Students</label>
+        </rules>
     </decisions>
     <decisions>
         <name>Needs_to_update_opportunity_on_lead</name>
         <label>Needs to update opportunity on lead</label>
         <locationX>182</locationX>
-        <locationY>695</locationY>
+        <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Get_Lead_Interactions</targetReference>
         </defaultConnector>
@@ -220,7 +264,8 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>15/03/2023 DB: Added Get Lead query to reduce Lead queries in subflows
+    <description>12/06/2023 JK: Addes Calculation of Number of Students (Taken from Account)
+15/03/2023 DB: Added Get Lead query to reduce Lead queries in subflows
 16/02/2023 CH: Added logic to set missing Opp on Lead and Interactions</description>
     <environments>Default</environments>
     <formulas>
@@ -235,6 +280,11 @@
         DATE(Year(TODAY())+1,07,31)
     )
 )</expression>
+    </formulas>
+    <formulas>
+        <name>IsNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
     </formulas>
     <formulas>
         <name>LeadInteractionFormula</name>
@@ -255,7 +305,7 @@ ISCHANGED({!$Record.Message__c})
         <name>Iterate_through_each_interaction</name>
         <label>Iterate through each interaction</label>
         <locationX>182</locationX>
-        <locationY>1151</locationY>
+        <locationY>1055</locationY>
         <collectionReference>Get_Lead_Interactions</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -285,10 +335,31 @@ ISCHANGED({!$Record.Message__c})
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordLookups>
+        <name>get_Account_Data</name>
+        <label>get Account Data</label>
+        <locationX>1370</locationX>
+        <locationY>539</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_Number_of_Students</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Account__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>Get_Lead_Interactions</name>
         <label>Get Lead Interactions</label>
         <locationX>182</locationX>
-        <locationY>1031</locationY>
+        <locationY>947</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Iterate_through_each_interaction</targetReference>
@@ -315,8 +386,8 @@ ISCHANGED({!$Record.Message__c})
     <recordLookups>
         <name>Get_Lead_Record</name>
         <label>Get Lead Record</label>
-        <locationX>644</locationX>
-        <locationY>335</locationY>
+        <locationX>908</locationX>
+        <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Modify_Interact_with_Lead</targetReference>
@@ -334,10 +405,46 @@ ISCHANGED({!$Record.Message__c})
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
+        <name>Set_Number_of_Students</name>
+        <label>Set Number of Students</label>
+        <locationX>1370</locationX>
+        <locationY>647</locationY>
+        <inputAssignments>
+            <field>NumberOfEmployees</field>
+            <value>
+                <elementReference>get_Account_Data.NumberofStudents__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update</name>
+        <label>Update</label>
+        <locationX>1106</locationX>
+        <locationY>539</locationY>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Modify_Interact_with_Lead</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Opportunity__c</field>
+            <value>
+                <elementReference>$Record.ConvertedOpportunityId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Converted</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
         <name>Update_Converted_LeadOpportunity</name>
         <label>Update Converted LeadOpportunity</label>
         <locationX>182</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <connector>
             <targetReference>Needs_to_update_opportunity_on_lead</targetReference>
         </connector>
@@ -368,14 +475,14 @@ ISCHANGED({!$Record.Message__c})
         <name>Update_Interactions</name>
         <label>Update Interactions</label>
         <locationX>50</locationX>
-        <locationY>1943</locationY>
+        <locationY>1763</locationY>
         <inputReference>InteractionsToUpdate</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Lead</name>
         <label>Update Lead</label>
         <locationX>50</locationX>
-        <locationY>815</locationY>
+        <locationY>755</locationY>
         <connector>
             <targetReference>Get_Lead_Interactions</targetReference>
         </connector>
@@ -388,7 +495,7 @@ ISCHANGED({!$Record.Message__c})
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>518</locationX>
+        <locationX>782</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Lead_Record</targetReference>
@@ -397,12 +504,12 @@ ISCHANGED({!$Record.Message__c})
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Active</status>
+    <status>Obsolete</status>
     <subflows>
         <name>Auto_Convert_Flow</name>
         <label>Auto Convert Flow</label>
         <locationX>842</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Modify_Interact_with_Lead</targetReference>
@@ -419,7 +526,7 @@ ISCHANGED({!$Record.Message__c})
         <name>Interaction_Lead_Flow</name>
         <label>Interaction Lead Flow</label>
         <locationX>578</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Modify_Interact_with_Lead</targetReference>

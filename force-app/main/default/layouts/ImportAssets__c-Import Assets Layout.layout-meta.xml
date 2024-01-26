@@ -66,6 +66,14 @@
                 <field>Asset__c</field>
             </layoutItems>
             <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>AssetID__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ShipToAccount__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Error__c</field>
             </layoutItems>
@@ -80,6 +88,10 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>TriggerBusinessRules__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Wasnotinimport__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -121,6 +133,9 @@
         <layoutColumns/>
         <style>CustomLinks</style>
     </layoutSections>
+    <relatedLists>
+        <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>
         <fields>TASK.WHO_NAME</fields>

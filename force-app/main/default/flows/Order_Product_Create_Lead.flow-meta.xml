@@ -5,7 +5,7 @@
         <name>Copy_1_of_Set_Campaign</name>
         <label>Copy 1 of Set Campaign</label>
         <locationX>314</locationX>
-        <locationY>935</locationY>
+        <locationY>863</locationY>
         <assignmentItems>
             <assignToReference>CampaignRec</assignToReference>
             <operator>Assign</operator>
@@ -21,7 +21,7 @@
         <name>Set_Campaign</name>
         <label>Set Campaign</label>
         <locationX>50</locationX>
-        <locationY>815</locationY>
+        <locationY>755</locationY>
         <assignmentItems>
             <assignToReference>CampaignRec</assignToReference>
             <operator>Assign</operator>
@@ -37,7 +37,7 @@
         <name>Campaign_Exists</name>
         <label>Campaign Exists?</label>
         <locationX>182</locationX>
-        <locationY>695</locationY>
+        <locationY>647</locationY>
         <defaultConnector>
             <targetReference>Get_Relevant_Campaign_2</targetReference>
         </defaultConnector>
@@ -62,7 +62,7 @@
         <name>Has_Necessary_Fields</name>
         <label>Has Necessary Fields</label>
         <locationX>380</locationX>
-        <locationY>455</locationY>
+        <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>YesContinue</name>
@@ -98,7 +98,7 @@
         <name>Proceed</name>
         <label>Proceed?</label>
         <locationX>611</locationX>
-        <locationY>335</locationY>
+        <locationY>323</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -188,7 +188,7 @@ Else blank</description>
         <name>Create_Lead</name>
         <label>Create Lead</label>
         <locationX>182</locationX>
-        <locationY>1151</locationY>
+        <locationY>1055</locationY>
         <connector>
             <targetReference>Update_Order_Product</targetReference>
         </connector>
@@ -219,7 +219,7 @@ Else blank</description>
         <inputAssignments>
             <field>Company</field>
             <value>
-                <elementReference>$Record.Order.Account.concatenatedLegalName__c</elementReference>
+                <elementReference>$Record.Order.Account.Name</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -331,7 +331,7 @@ Else blank</description>
         <name>Get_Relevant_Campaign</name>
         <label>Get Relevant Campaign</label>
         <locationX>182</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Campaign_Exists</targetReference>
@@ -352,7 +352,7 @@ Else blank</description>
         <name>Get_Relevant_Campaign_2</name>
         <label>Get Relevant Campaign</label>
         <locationX>314</locationX>
-        <locationY>815</locationY>
+        <locationY>755</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Copy_1_of_Set_Campaign</targetReference>
@@ -373,7 +373,7 @@ Else blank</description>
         <name>Update_Order_Product</name>
         <label>Update Order Product</label>
         <locationX>182</locationX>
-        <locationY>1271</locationY>
+        <locationY>1163</locationY>
         <inputAssignments>
             <field>Lead__c</field>
             <value>

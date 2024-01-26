@@ -141,7 +141,9 @@
     <description>Flow to update accounts whenever subsidiary field Blocked is updated from Netsuite. Launched from general account subsidiary process builder.
 WK - 20210526 Downgraded the API version from 52 to 51 due to incompatibility issues with other orgs.
 WK - 20210615 Updated the IsUpdateNeeded decision to only update if varblocked is true.
-JK - 20211015 Updated to also update the Payment Method on Account</description>
+JK - 20211015 Updated to also update the Payment Method on Account
+CH - 20231123: Only update the account if the account subsidiary is the primary account subsidiary</description>
+    <environments>Default</environments>
     <interviewLabel>Update Block on Account {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update Block on Account</label>
     <loops>
@@ -244,6 +246,13 @@ JK - 20211015 Updated to also update the Payment Method on Account</description>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>getSubsidiaryRecordDetails.Account__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Account_Subsidiary__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varAccountSubsidiaryID</elementReference>
             </value>
         </filters>
         <inputAssignments>

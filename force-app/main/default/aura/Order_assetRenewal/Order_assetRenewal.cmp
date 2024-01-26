@@ -8,7 +8,6 @@
             <Br/>
              
                 <ui:button label="Renew Assets" press="{!c.RunRenewAsset}"/>
-
                    
         </div>
         

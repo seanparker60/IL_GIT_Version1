@@ -4,7 +4,7 @@
         <name>IL_LeadConversion</name>
         <label>IL_LeadConversion</label>
         <locationX>1634</locationX>
-        <locationY>1430</locationY>
+        <locationY>1790</locationY>
         <actionName>IL_LeadConversion</actionName>
         <actionType>apex</actionType>
         <connector>
@@ -35,7 +35,7 @@
         <name>AccountAssignment</name>
         <label>Account Assignment</label>
         <locationX>1722</locationX>
-        <locationY>1670</locationY>
+        <locationY>2006</locationY>
         <assignmentItems>
             <assignToReference>sov_ConvertAccount</assignToReference>
             <operator>Assign</operator>
@@ -51,7 +51,7 @@
         <name>AddVariabletoCollection</name>
         <label>AddVariabletoCollection</label>
         <locationX>1634</locationX>
-        <locationY>1310</locationY>
+        <locationY>1682</locationY>
         <assignmentItems>
             <assignToReference>soc_Leads</assignToReference>
             <operator>Add</operator>
@@ -64,10 +64,33 @@
         </connector>
     </assignments>
     <assignments>
+        <name>Assign_Opportunity_to_Lead</name>
+        <label>Assign Opportunity to Lead</label>
+        <locationX>1700</locationX>
+        <locationY>1274</locationY>
+        <assignmentItems>
+            <assignToReference>sov_Lead.Opportunity__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_CreatedOpportunity</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>sov_Lead.AutoConvertOpportunityMatchStatus__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Success</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>IsLeadReadyToConvert</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>AssignContactToLead</name>
         <label>Assign Contact to Lead</label>
         <locationX>1502</locationX>
-        <locationY>854</locationY>
+        <locationY>866</locationY>
         <assignmentItems>
             <assignToReference>sov_Lead.Contact__c</assignToReference>
             <operator>Assign</operator>
@@ -83,14 +106,14 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>IsLeadReadyToConvert</targetReference>
+            <targetReference>Auto_convert_create_Opportunity</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>AssignError</name>
         <label>Assign Error</label>
         <locationX>2030</locationX>
-        <locationY>1190</locationY>
+        <locationY>1574</locationY>
         <assignmentItems>
             <assignToReference>sov_Lead.AutoConvertError__c</assignToReference>
             <operator>Assign</operator>
@@ -113,7 +136,7 @@
         <name>ContactAssignment</name>
         <label>Contact Assignment</label>
         <locationX>1722</locationX>
-        <locationY>2006</locationY>
+        <locationY>2306</locationY>
         <assignmentItems>
             <assignToReference>sov_ConvertContact</assignToReference>
             <operator>Assign</operator>
@@ -129,7 +152,7 @@
         <name>OpportunityAssignment</name>
         <label>Opportunity Assignment</label>
         <locationX>1722</locationX>
-        <locationY>2342</locationY>
+        <locationY>2606</locationY>
         <assignmentItems>
             <assignToReference>sov_ConvertOpportunity</assignToReference>
             <operator>Assign</operator>
@@ -142,12 +165,44 @@
         </connector>
     </assignments>
     <decisions>
+        <name>Auto_convert_create_Opportunity</name>
+        <label>Auto convert create Opportunity</label>
+        <locationX>1832</locationX>
+        <locationY>1058</locationY>
+        <defaultConnector>
+            <targetReference>IsLeadReadyToConvert</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>CreateOpportunity</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>sov_Lead.Opportunity__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_Lead.AutoConvertCreateOpportunity__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Opportunity</targetReference>
+            </connector>
+            <label>Create Opportunity</label>
+        </rules>
+    </decisions>
+    <decisions>
         <name>AutoConvertCreateContact</name>
         <label>Auto convert create Contact?</label>
         <locationX>1832</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <defaultConnector>
-            <targetReference>IsLeadReadyToConvert</targetReference>
+            <targetReference>Auto_convert_create_Opportunity</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -213,7 +268,7 @@
         <name>DoesAccountContactRelationshipExist</name>
         <label>Does Account Contact Relationship exist?</label>
         <locationX>1634</locationX>
-        <locationY>2678</locationY>
+        <locationY>2906</locationY>
         <defaultConnector>
             <targetReference>UpdatePrivacyPermissionAfterConvert</targetReference>
         </defaultConnector>
@@ -252,7 +307,7 @@
         <name>Is_Lead_NH_Professional</name>
         <label>Is Lead NH Professional?</label>
         <locationX>1634</locationX>
-        <locationY>3374</locationY>
+        <locationY>3530</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>YesNHProf</name>
@@ -274,7 +329,7 @@
         <name>IsLeadReadyToConvert</name>
         <label>Is Lead ready to convert?</label>
         <locationX>1832</locationX>
-        <locationY>1070</locationY>
+        <locationY>1466</locationY>
         <defaultConnector>
             <targetReference>AssignError</targetReference>
         </defaultConnector>
@@ -313,7 +368,7 @@
         <name>Match</name>
         <label>Match</label>
         <locationX>1194</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Account</name>
@@ -501,7 +556,7 @@
         <name>Should_contact_be_NH_Prof</name>
         <label>Should contact be NH Prof?</label>
         <locationX>1502</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <defaultConnector>
             <targetReference>Create_Contact</targetReference>
         </defaultConnector>
@@ -517,7 +572,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Copy_1_of_Create_Contact</targetReference>
+                <targetReference>Get_Account</targetReference>
             </connector>
             <label>Yes</label>
         </rules>
@@ -526,7 +581,9 @@
 
 15/03/2023 DB: Removed Get Leads element to reduce queries. Lead record is passed in.
                           Update Lead element now in parent flow (Auto Convert). Lead no longer converted per subflow.
-09/03/2023 CH: Updated Lead professional checks</description>
+09/03/2023 CH: Updated Lead professional checks
+16/10/2023 CH: changed contact owner for NH Professional
+24/01/2023: DB update Lead after auto convert (assign converted Opportunity)</description>
     <environments>Default</environments>
     <formulas>
         <name>forLeadConversionAccountLiber</name>
@@ -539,7 +596,8 @@
         <expression>IF(NOT(ISBLANK({!sov_Lead.Account__c})),{!sov_Lead.Account__c},
 IF( ISPICKVAL({!sov_Lead.OperatingCompany__c}, &quot;Plantyn&quot;) , {!$Label.LeadConversionAccountPlantyn} , 
 IF( ISPICKVAL({!sov_Lead.OperatingCompany__c}, &quot;Liber&quot;),{!$Label.LeadConversionAccountLiber} ,
-IF( ISPICKVAL({!sov_Lead.OperatingCompany__c}, &quot;Noordhoff&quot;),{!$Label.LeadConversionAccountNoordhoff} ,&quot;&quot;))))</expression>
+IF( ISPICKVAL({!sov_Lead.OperatingCompany__c}, &quot;Noordhoff Professional&quot;),{!$Label.LeadConversionAccountNHProfessional} ,
+IF( ISPICKVAL({!sov_Lead.OperatingCompany__c}, &quot;Noordhoff&quot;),{!$Label.LeadConversionAccountNoordhoff} ,&quot;&quot;)))))</expression>
     </formulas>
     <formulas>
         <name>form_Error</name>
@@ -554,7 +612,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>Loop_Accounts</name>
         <label>Loop Accounts</label>
         <locationX>1634</locationX>
-        <locationY>1550</locationY>
+        <locationY>1898</locationY>
         <collectionReference>soc_Accounts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -568,7 +626,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>Loop_Contacs</name>
         <label>Loop Contacs</label>
         <locationX>1634</locationX>
-        <locationY>1886</locationY>
+        <locationY>2198</locationY>
         <collectionReference>soc_Contacts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -582,7 +640,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>Loop_Opportunities</name>
         <label>Loop Opportunities</label>
         <locationX>1634</locationX>
-        <locationY>2222</locationY>
+        <locationY>2498</locationY>
         <collectionReference>soc_Opportunities</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -615,7 +673,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>Copy_1_of_Create_Contact</name>
         <label>Create Contact</label>
         <locationX>1370</locationX>
-        <locationY>638</locationY>
+        <locationY>674</locationY>
         <assignRecordIdToReference>var_CreatedContact</assignRecordIdToReference>
         <connector>
             <targetReference>AssignContactToLead</targetReference>
@@ -665,7 +723,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <inputAssignments>
             <field>OwnerId</field>
             <value>
-                <elementReference>sov_Lead.OwnerId</elementReference>
+                <elementReference>Get_Account.Owner.Id</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>
@@ -674,7 +732,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>Create_Contact</name>
         <label>Create Contact</label>
         <locationX>1634</locationX>
-        <locationY>638</locationY>
+        <locationY>566</locationY>
         <assignRecordIdToReference>var_CreatedContact</assignRecordIdToReference>
         <connector>
             <targetReference>AssignContactToLead</targetReference>
@@ -710,6 +768,36 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>MailingCity</field>
+            <value>
+                <elementReference>sov_Lead.City</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MailingCountryCode</field>
+            <value>
+                <elementReference>sov_Lead.CountryCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MailingPostalCode</field>
+            <value>
+                <elementReference>sov_Lead.PostalCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MailingState</field>
+            <value>
+                <elementReference>sov_Lead.State</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MailingStreet</field>
+            <value>
+                <elementReference>sov_Lead.Street</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>MiddleName</field>
             <value>
                 <elementReference>sov_Lead.MiddleName</elementReference>
@@ -722,6 +810,30 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>OtherCity</field>
+            <value>
+                <elementReference>sov_Lead.PrivateAddress__City__s</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OtherCountryCode</field>
+            <value>
+                <elementReference>sov_Lead.PrivateAddress__CountryCode__s</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OtherPostalCode</field>
+            <value>
+                <elementReference>sov_Lead.PrivateAddress__PostalCode__s</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OtherStreet</field>
+            <value>
+                <elementReference>sov_Lead.PrivateAddress__Street__s</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>OwnerId</field>
             <value>
                 <elementReference>sov_Lead.OwnerId</elementReference>
@@ -730,10 +842,21 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <object>Contact</object>
     </recordCreates>
     <recordCreates>
+        <name>Create_Opportunity</name>
+        <label>Create Opportunity</label>
+        <locationX>1700</locationX>
+        <locationY>1166</locationY>
+        <assignRecordIdToReference>var_CreatedOpportunity</assignRecordIdToReference>
+        <connector>
+            <targetReference>Assign_Opportunity_to_Lead</targetReference>
+        </connector>
+        <object>Opportunity</object>
+    </recordCreates>
+    <recordCreates>
         <name>CreateAccountContactRelationship</name>
         <label>Create Account Contact Relationship</label>
         <locationX>1502</locationX>
-        <locationY>2918</locationY>
+        <locationY>3122</locationY>
         <connector>
             <targetReference>UpdatePrivacyPermissionAfterConvert</targetReference>
         </connector>
@@ -765,10 +888,31 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordCreates>
     <recordLookups>
+        <name>Get_Account</name>
+        <label>Get Account</label>
+        <locationX>1370</locationX>
+        <locationY>566</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Copy_1_of_Create_Contact</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_AccountId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
         <name>GetAccountContactRelationship</name>
         <label>Get Account Contact Relationship</label>
         <locationX>1634</locationX>
-        <locationY>2558</locationY>
+        <locationY>2798</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>DoesAccountContactRelationshipExist</targetReference>
@@ -796,7 +940,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>GetContact</name>
         <label>Get Contact</label>
         <locationX>1832</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>AutoConvertCreateContact</targetReference>
@@ -817,7 +961,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>GetConvertedAccount</name>
         <label>Get Converted Account</label>
         <locationX>1502</locationX>
-        <locationY>2798</locationY>
+        <locationY>3014</locationY>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>CreateAccountContactRelationship</targetReference>
@@ -839,9 +983,9 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>updateContactAccount</name>
         <label>Update Contact Account</label>
         <locationX>1898</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <connector>
-            <targetReference>IsLeadReadyToConvert</targetReference>
+            <targetReference>Auto_convert_create_Opportunity</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -863,7 +1007,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>UpdateLeadAfterMatching</name>
         <label>Update Lead after matching</label>
         <locationX>2030</locationX>
-        <locationY>1310</locationY>
+        <locationY>1682</locationY>
         <connector>
             <targetReference>UpdatePrivacyPermissionAfterMatching</targetReference>
         </connector>
@@ -873,7 +1017,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>UpdateLeadBeforeConvert</name>
         <label>Update Lead before convert</label>
         <locationX>1634</locationX>
-        <locationY>1190</locationY>
+        <locationY>1574</locationY>
         <connector>
             <targetReference>AddVariabletoCollection</targetReference>
         </connector>
@@ -883,7 +1027,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>UpdatePrivacyPermissionAfterConvert</name>
         <label>Update Privacy Permission after convert</label>
         <locationX>1634</locationX>
-        <locationY>3134</locationY>
+        <locationY>3314</locationY>
         <connector>
             <targetReference>UpdateInteractionAfterConvert</targetReference>
         </connector>
@@ -907,7 +1051,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>UpdatePrivacyPermissionAfterMatching</name>
         <label>Update Privacy Permission after matching</label>
         <locationX>2030</locationX>
-        <locationY>1430</locationY>
+        <locationY>1790</locationY>
         <connector>
             <targetReference>UpdateInteractionAfterMatching</targetReference>
         </connector>
@@ -934,12 +1078,12 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
             <targetReference>Match</targetReference>
         </connector>
     </start>
-    <status>Active</status>
+    <status>Draft</status>
     <subflows>
         <name>Auto_Convert_Post_Processing</name>
         <label>Auto Convert Post Processing</label>
         <locationX>1502</locationX>
-        <locationY>3494</locationY>
+        <locationY>3638</locationY>
         <flowName>Auto_Convert_Post_Processing</flowName>
         <inputAssignments>
             <name>comingFromAutoConvert</name>
@@ -958,7 +1102,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>MatchAccount</name>
         <label>Match Account</label>
         <locationX>50</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Match</targetReference>
@@ -979,7 +1123,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>MatchCampaign</name>
         <label>Match Campaign</label>
         <locationX>578</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Match</targetReference>
@@ -1000,7 +1144,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>MatchContact</name>
         <label>Match Contact</label>
         <locationX>314</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Match</targetReference>
@@ -1021,7 +1165,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>MatchLeadsToOpportunity</name>
         <label>Match Leads To Opportunity</label>
         <locationX>1106</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Match</targetReference>
@@ -1042,7 +1186,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>MatchProduct</name>
         <label>Match Leads To Product</label>
         <locationX>842</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <connector>
             <isGoTo>true</isGoTo>
             <targetReference>Match</targetReference>
@@ -1063,7 +1207,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>UpdateInteractionAfterConvert</name>
         <label>Update Interaction after convert</label>
         <locationX>1634</locationX>
-        <locationY>3254</locationY>
+        <locationY>3422</locationY>
         <connector>
             <targetReference>Is_Lead_NH_Professional</targetReference>
         </connector>
@@ -1097,7 +1241,7 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
         <name>UpdateInteractionAfterMatching</name>
         <label>Update Interaction after matching</label>
         <locationX>2030</locationX>
-        <locationY>1550</locationY>
+        <locationY>1898</locationY>
         <flowName>InteractionLead</flowName>
         <inputAssignments>
             <name>sov_Lead</name>
@@ -1188,6 +1332,13 @@ IF(AND(NOT(ISNULL({!sov_Lead.Account__c})),ISNULL({!sov_Lead.Contact__c})),&quot
     </variables>
     <variables>
         <name>var_CreatedContact</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>var_CreatedOpportunity</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>false</isInput>

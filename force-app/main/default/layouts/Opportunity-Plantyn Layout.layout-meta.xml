@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customButtons>Update_References</customButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -171,6 +172,33 @@
     <layoutSections>
         <customLabel>true</customLabel>
         <detailHeading>true</detailHeading>
+        <editHeading>true</editHeading>
+        <label>Scoring</label>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OpportunityScore__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>WeightedScore__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OpportunityRank__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>OpportunityTraction__c</field>
+            </layoutItems>
+        </layoutColumns>
+        <style>TwoColumnsTopToBottom</style>
+    </layoutSections>
+    <layoutSections>
+        <customLabel>true</customLabel>
+        <detailHeading>true</detailHeading>
         <editHeading>false</editHeading>
         <label>System Information</label>
         <layoutColumns>
@@ -231,11 +259,6 @@
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
-        <excludeButtons>AddProduct</excludeButtons>
-        <excludeButtons>ChoosePricebook</excludeButtons>
-        <excludeButtons>EditAllProduct</excludeButtons>
-        <excludeButtons>MultiAdd</excludeButtons>
-        <excludeButtons>MultiEdit</excludeButtons>
         <fields>Product2</fields>
         <fields>PackageType__c</fields>
         <fields>ListPrice</fields>

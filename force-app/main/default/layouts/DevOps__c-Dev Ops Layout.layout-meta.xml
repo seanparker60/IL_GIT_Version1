@@ -64,6 +64,10 @@
                 <behavior>Edit</behavior>
                 <field>UserStory__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Testing_Team__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

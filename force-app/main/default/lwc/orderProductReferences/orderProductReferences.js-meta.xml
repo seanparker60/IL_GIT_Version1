@@ -12,6 +12,12 @@
              <property name="orderId" label="orderId" type="String" role="inputOnly"/>
              <property name="referenceMax" label="referenceMax" type="String" role="inputOnly"/>
              <property name="lstRecords" type="@salesforce/schema/OrderItem[]" label="Order Products"></property>
+             <property
+                name="objectApiName"
+                type="String"
+                label="Object Name"
+                description="Pass the page's object name to the component variable"
+                default="{!objectApiName}" />
          </targetConfig>
   </targetConfigs>
 </LightningComponentBundle>

@@ -239,6 +239,13 @@
                 <elementReference>loopAddOpportunityItems.NetSalesPriceItemGroup__c</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>singleOrderItem.CustomerReference__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>loopAddOpportunityItems.CustomerReference__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>decContractTerms</targetReference>
         </connector>
@@ -515,6 +522,20 @@
                 <elementReference>varContractTerms</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getContract.OriginalStartDate__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>startDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>getContract.OriginalTerm__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>varContractTerms</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>decIsProfessional</targetReference>
         </connector>
@@ -776,6 +797,25 @@
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
+            <name>Professional_MBO_HBO_User</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>frmCheckPricebook</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Noordhoff Professional MBO HBO Sales User</stringValue>
+                </rightValue>
+            </conditions>
+            <label>Professional MBO/HBO User</label>
+        </rules>
+        <rules>
             <name>IsProfessionalOrder_0</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
@@ -840,7 +880,8 @@
     </decisions>
     <description>CH 25/04/2023 - Added reference assignment
 DB 30/05/2023 - Updated entry criteria to only allow NH Professional Opportunities to trigger the process
-DB 30/05/2023 - Updated BillTo assignment if there&apos;s a default on the Account</description>
+DB 30/05/2023 - Updated BillTo assignment if there&apos;s a default on the Account
+DB 12/06/2023 - Added CustomerRef assignment for order item</description>
     <environments>Default</environments>
     <formulas>
         <name>BypassValidationToggleFormula</name>

@@ -89,16 +89,28 @@
                 <field>DeliveryPhone__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>BilltoName__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>ShiptoName__c</field>
+                <behavior>Edit</behavior>
+                <field>Hfdstructuur__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Hfdstructuur__c</field>
+                <field>ConsultancyProjectStarted__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>BillingHouseNumber__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ValidateIGComponentMismatch__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>TriggerBusinessRulesRetries__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IGComponentMismatch__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -546,10 +558,9 @@
         <fields>Product2</fields>
         <fields>ProductType__c</fields>
         <fields>Quantity</fields>
+        <fields>ListPrice</fields>
+        <fields>DiscountedPrice__c</fields>
         <fields>UnitPrice</fields>
-        <fields>Discount__c</fields>
-        <fields>ManualDiscountPercent__c</fields>
-        <fields>ShipToAccount__c</fields>
         <fields>OrderLineType__c</fields>
         <fields>ProductEAN__c</fields>
         <fields>CustomerReference__c</fields>

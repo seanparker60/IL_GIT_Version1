@@ -5,7 +5,7 @@
         <name>assignCreditLimitNotReached</name>
         <label>assignCreditLimitNotReached</label>
         <locationX>666</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>varCreditLimitReached</assignToReference>
             <operator>Assign</operator>
@@ -21,7 +21,7 @@
         <name>assignCreditLimitReached_2</name>
         <label>assignCreditLimitReached</label>
         <locationX>754</locationX>
-        <locationY>878</locationY>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>varCreditLimitReached</assignToReference>
             <operator>Assign</operator>
@@ -37,7 +37,7 @@
         <name>assignCreditLimitReachted</name>
         <label>assignCreditLimitReachted</label>
         <locationX>50</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>varCreditLimitReached</assignToReference>
             <operator>Assign</operator>
@@ -53,7 +53,7 @@
         <name>CreditLimitReached_x</name>
         <label>CreditLimitReached</label>
         <locationX>886</locationX>
-        <locationY>758</locationY>
+        <locationY>674</locationY>
         <defaultConnector>
             <targetReference>loopAccountSubsidiaries</targetReference>
         </defaultConnector>
@@ -78,7 +78,7 @@
         <name>decCreditLimitReached</name>
         <label>decCreditLimitReached</label>
         <locationX>358</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <defaultConnector>
             <targetReference>assignCreditLimitNotReached</targetReference>
         </defaultConnector>
@@ -99,13 +99,15 @@
             <label>CreditLimit Reached</label>
         </rules>
     </decisions>
+    <description>CH 20231123: Only update the account if the account subsidiary is the primary account subsidiary</description>
+    <environments>Default</environments>
     <interviewLabel>Update credit Limit {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Update credit Limit</label>
     <loops>
         <name>loopAccountSubsidiaries</name>
         <label>loopAccountSubsidiaries</label>
         <locationX>666</locationX>
-        <locationY>638</locationY>
+        <locationY>566</locationY>
         <collectionReference>getAllSubsidiaries</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -138,7 +140,7 @@
         <name>getAllSubsidiaries</name>
         <label>getAllSubsidiaries</label>
         <locationX>358</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>decCreditLimitReached</targetReference>
@@ -173,7 +175,7 @@
         <name>getSubsidiaryRecordDetails</name>
         <label>getSubsidiaryRecordDetails</label>
         <locationX>358</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>getAllSubsidiaries</targetReference>
@@ -194,13 +196,20 @@
         <name>updateRelatedAccount</name>
         <label>updateRelatedAccount</label>
         <locationX>358</locationX>
-        <locationY>1286</locationY>
+        <locationY>1142</locationY>
         <filterLogic>and</filterLogic>
         <filters>
             <field>Id</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>getSubsidiaryRecordDetails.Account__c</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Account_Subsidiary__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varAccountSubsidiaryID</elementReference>
             </value>
         </filters>
         <inputAssignments>

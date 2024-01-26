@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>DataDotComAccountInsights</excludeButtons>
-    <excludeButtons>DataDotComClean</excludeButtons>
+    <excludeButtons>DataDotComCompanyHierarchy</excludeButtons>
     <excludeButtons>DisableCustomerPortalAccount</excludeButtons>
     <excludeButtons>DisablePartnerPortalAccount</excludeButtons>
     <excludeButtons>IncludeOffline</excludeButtons>
@@ -23,10 +22,14 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ShortCompanyName__c</field>
+                <field>FullLegalName__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>PackingSlipName__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
                 <field>authorFirstName__c</field>
             </layoutItems>
             <layoutItems>
@@ -34,7 +37,7 @@
                 <field>authorMiddleName__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Required</behavior>
                 <field>authorLastName__c</field>
             </layoutItems>
             <layoutItems>
@@ -56,6 +59,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Test_Picklist__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Kindergarten__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>SEStudentsPartTime__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -87,6 +98,10 @@
                 <behavior>Edit</behavior>
                 <field>UniqueExternalDatabaseNumber__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Status__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -99,14 +114,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Phone</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>PhoneCountry__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Readonly</behavior>
-                <field>PhoneCountryCode__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
@@ -235,7 +242,7 @@
                 <field>billToAttentionOf__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>BillingAddress</field>
             </layoutItems>
             <layoutItems>
@@ -249,7 +256,7 @@
                 <field>shipToAttentionOf__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
+                <behavior>Readonly</behavior>
                 <field>ShippingAddress</field>
             </layoutItems>
             <layoutItems>
@@ -360,18 +367,6 @@
             <quickActionName>NewEvent</quickActionName>
         </quickActionListItems>
     </quickActionList>
-    <relatedContent>
-        <relatedContentItems>
-            <layoutItem>
-                <component>wits:newsPanel</component>
-            </layoutItem>
-        </relatedContentItems>
-        <relatedContentItems>
-            <layoutItem>
-                <component>runtime_sales_social:socialPanel</component>
-            </layoutItem>
-        </relatedContentItems>
-    </relatedContent>
     <relatedLists>
         <fields>CONTACT.FULL_NAME</fields>
         <fields>CONTACT.ACCOUNT_NAME</fields>
@@ -392,6 +387,10 @@
         <fields>Deleted__c</fields>
         <fields>IsInactive__c</fields>
         <relatedList>AccountSubsidiary__c.Account__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>ILAddress__c.Account__c</relatedList>
     </relatedLists>
     <relatedLists>
         <relatedList>RelatedFileList</relatedList>
@@ -425,6 +424,14 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>ClassificationData__c.ContactClassificationAccount__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>KlopotekClassification__c.AccountId__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>ImportAssets__c.ShipToAccount__c</relatedList>
     </relatedLists>
     <relatedObjects>ParentId</relatedObjects>
     <showEmailCheckbox>false</showEmailCheckbox>

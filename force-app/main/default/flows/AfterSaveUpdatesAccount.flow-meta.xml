@@ -2,10 +2,26 @@
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>53.0</apiVersion>
     <assignments>
+        <name>assAccountSubList</name>
+        <label>assAccountSubList</label>
+        <locationX>1084</locationX>
+        <locationY>3563</locationY>
+        <assignmentItems>
+            <assignToReference>lstAccountSubsidiary</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>loopIntegrationAccountSubsidiary</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loopIntegrationAccountSubsidiary</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Assign_Account_Subsidiary</name>
         <label>Assign Account Subsidiary</label>
-        <locationX>182</locationX>
-        <locationY>755</locationY>
+        <locationX>325</locationX>
+        <locationY>539</locationY>
         <assignmentItems>
             <assignToReference>$Record.Account_Subsidiary__c</assignToReference>
             <operator>Assign</operator>
@@ -14,14 +30,30 @@
             </value>
         </assignmentItems>
         <connector>
-            <targetReference>Create_Preferred_Courier</targetReference>
+            <targetReference>Agodi_Update_In_Progress</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_FullLegalName</name>
+        <label>Assign FullLegalName</label>
+        <locationX>622</locationX>
+        <locationY>1055</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.FullLegalName__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>What_was_created</targetReference>
         </connector>
     </assignments>
     <assignments>
         <name>Assign_Validation_Check_Fields</name>
         <label>Assign Validation Check Fields</label>
-        <locationX>600</locationX>
-        <locationY>1631</locationY>
+        <locationX>1128</locationX>
+        <locationY>2723</locationY>
         <assignmentItems>
             <assignToReference>$Record.Validate_Area__c</assignToReference>
             <operator>Assign</operator>
@@ -76,13 +108,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>F_ValidateShippingRule</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Short_Company_Name__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateShortCompanyName</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
@@ -162,15 +187,52 @@
                 <elementReference>F_ValidateInvoicingFrequency</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.VendorToggle__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>VendorToggleFormula</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Validate_Account_Name_Soft__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>F_ValidateAccountNameSoft</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.ValidateFirstNameLastName__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>F_ValidateFirstNameLastName</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Was_Assignments_Visted</targetReference>
         </connector>
     </assignments>
     <assignments>
+        <name>assIntegrationFactorySend</name>
+        <label>assIntegrationFactorySend</label>
+        <locationX>1084</locationX>
+        <locationY>3455</locationY>
+        <assignmentItems>
+            <assignToReference>loopIntegrationAccountSubsidiary.IntegrationFactorySend__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>assAccountSubList</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
         <name>Set_Shipping_Indication_Rule</name>
         <label>Set Shipping Indication Rule</label>
-        <locationX>468</locationX>
-        <locationY>1439</locationY>
+        <locationX>996</locationX>
+        <locationY>2531</locationY>
         <assignmentItems>
             <assignToReference>$Record.ShippingCostMethod__c</assignToReference>
             <operator>Assign</operator>
@@ -182,11 +244,69 @@
             <targetReference>Assign_Validation_Check_Fields</targetReference>
         </connector>
     </assignments>
+    <assignments>
+        <name>Update_Segments</name>
+        <label>Update Segments</label>
+        <locationX>1370</locationX>
+        <locationY>1463</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.isHigherEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_Higher</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.isPrimaryEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_Primary</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.isSecondaryEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_Secondary</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.isVocationalEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_Vocational</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.UpperPrimaryEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_UpperPrimary</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.LowerPrimaryEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_LowerPrimary</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.LowerSecondaryEducation__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Check_LowerSecondary</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+        </connector>
+    </assignments>
     <decisions>
         <name>Agodi_Update_In_Progress</name>
         <label>Agodi Update In Progress</label>
-        <locationX>193</locationX>
-        <locationY>323</locationY>
+        <locationX>457</locationX>
+        <locationY>731</locationY>
         <defaultConnector>
             <targetReference>IsNewRecord</targetReference>
         </defaultConnector>
@@ -207,8 +327,8 @@
     <decisions>
         <name>Check_if_Shipping_Address_Set_or_Changed</name>
         <label>Check if Shipping Address Set or Changed</label>
-        <locationX>600</locationX>
-        <locationY>1331</locationY>
+        <locationX>1128</locationX>
+        <locationY>2423</locationY>
         <defaultConnector>
             <targetReference>Assign_Validation_Check_Fields</targetReference>
         </defaultConnector>
@@ -244,67 +364,17 @@
         </rules>
     </decisions>
     <decisions>
-        <name>Create_Preferred_Courier</name>
-        <label>Create Preferred Courier</label>
-        <locationX>314</locationX>
-        <locationY>947</locationY>
+        <name>Copy_1_of_Is_Liber</name>
+        <label>Is Liber</label>
+        <locationX>886</locationX>
+        <locationY>1355</locationY>
         <defaultConnector>
-            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+            <targetReference>Is_Account_UDB</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>Vendor</name>
-            <conditionLogic>(1 OR 2) AND 3 AND 4</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.NetSuiteVendorId__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.VendorNetsuiteInternalId__c</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>false</booleanValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.OperatingCompany__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>Liber</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>B2bB2cAuthors</stringValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Create_Default_Preferred_Courier</targetReference>
-            </connector>
-            <label>Vendor</label>
-        </rules>
-        <rules>
-            <name>B2C_Private_Indiv</name>
+            <name>Copy_1_of_Yes</name>
             <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <stringValue>B2C_Private_Individuals</stringValue>
-                </rightValue>
-            </conditions>
-            <conditions>
-                <leftValueReference>$Record.CountPreferredCouriers__c</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <numberValue>0.0</numberValue>
-                </rightValue>
-            </conditions>
             <conditions>
                 <leftValueReference>$Record.OperatingCompany__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -315,16 +385,248 @@
             <connector>
                 <targetReference>Create_Default_Preferred_Courier_B2C</targetReference>
             </connector>
-            <label>B2C Private Indiv</label>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>decIntegrateAccountSub</name>
+        <label>decIntegrateAccountSub</label>
+        <locationX>1128</locationX>
+        <locationY>3131</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ValidateIntegrations</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ValidateIntegrationerrors__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>getAccountSubsidiary</targetReference>
+            </connector>
+            <label>ValidateIntegrations</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Does_the_address_need_to_be_created_or_updated</name>
+        <label>Does the address need to be created or updated</label>
+        <locationX>314</locationX>
+        <locationY>1655</locationY>
+        <defaultConnector>
+            <targetReference>Is_Account_UDB</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Created</name>
+            <conditionLogic>(1 OR 2) AND 3 AND 4 AND 5</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.BillingAddress__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ShippingAddress__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BillingStreetName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ShippingStreetName__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Label.ValidateAddress</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>true</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Vendor_Address_Handler</targetReference>
+            </connector>
+            <label>Created</label>
+        </rules>
+        <rules>
+            <name>Updated</name>
+            <conditionLogic>(1 OR 2 OR 3 OR 4 OR 5 OR 6) AND 7</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ShippingStreetName__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BillingStreetName__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BillingHouseNumber__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ShippingHouseNumber__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.BillingHouseNumberAddition__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.ShippingHouseNumberAddition__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Label.ValidateAddress</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>true</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>VendorAddressHandler</targetReference>
+            </connector>
+            <label>Updated</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>FullLegalName_Check</name>
+        <label>FullLegalName Check</label>
+        <locationX>754</locationX>
+        <locationY>947</locationY>
+        <defaultConnector>
+            <targetReference>What_was_created</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Filled</defaultConnectorLabel>
+        <rules>
+            <name>NotFilled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>FullLegalName_is_Empty</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_FullLegalName</targetReference>
+            </connector>
+            <label>Not Filled</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Account_UDB</name>
+        <label>Is Account UDB</label>
+        <locationX>754</locationX>
+        <locationY>2039</locationY>
+        <defaultConnector>
+            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes_External_UDB</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.ExternalDatabase__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>UDB</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Contact</targetReference>
+            </connector>
+            <label>Yes External UDB</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Classification_field_updated</name>
+        <label>Is Classification field updated?</label>
+        <locationX>1502</locationX>
+        <locationY>1355</locationY>
+        <defaultConnector>
+            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Updated</defaultConnectorLabel>
+        <rules>
+            <name>Updated_classification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Classification__c</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <elementReference>$Record__Prior.Classification__c</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Segments</targetReference>
+            </connector>
+            <label>Updated</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Liber</name>
+        <label>Is Liber</label>
+        <locationX>314</locationX>
+        <locationY>1355</locationY>
+        <defaultConnector>
+            <targetReference>Does_the_address_need_to_be_created_or_updated</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.OperatingCompany__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Liber</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Default_Preferred_Courier</targetReference>
+            </connector>
+            <label>Yes</label>
         </rules>
     </decisions>
     <decisions>
         <name>Is_Netsuite_Customer_Id_Populated</name>
         <label>Is Netsuite Customer Id Populated</label>
-        <locationX>886</locationX>
-        <locationY>539</locationY>
+        <locationX>1502</locationX>
+        <locationY>947</locationY>
         <defaultConnector>
-            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+            <targetReference>Is_Classification_field_updated</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -360,8 +662,8 @@
     <decisions>
         <name>IsNewRecord</name>
         <label>Is New?</label>
-        <locationX>600</locationX>
-        <locationY>431</locationY>
+        <locationX>1128</locationX>
+        <locationY>839</locationY>
         <defaultConnector>
             <targetReference>Is_Netsuite_Customer_Id_Populated</targetReference>
         </defaultConnector>
@@ -377,18 +679,18 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>IsOperatingCompanyPopulated</targetReference>
+                <targetReference>FullLegalName_Check</targetReference>
             </connector>
             <label>New Record</label>
         </rules>
     </decisions>
     <decisions>
         <name>IsOperatingCompanyPopulated</name>
-        <label>Is Operating Company populated?</label>
-        <locationX>314</locationX>
-        <locationY>539</locationY>
+        <label>0 Acc Subs &amp; OpCo populated?</label>
+        <locationX>457</locationX>
+        <locationY>323</locationY>
         <defaultConnector>
-            <targetReference>Create_Preferred_Courier</targetReference>
+            <targetReference>Agodi_Update_In_Progress</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -401,17 +703,27 @@
                     <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>$Record.AccountSubsidiaryCount__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>CreateAccountSubsidiary</targetReference>
             </connector>
-            <label>Operating Company is populated</label>
+            <label>0 Acc Subs &amp; OpCo populated</label>
         </rules>
     </decisions>
     <decisions>
         <name>Was_Assignments_Visted</name>
         <label>Was Assignments Visted</label>
-        <locationX>600</locationX>
-        <locationY>1739</locationY>
+        <locationX>1128</locationX>
+        <locationY>2831</locationY>
+        <defaultConnector>
+            <targetReference>decIntegrateAccountSub</targetReference>
+        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Record_Value_Assigned</name>
@@ -437,13 +749,136 @@
                     <booleanValue>true</booleanValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>Assign_FullLegalName</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <elementReference>True</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Update_Segments</leftValueReference>
+                <operator>WasVisited</operator>
+                <rightValue>
+                    <elementReference>True</elementReference>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Update_Account</targetReference>
             </connector>
             <label>Record Value(s) Assigned</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>What_was_created</name>
+        <label>What was created</label>
+        <locationX>754</locationX>
+        <locationY>1247</locationY>
+        <defaultConnector>
+            <targetReference>Is_Account_UDB</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Vendor_created</name>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.NetSuiteVendorId__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.VendorNetsuiteInternalId__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>B2bB2cAuthors</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_Liber</targetReference>
+            </connector>
+            <label>Vendor created</label>
+        </rules>
+        <rules>
+            <name>B2C_Private_Individuals</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>B2C_Private_Individuals</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.CountPreferredCouriers__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_1_of_Is_Liber</targetReference>
+            </connector>
+            <label>B2C_Private_Individuals</label>
+        </rules>
+    </decisions>
+    <description>CH 02/10/2023: added address functionality for vendors
+DB 18/01/2024: create Contact if Account External Database equals UDB</description>
     <environments>Default</environments>
+    <formulas>
+        <name>Check_Higher</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Higher&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_LowerPrimary</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Lower Primary&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_LowerSecondary</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Lower Secondary&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_PreSchool</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Pre-school&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_Primary</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Primary&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_Secondary</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Secondary&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_UpperPrimary</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Upper Primary&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>Check_Vocational</name>
+        <dataType>Boolean</dataType>
+        <expression>INCLUDES({!$Record.Classification__c},&quot;Vocational&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>F_ValidateAccountNameSoft</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+LEN({!$Record.Name}) &gt; 83, true, false)</expression>
+    </formulas>
     <formulas>
         <name>F_ValidateAccountSubsidiaryRequired</name>
         <dataType>Boolean</dataType>
@@ -520,6 +955,13 @@ TEXT({!$Record.OperatingCompany__c}) = &apos;Liber&apos;, true, false)</expressi
 )</expression>
     </formulas>
     <formulas>
+        <name>F_ValidateFirstNameLastName</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(AND(
+NOT(ISPICKVAL({!$Record.AuthorType__c}, &apos;Company&apos;)),
+OR(ISPICKVAL({!$Record.CustomerCategory__c}, &apos;Author&apos;), ISPICKVAL({!$Record.CustomerCategory__c}, &apos;Private Individual&apos;)), OR(ISBLANK({!$Record.authorFirstName__c}), ISBLANK({!$Record.authorLastName__c}))), true, false)</expression>
+    </formulas>
+    <formulas>
         <name>F_ValidateInvoicingFrequency</name>
         <dataType>Boolean</dataType>
         <expression>ISBLANK(TEXT({!$Record.InvoicingFrequency__c}))</expression>
@@ -533,8 +975,11 @@ TEXT({!$Record.OperatingCompany__c}) = &apos;Liber&apos;, true, false)</expressi
         <name>F_ValidatePhone</name>
         <dataType>Boolean</dataType>
         <expression>AND({!$Record.Phone} != null,
-OR(NOT(ISNUMBER({!$Record.Phone})),
-LEN({!$Record.Phone}) &gt; 10, LEN({!$Record.Phone}) &lt; 7))</expression>
+OR(
+NOT({!$User.ValidationRulesDoNotApply__c}),
+NOT(REGEX({!$Record.Phone}, &quot;^\\+[1-9]\\d{1,14}$&quot;))
+)
+)</expression>
     </formulas>
     <formulas>
         <name>F_ValidateShippingAddress</name>
@@ -553,12 +998,6 @@ true,false)</expression>
         <name>F_ValidateShippingRule</name>
         <dataType>Boolean</dataType>
         <expression>ISBLANK(TEXT({!$Record.ShippingCostMethod__c}))</expression>
-    </formulas>
-    <formulas>
-        <name>F_ValidateShortCompanyName</name>
-        <dataType>Boolean</dataType>
-        <expression>IF((TEXT({!$Record.OperatingCompany__c}) = &apos;Plantyn&apos; || TEXT({!$Record.OperatingCompany__c}) = &apos;Noordhoff&apos;) &amp;&amp; 
-LEN({!$Record.ShortCompanyName__c}) &gt; 45, true, false)</expression>
     </formulas>
     <formulas>
         <name>F_ValidateStudentNumbers</name>
@@ -605,6 +1044,11 @@ NOT(ISPICKVAL({!$Record.VATStatus__c}, &apos;Manual verification required&apos;)
 NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Website}, &apos; &apos;)</expression>
     </formulas>
     <formulas>
+        <name>FullLegalName_is_Empty</name>
+        <dataType>Boolean</dataType>
+        <expression>ISBLANK({!$Record.FullLegalName__c})</expression>
+    </formulas>
+    <formulas>
         <name>IsNew</name>
         <dataType>Boolean</dataType>
         <expression>ISNEW()</expression>
@@ -630,8 +1074,30 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
     )
 )</expression>
     </formulas>
+    <formulas>
+        <name>VendorToggleFormula</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(NOT(ISBLANK({!$Record.NetSuiteVendorId__c})), 
+                           IF({!$Record.VendorToggle__c} = TRUE, FALSE, TRUE), 
+                           {!$Record.VendorToggle__c}
+)</expression>
+    </formulas>
     <interviewLabel>After Save Updates Account {!$Flow.CurrentDateTime}</interviewLabel>
     <label>After Save Updates Account</label>
+    <loops>
+        <name>loopIntegrationAccountSubsidiary</name>
+        <label>loopIntegrationAccountSubsidiary</label>
+        <locationX>996</locationX>
+        <locationY>3347</locationY>
+        <collectionReference>getAccountSubsidiary</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>assIntegrationFactorySend</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>UpdateAccountSubsidiary</targetReference>
+        </noMoreValuesConnector>
+    </loops>
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -652,12 +1118,71 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
     </processMetadataValues>
     <processType>AutoLaunchedFlow</processType>
     <recordCreates>
-        <name>Create_Default_Preferred_Courier</name>
-        <label>Create Default Preferred Courier</label>
-        <locationX>50</locationX>
-        <locationY>1055</locationY>
+        <name>Create_Contact</name>
+        <label>Create Contact</label>
+        <locationX>622</locationX>
+        <locationY>2147</locationY>
         <connector>
             <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>$Record.Email__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FirstName</field>
+            <value>
+                <elementReference>$Record.authorFirstName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LastName</field>
+            <value>
+                <elementReference>$Record.authorLastName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MiddleName</field>
+            <value>
+                <elementReference>$Record.authorMiddleName__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MobilePhone</field>
+            <value>
+                <elementReference>$Record.Phone</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>OperatingCompany__c</field>
+            <value>
+                <elementReference>$Record.OperatingCompany__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Phone</field>
+            <value>
+                <elementReference>$Record.Phone</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Default_Preferred_Courier</name>
+        <label>Create Default Preferred Courier</label>
+        <locationX>182</locationX>
+        <locationY>1463</locationY>
+        <connector>
+            <targetReference>Does_the_address_need_to_be_created_or_updated</targetReference>
         </connector>
         <inputAssignments>
             <field>Account__c</field>
@@ -689,10 +1214,10 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
     <recordCreates>
         <name>Create_Default_Preferred_Courier_B2C</name>
         <label>Create Default Preferred Courier B2C</label>
-        <locationX>314</locationX>
-        <locationY>1055</locationY>
+        <locationX>754</locationX>
+        <locationY>1463</locationY>
         <connector>
-            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+            <targetReference>Is_Account_UDB</targetReference>
         </connector>
         <inputAssignments>
             <field>Account__c</field>
@@ -724,8 +1249,8 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
     <recordCreates>
         <name>CreateAccountSubsidiary</name>
         <label>Create Account Subsidiary</label>
-        <locationX>182</locationX>
-        <locationY>647</locationY>
+        <locationX>325</locationX>
+        <locationY>431</locationY>
         <connector>
             <targetReference>Assign_Account_Subsidiary</targetReference>
         </connector>
@@ -753,13 +1278,13 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
     <recordLookups>
         <name>Get_Waiting_Individual_Import_Order</name>
         <label>Get Waiting Individual Import Order</label>
-        <locationX>754</locationX>
-        <locationY>647</locationY>
+        <locationX>1370</locationX>
+        <locationY>1055</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Set_Import_Order_Status_Pending</targetReference>
         </connector>
-        <filterLogic>and</filterLogic>
+        <filterLogic>1 AND 2 AND 3 AND (4 OR 5)</filterLogic>
         <filters>
             <field>customerOrderType__c</field>
             <operator>EqualTo</operator>
@@ -788,17 +1313,80 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
                 <stringValue>eCommerce B2C</stringValue>
             </value>
         </filters>
+        <filters>
+            <field>Source__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Studiemeister</stringValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>ImportOrder__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>getAccountSubsidiary</name>
+        <label>getAccountSubsidiary</label>
+        <locationX>996</locationX>
+        <locationY>3239</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>loopIntegrationAccountSubsidiary</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Account__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>NetsuiteCustomerNumber__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Deleted__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IsInactive__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>LastUpdateToAWS__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>IntegrationFactorySend__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>AccountSubsidiary__c</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordUpdates>
         <name>Set_Import_Order_Status_Pending</name>
         <label>Set Import Order Status Pending</label>
-        <locationX>754</locationX>
-        <locationY>755</locationY>
+        <locationX>1370</locationX>
+        <locationY>1163</locationY>
         <connector>
-            <targetReference>Check_if_Shipping_Address_Set_or_Changed</targetReference>
+            <targetReference>Is_Classification_field_updated</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -819,19 +1407,69 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
     <recordUpdates>
         <name>Update_Account</name>
         <label>Update Account</label>
-        <locationX>468</locationX>
-        <locationY>1847</locationY>
+        <locationX>996</locationX>
+        <locationY>2939</locationY>
+        <connector>
+            <targetReference>decIntegrateAccountSub</targetReference>
+        </connector>
         <inputReference>$Record</inputReference>
     </recordUpdates>
+    <recordUpdates>
+        <name>UpdateAccountSubsidiary</name>
+        <label>UpdateAccountSubsidiary</label>
+        <locationX>996</locationX>
+        <locationY>3755</locationY>
+        <inputReference>lstAccountSubsidiary</inputReference>
+    </recordUpdates>
     <start>
-        <locationX>67</locationX>
+        <locationX>331</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Agodi_Update_In_Progress</targetReference>
+            <targetReference>IsOperatingCompanyPopulated</targetReference>
         </connector>
         <object>Account</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
     <status>Active</status>
+    <subflows>
+        <name>Vendor_Address_Handler</name>
+        <label>Vendor Address Handler</label>
+        <locationX>50</locationX>
+        <locationY>1763</locationY>
+        <connector>
+            <targetReference>Is_Account_UDB</targetReference>
+        </connector>
+        <flowName>Vendor_Address_Handler</flowName>
+        <inputAssignments>
+            <name>accountRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>VendorAddressHandler</name>
+        <label>Vendor Address Handler</label>
+        <locationX>314</locationX>
+        <locationY>1763</locationY>
+        <connector>
+            <targetReference>Is_Account_UDB</targetReference>
+        </connector>
+        <flowName>Vendor_Address_Handler</flowName>
+        <inputAssignments>
+            <name>accountRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>lstAccountSubsidiary</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>AccountSubsidiary__c</objectType>
+    </variables>
 </Flow>

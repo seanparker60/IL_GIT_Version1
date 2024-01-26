@@ -41,23 +41,23 @@
         </assignmentItems>
     </assignments>
     <assignments>
-        <name>Assign_Depot_Order_Account</name>
-        <label>Assign Depot Order Account</label>
-        <locationX>1898</locationX>
+        <name>Assign_Depot_Tender_Order_Account</name>
+        <label>Assign Depot/Tender Order Account</label>
+        <locationX>2162</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderAccount</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>Get_Depot_Account</elementReference>
+                <elementReference>Get_Depot_Tender_Account</elementReference>
             </value>
         </assignmentItems>
     </assignments>
     <assignments>
         <name>Assign_eCom_Private_Order_Account</name>
         <label>Assign eCom Private Order Account</label>
-        <locationX>1106</locationX>
-        <locationY>566</locationY>
+        <locationX>1370</locationX>
+        <locationY>674</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderAccount</assignToReference>
             <operator>Assign</operator>
@@ -67,9 +67,22 @@
         </assignmentItems>
     </assignments>
     <assignments>
+        <name>Assign_eCom_Private_Order_Account_2</name>
+        <label>Assign eCom Private Order Account</label>
+        <locationX>1106</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>sov_OrderAccount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Account</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
         <name>Assign_Non_Private_Order_Account</name>
         <label>Assign Non Private Order Account</label>
-        <locationX>1370</locationX>
+        <locationX>1634</locationX>
         <locationY>458</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderAccount</assignToReference>
@@ -82,7 +95,7 @@
     <assignments>
         <name>Assign_Order_Form_Order_Account</name>
         <label>Assign Order Form Order Account</label>
-        <locationX>2162</locationX>
+        <locationX>2426</locationX>
         <locationY>350</locationY>
         <assignmentItems>
             <assignToReference>sov_OrderAccount</assignToReference>
@@ -105,6 +118,52 @@
             </value>
         </assignmentItems>
     </assignments>
+    <decisions>
+        <name>Accept_school_info</name>
+        <label>Accept school info?</label>
+        <locationX>1238</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Get_Private_Individual_Record_Type</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>School_info</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ImportOrderCustomerIdentifier</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>0</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ImportOrderCustomerIdentifier</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.OperatingCompany__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Noordhoff</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>eCommerce B2C</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Account</targetReference>
+            </connector>
+            <label>School info</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Find_By_Identifier</name>
         <label>Find By Identifier</label>
@@ -140,7 +199,7 @@
     <decisions>
         <name>GetAccountBySource</name>
         <label>Get Account By Source</label>
-        <locationX>1238</locationX>
+        <locationX>1370</locationX>
         <locationY>134</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -218,14 +277,28 @@
                     <stringValue>B2B Salesforce</stringValue>
                 </rightValue>
             </conditions>
+            <conditions>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Studiemeister</stringValue>
+                </rightValue>
+            </conditions>
             <connector>
                 <targetReference>Private_Individual</targetReference>
             </connector>
             <label>eCommerce/B2B Salesforce</label>
         </rules>
         <rules>
-            <name>Depot</name>
-            <conditionLogic>and</conditionLogic>
+            <name>Depot_Tender</name>
+            <conditionLogic>1 AND (2 OR 3)</conditionLogic>
+            <conditions>
+                <leftValueReference>ImportOrderCustomerIdentifier</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
             <conditions>
                 <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
                 <operator>EqualTo</operator>
@@ -234,16 +307,16 @@
                 </rightValue>
             </conditions>
             <conditions>
-                <leftValueReference>ImportOrderCustomerIdentifier</leftValueReference>
-                <operator>NotEqualTo</operator>
+                <leftValueReference>sov_NetsuiteOrder.Source__c</leftValueReference>
+                <operator>EqualTo</operator>
                 <rightValue>
-                    <stringValue></stringValue>
+                    <stringValue>Tender</stringValue>
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Depot_Account</targetReference>
+                <targetReference>Get_Depot_Tender_Account</targetReference>
             </connector>
-            <label>Depot</label>
+            <label>Depot/Tender</label>
         </rules>
         <rules>
             <name>Order_Form</name>
@@ -264,7 +337,7 @@
     <decisions>
         <name>Private_Individual</name>
         <label>Private Individual</label>
-        <locationX>1370</locationX>
+        <locationX>1568</locationX>
         <locationY>242</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -278,7 +351,7 @@
                 </rightValue>
             </conditions>
             <connector>
-                <targetReference>Get_Private_Individual_Record_Type</targetReference>
+                <targetReference>Accept_school_info</targetReference>
             </connector>
             <label>Private</label>
         </rules>
@@ -337,12 +410,25 @@
             <label>Yes</label>
         </rules>
     </decisions>
-    <description>Subflow for Import Order Handler</description>
+    <description>Subflow for Import Order Handler
+
+CH: 28/08/2023 added operating company check for private individual
+DB: 13/09/2039 added Source Studiemeister (same decision route as eCommerce B2C)
+CH: 25/09/2023 private ind orders can have different shipping address for Noordhoff
+DB: 09/10/2023 updated filter conditions for Order Form Account search
+CH: 07/11/2023 added operating company check to each get Account element
+DB: 29/11/2023 adjusted matching logic for private individual if NS Number is provided
+CH: 20/12/2023 added Status check against all account gets</description>
     <environments>Default</environments>
     <formulas>
         <name>forEcinNumberMatch</name>
         <dataType>String</dataType>
         <expression>&quot;[&quot;&amp;{!ImportOrderCustomerIdentifier}&amp;&quot;]&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>form_OperatingCompany</name>
+        <dataType>String</dataType>
+        <expression>IF({!sov_NetsuiteOrder.OperatingCompany__c}=&apos;Noordhoff Professional&apos;, &apos;Noordhoff&apos;, {!sov_NetsuiteOrder.OperatingCompany__c})</expression>
     </formulas>
     <formulas>
         <name>OldCustomerNumber_Formula</name>
@@ -380,12 +466,68 @@
         <connector>
             <targetReference>Assign_B2B_Location_Order_Account_OldCustomerNo</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
             <field>OldCustomerNumber__c</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>OldCustomerNumber_Formula</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Account</name>
+        <label>Get Account</label>
+        <locationX>1106</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_eCom_Private_Order_Account_2</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>NetsuiteCustomerNumber__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ImportOrderCustomerIdentifier</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>NetsuiteCustomerNumber__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -401,7 +543,7 @@
         <connector>
             <targetReference>Assign_B2B_Order_Account</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>(1 OR 2) AND 3 AND 4</filterLogic>
         <filters>
             <field>NetsuiteCustomerNumber__c</field>
             <operator>EqualTo</operator>
@@ -414,6 +556,20 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>ImportOrderCustomerIdentifier</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -429,7 +585,7 @@
         <connector>
             <targetReference>Assign_B2B_Location_Order_Account</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>(1 OR 2) AND 3 AND 4</filterLogic>
         <filters>
             <field>KlopotekId__c</field>
             <operator>EqualTo</operator>
@@ -442,6 +598,20 @@
             <operator>EqualTo</operator>
             <value>
                 <elementReference>OldCustomerNumber_Formula</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -457,7 +627,7 @@
         <connector>
             <targetReference>Assign_Trade_Order_Account</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>(1 OR 2 OR 3 OR 4 OR 5 OR 6 OR (7 AND 8)) AND 9 AND 10</filterLogic>
         <filters>
             <field>WholeSalerId__c</field>
             <operator>EqualTo</operator>
@@ -500,20 +670,48 @@
                 <elementReference>ImportOrderCustomerIdentifier</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>ExternalCustomerId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ImportOrderCustomerIdentifier</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>ExternalDatabase__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>La Banque du Livre</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <recordLookups>
-        <name>Get_Depot_Account</name>
-        <label>Get Depot Account</label>
-        <locationX>1898</locationX>
+        <name>Get_Depot_Tender_Account</name>
+        <label>Get Depot/Tender Account</label>
+        <locationX>2162</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Assign_Depot_Order_Account</targetReference>
+            <targetReference>Assign_Depot_Tender_Order_Account</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>(1 OR 2 OR 3) AND 4 AND 5</filterLogic>
         <filters>
             <field>NetsuiteCustomerNumber__c</field>
             <operator>EqualTo</operator>
@@ -528,6 +726,27 @@
                 <elementReference>ImportOrderCustomerIdentifier</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>ExternalCustomerId__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ImportOrderCustomerIdentifier</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -535,13 +754,13 @@
     <recordLookups>
         <name>Get_Non_Private_Account</name>
         <label>Get Non Private Account</label>
-        <locationX>1370</locationX>
+        <locationX>1634</locationX>
         <locationY>350</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Non_Private_Order_Account</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>(1 OR 2 OR 3 OR 4) AND 5 AND 6</filterLogic>
         <filters>
             <field>NetsuiteCustomerNumber__c</field>
             <operator>EqualTo</operator>
@@ -570,6 +789,20 @@
                 <elementReference>ImportOrderCustomerIdentifier</elementReference>
             </value>
         </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -577,25 +810,32 @@
     <recordLookups>
         <name>Get_Order_Form_Account</name>
         <label>Get Order Form Account</label>
-        <locationX>2162</locationX>
+        <locationX>2426</locationX>
         <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_Order_Form_Order_Account</targetReference>
         </connector>
-        <filterLogic>or</filterLogic>
+        <filterLogic>and</filterLogic>
         <filters>
-            <field>KlopotekNumber__c</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
                 <elementReference>ImportOrderCustomerIdentifier</elementReference>
             </value>
         </filters>
         <filters>
-            <field>NetsuiteCustomerNumber__c</field>
+            <field>OperatingCompany__c</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>ImportOrderCustomerIdentifier</elementReference>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
@@ -605,13 +845,13 @@
     <recordLookups>
         <name>Get_Private_Account</name>
         <label>Get Private Account</label>
-        <locationX>1106</locationX>
-        <locationY>458</locationY>
+        <locationX>1370</locationX>
+        <locationY>566</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Assign_eCom_Private_Order_Account</targetReference>
         </connector>
-        <filterLogic>3 AND (2 OR (1 AND 4))</filterLogic>
+        <filterLogic>((1 AND 4) OR (3 AND 2)) AND 5 AND 6</filterLogic>
         <filters>
             <field>NetsuiteCustomerNumber__c</field>
             <operator>EqualTo</operator>
@@ -640,6 +880,20 @@
                 <booleanValue>false</booleanValue>
             </value>
         </filters>
+        <filters>
+            <field>OperatingCompany__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>form_OperatingCompany</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Active</stringValue>
+            </value>
+        </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -647,8 +901,8 @@
     <recordLookups>
         <name>Get_Private_Individual_Record_Type</name>
         <label>Get Private Individual Record Type</label>
-        <locationX>1106</locationX>
-        <locationY>350</locationY>
+        <locationX>1370</locationX>
+        <locationY>458</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_Private_Account</targetReference>
@@ -673,7 +927,7 @@
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
     <start>
-        <locationX>1112</locationX>
+        <locationX>1244</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>GetAccountBySource</targetReference>

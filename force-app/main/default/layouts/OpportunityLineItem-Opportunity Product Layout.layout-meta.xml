@@ -17,8 +17,8 @@
                 <field>Product2Id</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>UnitPrice</field>
+                <behavior>Edit</behavior>
+                <field>ProductType__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -40,6 +40,10 @@
                 <behavior>Edit</behavior>
                 <field>Group__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CustomerReference__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -48,15 +52,35 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>ProductCode</field>
+                <field>ListPrice</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>ProductType__c</field>
+                <field>ListPriceDiscount__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
-                <field>ListPrice</field>
+                <field>ListPriceDiscountRate__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ComponentListPrice__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ManualDiscount__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ManualDiscountPercent__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>ManualDiscountValue__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Required</behavior>
+                <field>UnitPrice</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
@@ -101,12 +125,7 @@
         <detailHeading>false</detailHeading>
         <editHeading>false</editHeading>
         <label>Description Information</label>
-        <layoutColumns>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Description</field>
-            </layoutItems>
-        </layoutColumns>
+        <layoutColumns/>
         <style>OneColumn</style>
     </layoutSections>
     <layoutSections>
@@ -122,13 +141,11 @@
     <multilineLayoutFields>Product2Id</multilineLayoutFields>
     <multilineLayoutFields>Quantity</multilineLayoutFields>
     <multilineLayoutFields>ServiceDate</multilineLayoutFields>
-    <multilineLayoutFields>UnitPrice</multilineLayoutFields>
-    <multilineLayoutFields>Discount</multilineLayoutFields>
-    <multilineLayoutFields>Description</multilineLayoutFields>
     <multilineLayoutFields>ListPrice</multilineLayoutFields>
-    <multilineLayoutFields>ProductCode</multilineLayoutFields>
+    <multilineLayoutFields>Discount</multilineLayoutFields>
+    <multilineLayoutFields>UnitPrice</multilineLayoutFields>
     <multilineLayoutFields>TotalPrice</multilineLayoutFields>
-    <multilineLayoutFields>Email__c</multilineLayoutFields>
+    <multilineLayoutFields>CustomerReference__c</multilineLayoutFields>
     <multilineLayoutFields>OpportunityId</multilineLayoutFields>
     <platformActionList>
         <actionListContext>Record</actionListContext>

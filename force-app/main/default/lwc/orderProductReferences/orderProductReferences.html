@@ -42,9 +42,16 @@
                 <td data-label="Product Name" class="slds-cell_action-mode" role="gridcell">
                     <div class="slds-truncate" title="Product Name">{orderItem.ProductName__c}</div>
                 </td>
-                <td data-label="Product EAN" class="slds-cell_action-mode" role="gridcell">
-                    <div class="slds-truncate" title="Product EAN">{orderItem.ProductEAN__c}</div>
+                <template if:true={isOrder}>
+                  <td data-label="Product EAN" class="slds-cell_action-mode" role="gridcell">
+                      <div class="slds-truncate" title="Product EAN">{orderItem.ProductEAN__c}</div>
+                  </td>
+                </template>
+              <template if:false={isOrder}>
+                <td data-label="EAN" class="slds-cell_action-mode" role="gridcell">
+                    <div class="slds-truncate" title="EAN">{orderItem.EAN__c}</div>
                 </td>
+              </template>
                 <td data-label="Product EAN" class="slds-cell_action-mode" role="gridcell">
                     <div class="slds-truncate" title="Product Type">{orderItem.ProductType__c}</div>
                 </td>

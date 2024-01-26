@@ -148,6 +148,10 @@
                 <behavior>Edit</behavior>
                 <field>LogoUrl__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>CommunicationLanguage__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>OneColumn</style>
     </layoutSections>

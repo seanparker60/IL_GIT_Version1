@@ -4,7 +4,7 @@
         <name>Submit_Opportunity_for_Approval</name>
         <label>Submit Opportunity for Approval</label>
         <locationX>50</locationX>
-        <locationY>815</locationY>
+        <locationY>755</locationY>
         <actionName>submit</actionName>
         <actionType>submit</actionType>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
@@ -33,7 +33,7 @@
         <name>Add_Queue_Id_to_Collection</name>
         <label>Add Queue Id to Collection</label>
         <locationX>50</locationX>
-        <locationY>695</locationY>
+        <locationY>647</locationY>
         <assignmentItems>
             <assignToReference>var_QueueIds</assignToReference>
             <operator>Add</operator>
@@ -49,7 +49,7 @@
         <name>Check_Stage</name>
         <label>Check Stage</label>
         <locationX>380</locationX>
-        <locationY>335</locationY>
+        <locationY>323</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Close_Stage</name>
@@ -59,6 +59,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <stringValue>P. Close</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Noordhoff Professional MBO HBO Sales User</stringValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -72,7 +79,7 @@
         <name>Queue_Found</name>
         <label>Queue Found</label>
         <locationX>182</locationX>
-        <locationY>575</locationY>
+        <locationY>539</locationY>
         <defaultConnectorLabel>No</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -116,7 +123,7 @@
         <name>Get_PCSS_Team_Queue</name>
         <label>Get PCSS Team Queue</label>
         <locationX>182</locationX>
-        <locationY>455</locationY>
+        <locationY>431</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Queue_Found</targetReference>

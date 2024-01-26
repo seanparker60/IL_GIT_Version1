@@ -13,9 +13,6 @@
                 <elementReference>DialCodeWithPhone</elementReference>
             </value>
         </assignmentItems>
-        <connector>
-            <targetReference>Assign_Validation_Check_Fields</targetReference>
-        </connector>
     </assignments>
     <assignments>
         <name>Assign_Liber</name>
@@ -66,138 +63,6 @@
         </connector>
     </assignments>
     <assignments>
-        <name>Assign_Validation_Check_Fields</name>
-        <label>Assign Validation Check Fields</label>
-        <locationX>732</locationX>
-        <locationY>3419</locationY>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Area__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateArea</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Billing_Address__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateBillingAddress</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Shipping_Address__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateShippingAddress</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Emails_Required__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateEmailsRequired</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_NetSuiteId__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateNetsuiteId</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Vat_Status__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateVatStatus</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Short_Company_Name__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateShortCompanyName</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Student_Numbers__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateStudentNumbers</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Communication_Language__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateCommunicationLanguage</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Customer_Category__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateCustomerCategory</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Customer_Discount_Group__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateCustomerDiscountGroup</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Phone__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidatePhone</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Courier_Info__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateCourierInfo</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Block_Reason_Deactivated__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateBlockReasonDeactivated</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_VAT_Max_Chars__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateVATMaxChars</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Website__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateWebsite</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_VAT_Number_Required__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateVATNumberRequired</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.Validate_Invoicing_Frequency__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>F_ValidateInvoicingFrequency</elementReference>
-            </value>
-        </assignmentItems>
-    </assignments>
-    <assignments>
         <name>AssignDefaultValues</name>
         <label>Assign Default Values</label>
         <locationX>446</locationX>
@@ -221,13 +86,6 @@
             <operator>Assign</operator>
             <value>
                 <elementReference>forInvoicingFrequency</elementReference>
-            </value>
-        </assignmentItems>
-        <assignmentItems>
-            <assignToReference>$Record.ShortCompanyName__c</assignToReference>
-            <operator>Assign</operator>
-            <value>
-                <elementReference>$Record.Name</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -627,9 +485,6 @@
         <label>Phone with Country Code</label>
         <locationX>732</locationX>
         <locationY>3011</locationY>
-        <defaultConnector>
-            <targetReference>Assign_Validation_Check_Fields</targetReference>
-        </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Set_Phone_with_Country_Code</name>
@@ -656,12 +511,21 @@
     </decisions>
     <description>Added formula to populate Unique External Customer ID field with combination of External Database + External Customer ID
 DB: 28/03/2023 Added Validation fields as flow formulas and assign outcome to checkbox fields
-CH: 09/05/2023 Removed acc sub and shipping rule validation checks</description>
+CH: 09/05/2023 Removed acc sub and shipping rule validation checks
+CH: 31/07/2023 Added validation against account name
+JK: 31/08/2023 Added finctionality to Full Name in the FullLegalName field if the FullLegalName field is Empty in insert
+DB: 28/03/2023 Removed Validation fields assignments</description>
     <environments>Default</environments>
     <formulas>
         <name>DialCodeWithPhone</name>
         <dataType>String</dataType>
         <expression>{!Get_Country_Code_Metadata.PhoneCountryDialCode__c}&amp;RIGHT({!$Record.Phone},(LEN( {!$Record.Phone})-FIND(&quot;0&quot;, {!$Record.Phone})))</expression>
+    </formulas>
+    <formulas>
+        <name>F_ValidateAccountNameSoft</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(
+LEN({!$Record.Name}) &gt; 83, true, false)</expression>
     </formulas>
     <formulas>
         <name>F_ValidateAccountSubsidiaryRequired</name>
@@ -739,6 +603,13 @@ TEXT({!$Record.OperatingCompany__c}) = &apos;Liber&apos;, true, false)</expressi
 )</expression>
     </formulas>
     <formulas>
+        <name>F_ValidateFirstNameLastName</name>
+        <dataType>Boolean</dataType>
+        <expression>IF(AND(
+NOT(ISPICKVAL({!$Record.AuthorType__c}, &apos;Company&apos;)),
+OR(ISPICKVAL({!$Record.CustomerCategory__c}, &apos;Author&apos;), ISPICKVAL({!$Record.CustomerCategory__c}, &apos;Private Individual&apos;)), OR(ISBLANK({!$Record.authorFirstName__c}), ISBLANK({!$Record.authorLastName__c}))), true, false)</expression>
+    </formulas>
+    <formulas>
         <name>F_ValidateInvoicingFrequency</name>
         <dataType>Boolean</dataType>
         <expression>ISBLANK(TEXT({!$Record.InvoicingFrequency__c}))</expression>
@@ -772,12 +643,6 @@ true,false)</expression>
         <name>F_ValidateShippingRule</name>
         <dataType>Boolean</dataType>
         <expression>ISBLANK(TEXT({!$Record.ShippingCostMethod__c}))</expression>
-    </formulas>
-    <formulas>
-        <name>F_ValidateShortCompanyName</name>
-        <dataType>Boolean</dataType>
-        <expression>IF((TEXT({!$Record.OperatingCompany__c}) = &apos;Plantyn&apos; || TEXT({!$Record.OperatingCompany__c}) = &apos;Noordhoff&apos;) &amp;&amp; 
-LEN({!$Record.ShortCompanyName__c}) &gt; 45, true, false)</expression>
     </formulas>
     <formulas>
         <name>F_ValidateStudentNumbers</name>

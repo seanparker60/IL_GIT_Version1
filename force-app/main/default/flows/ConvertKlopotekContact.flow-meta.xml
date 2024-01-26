@@ -42,112 +42,112 @@
             <assignToReference>Iteratethroughcontacts.AccountId</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.Id</elementReference>
+                <elementReference>form_update_accId</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.Email</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forEmail</elementReference>
+                <elementReference>form_update_email</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.FirstName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.FIRST_NAME__c</elementReference>
+                <elementReference>form_update_firstName</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.LastName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forLastName</elementReference>
+                <elementReference>form_update_lastName</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.MailingCity</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingCity</elementReference>
+                <elementReference>form_update_city</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.MailingCountry</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingCountry</elementReference>
+                <elementReference>form_update_country</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.MailingPostalCode</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingPostalCode</elementReference>
+                <elementReference>form_update_postalCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.MailingStreet</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingStreet</elementReference>
+                <elementReference>form_update_street</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.MiddleName</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.PREFIX__c</elementReference>
+                <elementReference>form_update_prefix</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.OtherCity</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.CITY__c</elementReference>
+                <elementReference>form_update_privCity</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.OtherCountry</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>GetCountry.COUNTRY_NAME_ENGLISH__c</elementReference>
+                <elementReference>form_update_privCountry</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.OtherPostalCode</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.POSTAL_CODE__c</elementReference>
+                <elementReference>form_update_privPostalCode</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.OtherStreet</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forStreet</elementReference>
+                <elementReference>form_update_privStreet</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.Phone</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forPhone</elementReference>
+                <elementReference>form_update_Phone</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.PrivateEmail__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>forPrivateEmail</elementReference>
+                <elementReference>form_update_privEmail</elementReference>
             </value>
         </assignmentItems>
         <assignmentItems>
             <assignToReference>Iteratethroughcontacts.TeacherNumber__c</assignToReference>
             <operator>Assign</operator>
             <value>
-                <elementReference>$Record.DOCNR__c</elementReference>
+                <elementReference>form_update_teacherNum</elementReference>
             </value>
         </assignmentItems>
         <connector>
@@ -210,7 +210,7 @@
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
-            <conditionLogic>or</conditionLogic>
+            <conditionLogic>(1 OR 2) AND 3</conditionLogic>
             <conditions>
                 <leftValueReference>$Record.Contact__c</leftValueReference>
                 <operator>IsNull</operator>
@@ -223,6 +223,13 @@
                 <operator>EqualTo</operator>
                 <rightValue>
                     <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Inactive__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
                 </rightValue>
             </conditions>
             <connector>
@@ -294,6 +301,91 @@ ISCHANGED({!$Record.URL_COMMUNICATION_NUMBER__c}))</expression>
         <name>forLastName</name>
         <dataType>String</dataType>
         <expression>IF(NOT(ISBLANK({!$Record.NAME__c})),{!$Record.NAME__c},&quot;NULL&quot;)</expression>
+    </formulas>
+    <formulas>
+        <name>form_tenDaysAgo</name>
+        <dataType>Date</dataType>
+        <expression>TODAY()-10</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_accId</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.Id}),{!Iteratethroughcontacts.AccountId}, {!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.Id})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_city</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingCity}), {!Iteratethroughcontacts.MailingCity}, {!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingCity})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_country</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingCountry}), {!Iteratethroughcontacts.MailingCountry}, {!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingCountry})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_email</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!forEmail}), {!Iteratethroughcontacts.Email}, {!forEmail})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_firstName</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.FIRST_NAME__c}), {!Iteratethroughcontacts.FirstName}, {!$Record.FIRST_NAME__c})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_lastName</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!forLastName}), {!Iteratethroughcontacts.LastName}, {!forLastName})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_Phone</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!forPhone}), {!Iteratethroughcontacts.Phone}, {!forPhone})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_postalCode</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingPostalCode}), {!Iteratethroughcontacts.MailingPostalCode}, {!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingPostalCode})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_prefix</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.PREFIX__c}), {!Iteratethroughcontacts.MiddleName}, {!$Record.PREFIX__c})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_privCity</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.CITY__c}), {!Iteratethroughcontacts.OtherCity}, {!$Record.CITY__c})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_privCountry</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetCountry.COUNTRY_NAME_ENGLISH__c}), {!Iteratethroughcontacts.OtherCountry}, {!GetCountry.COUNTRY_NAME_ENGLISH__c})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_privEmail</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!forPrivateEmail}), {!Iteratethroughcontacts.PrivateEmail__c}, {!forPrivateEmail})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_privPostalCode</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.POSTAL_CODE__c}), {!Iteratethroughcontacts.OtherPostalCode}, {!$Record.POSTAL_CODE__c})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_privStreet</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!forStreet}), {!Iteratethroughcontacts.OtherStreet}, {!forStreet})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_street</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingStreet}), {!Iteratethroughcontacts.MailingStreet}, {!GetKlopotekAccountContactRelationship.KlopotekAccount__r.Account__r.ShippingStreet})</expression>
+    </formulas>
+    <formulas>
+        <name>form_update_teacherNum</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.DOCNR__c}), {!Iteratethroughcontacts.TeacherNumber__c}, {!$Record.DOCNR__c})</expression>
     </formulas>
     <formulas>
         <name>forPhone</name>
@@ -651,6 +743,14 @@ IF(AND(ISBLANK({!GetKlopotekAccountContactRelationship.TEL_COUNTRY_PREFIX__c}),I
         <connector>
             <targetReference>Should_Run</targetReference>
         </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Inactive__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
         <object>KlopotekContact__c</object>
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>

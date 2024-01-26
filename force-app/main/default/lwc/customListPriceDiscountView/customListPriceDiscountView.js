@@ -70,6 +70,9 @@ export default class CustomListPriceDiscountView extends LightningElement {
             sortable: true,
             cellAttributes: {
                 alignment: 'right' 
+            },
+            typeAttributes: {
+                maximumFractionDigits: 2
             }
         }
 

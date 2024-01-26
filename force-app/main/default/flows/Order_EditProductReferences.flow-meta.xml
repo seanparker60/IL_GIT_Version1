@@ -5,7 +5,7 @@
         <name>Add_Product_to_List</name>
         <label>Add Product to List</label>
         <locationX>1282</locationX>
-        <locationY>1214</locationY>
+        <locationY>1082</locationY>
         <assignmentItems>
             <assignToReference>productsToUpdate</assignToReference>
             <operator>Add</operator>
@@ -21,7 +21,7 @@
         <name>Add_Product_to_List2</name>
         <label>Add Product to List</label>
         <locationX>138</locationX>
-        <locationY>998</locationY>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>productsToUpdate</assignToReference>
             <operator>Add</operator>
@@ -37,7 +37,7 @@
         <name>Set_reference_Liber</name>
         <label>Set reference Liber</label>
         <locationX>1282</locationX>
-        <locationY>998</locationY>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>Loop_through_products_Char_Limit.CustomerReference__c</assignToReference>
             <operator>Assign</operator>
@@ -53,7 +53,7 @@
         <name>Set_reference_PU_NH</name>
         <label>Set reference PU-NH</label>
         <locationX>1018</locationX>
-        <locationY>998</locationY>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>Loop_through_products_Char_Limit.CustomerReference__c</assignToReference>
             <operator>Assign</operator>
@@ -69,7 +69,7 @@
         <name>Set_reference_to_45_chars</name>
         <label>Set reference to 45 chars</label>
         <locationX>1546</locationX>
-        <locationY>998</locationY>
+        <locationY>890</locationY>
         <assignmentItems>
             <assignToReference>Loop_through_products_Char_Limit.CustomerReference__c</assignToReference>
             <operator>Assign</operator>
@@ -85,7 +85,7 @@
         <name>Set_reference_to_input</name>
         <label>Set reference to input</label>
         <locationX>138</locationX>
-        <locationY>878</locationY>
+        <locationY>782</locationY>
         <assignmentItems>
             <assignToReference>Loop_through_products.CustomerReference__c</assignToReference>
             <operator>Assign</operator>
@@ -101,7 +101,7 @@
         <name>Has_OrderProducts</name>
         <label>Has OrderProducts</label>
         <locationX>1040</locationX>
-        <locationY>398</locationY>
+        <locationY>350</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>Yes</name>
@@ -123,7 +123,7 @@
         <name>Reference_needs_to_be_chopped</name>
         <label>Reference needs to be chopped?</label>
         <locationX>1282</locationX>
-        <locationY>878</locationY>
+        <locationY>782</locationY>
         <defaultConnector>
             <targetReference>Set_reference_to_45_chars</targetReference>
         </defaultConnector>
@@ -198,7 +198,7 @@
         <name>Which_button_was_clicked</name>
         <label>Which button was clicked?</label>
         <locationX>622</locationX>
-        <locationY>638</locationY>
+        <locationY>566</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
             <name>YesApplyAll</name>
@@ -231,6 +231,7 @@
             <label>Fix character limit</label>
         </rules>
     </decisions>
+    <description>DB: 02/10/2023 Updated character reference limits</description>
     <environments>Default</environments>
     <formulas>
         <description>limited to 45 chars</description>
@@ -248,14 +249,14 @@
         <description>10 char limit</description>
         <name>plantynReference</name>
         <dataType>String</dataType>
-        <expression>LEFT({!Loop_through_products_Char_Limit.CustomerReference__c}, 10)</expression>
+        <expression>LEFT({!Loop_through_products_Char_Limit.CustomerReference__c}, 30)</expression>
     </formulas>
     <formulas>
         <name>referenceMax</name>
         <dataType>String</dataType>
-        <expression>IF(OR(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Plantyn&apos;), AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Noordhoff&apos;), NOT(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;)))), &apos;10&apos;,
+        <expression>IF(OR(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Plantyn&apos;), NOT(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Informat&apos;))), AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Noordhoff&apos;), NOT(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;)))), &apos;30&apos;,
 IF(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Liber&apos;),&apos;35&apos;, 
-IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), {!Get_Order.InventoryItemShippingAddressCount__c} &gt; 0), &apos;10&apos;, 
+IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), {!Get_Order.InventoryItemShippingAddressCount__c} &gt; 0), &apos;30&apos;, 
 IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Get_Order.InventoryItemShippingAddressCount__c} = 0, ISBLANK({!Get_Order.InventoryItemShippingAddressCount__c}))), &apos;255&apos;, &apos;45&apos;))))</expression>
     </formulas>
     <interviewLabel>Order Products: {!$Flow.CurrentDateTime}</interviewLabel>
@@ -264,7 +265,7 @@ IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Ge
         <name>Loop_through_products</name>
         <label>Loop through products</label>
         <locationX>50</locationX>
-        <locationY>758</locationY>
+        <locationY>674</locationY>
         <collectionReference>Get_OrderProducts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -278,7 +279,7 @@ IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Ge
         <name>Loop_through_products_Char_Limit</name>
         <label>Loop through products_Char_Limit</label>
         <locationX>930</locationX>
-        <locationY>758</locationY>
+        <locationY>674</locationY>
         <collectionReference>Get_OrderProducts</collectionReference>
         <iterationOrder>Asc</iterationOrder>
         <nextValueConnector>
@@ -311,7 +312,7 @@ IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Ge
         <name>Get_Order</name>
         <label>Get Order</label>
         <locationX>1040</locationX>
-        <locationY>158</locationY>
+        <locationY>134</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Get_OrderProducts</targetReference>
@@ -332,7 +333,7 @@ IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Ge
         <name>Get_OrderProducts</name>
         <label>Get OrderProducts</label>
         <locationX>1040</locationX>
-        <locationY>278</locationY>
+        <locationY>242</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
             <targetReference>Has_OrderProducts</targetReference>
@@ -361,14 +362,14 @@ IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Ge
         <name>Copy_1_of_Update_Order_Products</name>
         <label>Update Order Products</label>
         <locationX>930</locationX>
-        <locationY>1430</locationY>
+        <locationY>1274</locationY>
         <inputReference>productsToUpdate</inputReference>
     </recordUpdates>
     <recordUpdates>
         <name>Update_Order_Products</name>
         <label>Update Order Products</label>
         <locationX>50</locationX>
-        <locationY>1214</locationY>
+        <locationY>1082</locationY>
         <inputReference>productsToUpdate</inputReference>
     </recordUpdates>
     <runInMode>SystemModeWithoutSharing</runInMode>
@@ -376,7 +377,7 @@ IF(AND(CONTAINS({!Get_Order.Pricebook2.Name}, &apos;Professional&apos;), OR({!Ge
         <name>Edit_Order_Products_scr</name>
         <label>Edit Order Products</label>
         <locationX>622</locationX>
-        <locationY>518</locationY>
+        <locationY>458</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
