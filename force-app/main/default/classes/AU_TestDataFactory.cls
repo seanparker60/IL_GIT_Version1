@@ -107,6 +107,27 @@ public class AU_TestDataFactory {
         }
     }
 
+    public class MockInstellingDetails implements HttpCalloutMock {
+
+        public HttpResponse respond (HttpRequest req) {
+
+            String fullEndpoint = req.getEndpoint();
+            System.debug('fullEndpoint ==> ' + fullEndpoint);
+
+            Integer Schoolnumber = Integer.valueOf(fullEndpoint.mid(fullEndpoint.indexOf('v2/instelling/')+14, fullEndpoint.indexOf('?apikey=') - (fullEndpoint.indexOf('v2/instelling/')+14)));
+
+            System.debug('Schoolnumber from Endpoint: ' + Schoolnumber);
+
+            String body = instellingDetailsMessage(schoolNumber);
+
+            HttpResponse res = new HttpResponse();
+
+            res.setBody(body);
+            res.setStatusCode(200);
+            return Res;
+        }
+    }
+
     public class MockStudentNumbers implements HttpCalloutMock {
 
         public HttpResponse respond (HttpRequest req) {
@@ -179,6 +200,92 @@ public class AU_TestDataFactory {
             res.setStatusCode(200);
             return Res;
         }
+    }
+
+    public static String instellingDetailsMessage(Integer i) {
+        String body = '';
+
+        body += '{';
+        body += '    "instelling_naam": "TestSchool",';
+        body += '    "instelling_naam_volledig": "Test School Volledige Naam",';
+        body += '    "instelling_volledige_naam": "Test School Volledige Naam",';
+        body += '    "instelling_nummer": ' + i + ',';
+        body += '    "instelling_hoofdzetel_vestigingsnr": 1,';
+        body += '    "instelling_postcode": "1000",';
+        body += '    "instelling_gemeente": "BRUSSEL",';
+        body += '    "instelling_straatnaam": "Teststraat",';
+        body += '    "instelling_huisnummer": "1",';
+        body += '    "instelling_provincie": "Brussels Hoofdstedelijk Gewest",';
+        body += '    "instelling_niveau": {';
+        body += '      "code": "BAO",';
+        body += '      "omschrijving": "Basisonderwijs"';
+        body += '    },';
+        body += '    "instelling_buitengewoon": false,';
+        body += '    "instelling_net": {';
+        body += '      "code": "1",';
+        body += '      "omschrijving": "Gemeenschapsonderwijs"';
+        body += '    },';
+        body += '    "instelling_taalstelsel": {';
+        body += '      "code": "1",';
+        body += '      "omschrijving": "Nederlandstalig"';
+        body += '    },';
+        body += '    "instelling_telefoon": "123456789",';
+        body += '    "instelling_email": "info@test.test",';
+        body += '    "instelling_website": "www.test.test",';
+        body += '    "instelling_gemeente_nis": "21004",';
+        body += '    "instelling_crab_code": "20244",';
+        body += '    "instelling_directeur": {';
+        body += '      "naam": "Contact",';
+        body += '      "voornaam": "Test"';
+        body += '    },';
+        body += '    "instelling_bestuur": {';
+        body += '      "naam": "GO! scholengroep Brussel",';
+        body += '      "instellingsnummer": 123456';
+        body += '    },';
+        body += '    "instelling_clb": {';
+        body += '      "naam": "GO! CLB Brussel",';
+        body += '      "instellingsnummer": 654321';
+        body += '    },';
+        body += '    "instelling_koepel": {';
+        body += '      "naam": "GO! onderwijs van de Vlaamse Gemeenschap",';
+        body += '      "instellingsnummer": 987654';
+        body += '    },';
+        body += '    "instelling_scholengemeenschap": {';
+        body += '      "naam": "SGE BRUSSELIAI",';
+        body += '      "instellingsnummer": 987654';
+        body += '    },';
+        body += '    "instelling_leersteuncentrum": {';
+        body += '      "naam": "LSC Kasterlinden",';
+        body += '      "instellingsnummer": 654321';
+        body += '    },';
+        body += '    "instelling_status_erkenning": {';
+        body += '      "code": "S",';
+        body += '      "omschrijving": "Subsidieerbaar/Financierbaar en erkend"';
+        body += '    },';
+        body += '    "instelling_type": {';
+        body += '      "code": "112",';
+        body += '      "omschrijving": "Basisschool"';
+        body += '    },';
+        body += '    "instelling_hoofdstructuur": [';
+        body += '      {';
+        body += '        "code": "111",';
+        body += '        "omschrijving": "Gewoon kleuteronderwijs"';
+        body += '      },';
+        body += '      {';
+        body += '        "code": "211",';
+        body += '        "omschrijving": "Gewoon lager onderwijs"';
+        body += '      }';
+        body += '    ],';
+        body += '    "instelling_datum_laatste_wijziging": "2023-09-20",';
+        body += '    "best_address_id": "215369",';
+        body += '    "lambert72_x_coordinaat": 148310.739,';
+        body += '    "lambert72_y_coordinaat": 171089.189,';
+        body += '    "gps_lengtegraad": 4.34476,';
+        body += '    "gps_breedtegraad": 50.8502,';
+        body += '    "situatiedatum": "2023-11-29"';
+        body += '}';
+
+        return body;
     }
 
     public static String inschrijvingsaantalMessage(Integer i) {

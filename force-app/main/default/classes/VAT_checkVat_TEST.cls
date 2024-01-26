@@ -13,10 +13,11 @@ public class VAT_checkVat_TEST {
         for (Integer i = 0; i < accounts.size(); i++) {
             accounts[i].VATNumber__c = 'NL12345678B0' + (i+1);
         }
-        insert accounts;
+        
 
         Test.startTest();
-
+            Test.setMock(WebServiceMock.class, new WebServiceMockImpl());
+            insert accounts;
         Test.stopTest();
         
     }
@@ -30,6 +31,7 @@ public class VAT_checkVat_TEST {
         }
 
         Test.startTest();
+            Test.setMock(WebServiceMock.class, new WebServiceMockImpl());
             update accounts;
         Test.stopTest();
         
@@ -71,5 +73,33 @@ public class VAT_checkVat_TEST {
         }
 
         return accountList;
+    }
+
+    public class WebServiceMockImpl implements WebServiceMock {
+
+        public void doInvoke (
+            Object stub,
+            Object request,
+            Map<String, Object> response,
+            String endpoint,
+            String soapAction,
+            String requestName,
+            String responseNS,
+            String responseName,
+            String responseType) {
+
+            //Map<String, VAT_Vies_WDSL.checkVatResponse_element> response_map_x = new Map<String, VAT_Vies_WDSL.checkVatResponse_element>();
+            VAT_Vies_WDSL.checkVatResponse_element resp = new VAT_Vies_WDSL.checkVatResponse_element();
+
+            resp.countryCode = 'BE';
+            resp.vatNumber = 'NL12345678B0';
+            resp.requestDate = Date.today();
+            resp.valid = true;
+            resp.name = 'School';
+            resp.address = 'DePijp22\n1224AM Amsterdam';
+
+            response.put('response_x', resp);
+            
+        }
     }
 }

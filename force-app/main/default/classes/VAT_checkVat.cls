@@ -34,22 +34,47 @@ public class VAT_checkVat {
     public static void CheckVatOnUpdate(Map<Id, Account> accountMap, Map<Id, Account> oldMap) {
         System.debug('VAT_checkVat - CheckVatOnUpdate - start');
 
+        Boolean doQuery = false;
         Map<Id,Map<String,String>> accountMapForCallout = new Map<Id,Map<String,String>>();
         List<Account> accountUpdateList = new List<Account>();
+
+        // #################### NEW
+        List<String> vatNrList = new List<String>();
+        for (Account acc : accountMap.values()) {
+            System.debug('acc.VATNumber__c ==> ' + acc.VATNumber__c);
+            if (acc.VATNumber__c != null && acc.VATNumber__c != oldMap.get(acc.Id).VATNumber__c && acc.VATNumber__c != '' && acc.VATNumber__c != '0') {
+                doQuery = true;
+                vatNrList.add(acc.VATNumber__c);
+            }
+        }
+        
+        Map<String,Account> vatNumberAccountMap = new Map<String,Account>();
+        List<Account> currentVATAccountList = new List<Account>();
+        if (doQuery) {
+            currentVATAccountList = [SELECT VATNumber__c, VATStatus__c FROM Account WHERE VATNumber__c IN :vatNrList];
+        }
+        for (Account acc : currentVATAccountList) {
+            vatNumberAccountMap.put(acc.VATNumber__c.replace('.', '').replace(' ', '').replace('-', ''),acc);
+        }
+        // #################### END OF NEW
 
         for (Account acc : accountMap.values()) {
 
             if (acc.VATNumber__c != oldMap.get(acc.Id).VATNumber__c) {
                 Account newAcc = new Account();
+                newAcc.Id = acc.Id;
                 if (acc.VATNumber__c == null || acc.VATNumber__c == '') {
                     // If we do not have a VAT number set VAT Status to NA
-                    newAcc.Id = acc.Id;
                     newAcc.VATStatus__c = 'NA';
                 } else {
 
-                    if (!euCountryCodes.contains(acc.BillingCountryCode)) {
+                    String cleanVATnr = acc.VATNumber__c.replace('.', '').replace(' ', '').replace('-', '');
+                    if (vatNumberAccountMap.containsKey(cleanVATnr) && acc.Id != vatNumberAccountMap.get(cleanVATnr).Id) {
+                        String vatStatus = vatNumberAccountMap.get(cleanVATnr).VATStatus__c;
+                        System.debug('VATNumber already known, Status: ' + vatStatus);
+                        acc.VATStatus__c = vatStatus;
+                    } else if (!euCountryCodes.contains(acc.BillingCountryCode)) {
                         // If country is not within EU
-                        newAcc.Id = acc.Id;
                         newAcc.VATStatus__c = 'Manual verification required';
                         newAcc.VATErrorMessage__c = '!!!! WE CANNOT VERIFY THIS VAT NUMBER !!!! The Billing country is not a member of the EU. Manual verification is required';
                     } else {
@@ -64,7 +89,6 @@ public class VAT_checkVat {
                         accountMapForCallout.put(acc.Id,tempMap);
 
                         // Set temp status to processing (will be overwritten when the correct status is received from the VIES callout)
-                        newAcc.Id = acc.Id;
                         newAcc.VATStatus__c = 'Processing';
                         newAcc.VATErrorMessage__c = '';
                     }
@@ -85,14 +109,10 @@ public class VAT_checkVat {
 
                 String param = String.ValueOf(accountId) + ';' + accountMapForCallout.get(accountId).get('countryCode') + ';' + accountMapForCallout.get(accountId).get('vatNumber');
 
-                // String cc = accountMapForCallout.get(accountId).get('countryCode');
-                // String vatnr = accountMapForCallout.get(accountId).get('vatNumber');
-
                 if (triggerFutureClass == null) {
                     
                     // Call @future method to get VIES Check of VAT number
                     paramList.add(param);
-                    // VAT_ViesCallout.MakeCallout(accountId, cc, vatnr);
                 }
             }
             VAT_ViesCallout.MakeCallout(paramList);
@@ -104,18 +124,44 @@ public class VAT_checkVat {
     public static void CheckVatOnInsert(List<Account> accounts) {
         System.debug('VAT_checkVat - CheckVatOnInsert - start');
 
+        Boolean doQuery = false;
         Map<Id,Map<String,String>> accountMapForCallout = new Map<Id,Map<String,String>>();
         List<Account> accountUpdateList = new List<Account>();
+
+        List<String> vatNrList = new List<String>();
+        for (Account acc : accounts) {
+            if (acc.VATNumber__c != null && acc.VATNumber__c != '' && acc.VATNumber__c != '0') {
+                doQuery = true;
+                vatNrList.add(acc.VATNumber__c);
+            }
+        }
+
+        // #################### NEW
+        Map<String,Account> vatNumberAccountMap = new Map<String,Account>();
+        List<Account> currentVATAccountList = new List<Account>();
+        if (doQuery) {
+            currentVATAccountList = [SELECT VATNumber__c, VATStatus__c FROM Account WHERE VATNumber__c IN : vatNrList];
+        }
+        for (Account acc : currentVATAccountList) {
+            vatNumberAccountMap.put(acc.VATNumber__c.replace('.', '').replace(' ', '').replace('-', ''),acc);
+        }
+        // #################### END OF NEW
 
         for (Account acc : accounts) {
 
             Account newAcc = new Account();
+            newAcc.Id = acc.Id;
+
             // if VAT number is not empty update the VAT number Status
             if (acc.VATNumber__c != null && acc.VATNumber__c != '') {
 
-                if (!euCountryCodes.contains(acc.BillingCountryCode)) {
+                String cleanVATnr = acc.VATNumber__c.replace('.', '').replace(' ', '').replace('-', '');
+                if (vatNumberAccountMap.containsKey(cleanVATnr) && acc.Id != vatNumberAccountMap.get(cleanVATnr).Id) {
+                    String vatStatus = vatNumberAccountMap.get(cleanVATnr).VATStatus__c;
+                    System.debug('VATNumber already known, Status: ' + vatStatus);
+                    acc.VATStatus__c = vatStatus;
+                } else if (!euCountryCodes.contains(acc.BillingCountryCode)) {
                     // If country is not within EU
-                    newAcc.Id = acc.Id;
                     newAcc.VATStatus__c = 'Manual verification required';
                     newAcc.VATErrorMessage__c = '!!!! WE CANNOT VERIFY THIS VAT NUMBER !!!! The Billing country is not a member of the EU. Manual verification is required';
                 } else {
@@ -130,7 +176,6 @@ public class VAT_checkVat {
                     accountMapForCallout.put(acc.Id,tempMap);
                     
                     // Set temp status to processing (will be overwritten when the correct status is received from the VIES callout)
-                    newAcc.Id = acc.Id;
                     newAcc.VATStatus__c = 'Processing';
                     newAcc.VATErrorMessage__c = '';
                 }

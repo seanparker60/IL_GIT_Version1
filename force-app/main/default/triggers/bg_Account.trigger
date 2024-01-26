@@ -5,6 +5,14 @@ trigger bg_Account on Account (Before Update, Before insert, After insert, After
 
     if (trigger.isBefore) {
 
+        if (trigger.isInsert) {
+            ACC_AccountHelper.updatePackingSlipNameOnInsert(trigger.new);
+        }
+
+        if (trigger.isUpdate) {
+            ACC_AccountHelper.updatePackingSlipNameOnUpdate(trigger.new, trigger.oldMap);
+        }
+
         if(trigger.isDelete && MERGE_StoreDeletedRecords.deleteHandler == null){
             ACC_AccountHelper.ValidateAccountBeforeTriggerDelete(trigger.old);
         }

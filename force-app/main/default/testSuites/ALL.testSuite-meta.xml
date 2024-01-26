@@ -2,14 +2,14 @@
 <ApexTestSuite xmlns="http://soap.sforce.com/2006/04/metadata">
     <testClassName>ACC_AccountHelper_TEST</testClassName>
     <testClassName>ASSET_showRenewableAssetsHelper_TEST</testClassName>
-    <testClassName>AutomatedTestingJobQueuer_Test</testClassName>
-    <testClassName>AutomatedTestingJob_Test</testClassName>
     <testClassName>AU_AgodiUpdateByAPI_TEST</testClassName>
     <testClassName>AU_CreateAccountsFromAgodiData_TEST</testClassName>
     <testClassName>AU_createIM_SG_S_queueables_TEST</testClassName>
     <testClassName>AU_GetAgodiFiles_TEST</testClassName>
     <testClassName>AU_processFiles_TEST</testClassName>
     <testClassName>AU_ScheduleAgodiUpdate_TEST</testClassName>
+    <testClassName>AutomatedTestingJob_Test</testClassName>
+    <testClassName>AutomatedTestingJobQueuer_Test</testClassName>
     <testClassName>bg_AllObjectTriggerHandler_test</testClassName>
     <testClassName>BL_customBooklistHelper_TEST</testClassName>
     <testClassName>CM_ClassificationManagerHelper_TEST</testClassName>
@@ -25,12 +25,12 @@
     <testClassName>FRM_scheduleFirstReleaseManagement_TEST</testClassName>
     <testClassName>HandleCustomException_TEST</testClassName>
     <testClassName>IL_LeadConversionTest</testClassName>
+    <testClassName>ImportOrder_QueueHandler_Test</testClassName>
     <testClassName>ImportOrderFlow_ApexTest</testClassName>
     <testClassName>ImportOrderTrigger_TEST</testClassName>
-    <testClassName>ImportOrder_QueueHandler_Test</testClassName>
+    <testClassName>KLOPOTEK_ManageClassifications_TEST</testClassName>
     <testClassName>KLOPOTEK_ManageClassificationsBatch_TEST</testClassName>
     <testClassName>KLOPOTEK_ManageClassificationsSch_TEST</testClassName>
-    <testClassName>KLOPOTEK_ManageClassifications_TEST</testClassName>
     <testClassName>KLOPOTEK_TestDataFactory</testClassName>
     <testClassName>LEAD_leadTriggerHelper_TEST</testClassName>
     <testClassName>LEAD_TestDataFactory</testClassName>
@@ -38,8 +38,8 @@
     <testClassName>ListActionsTest</testClassName>
     <testClassName>LivestormWebhookListener_Test</testClassName>
     <testClassName>LPD_customListPriceDiscountView_TEST</testClassName>
-    <testClassName>MERGE_MergeAccounts_Batch_TEST</testClassName>
     <testClassName>MERGE_MergeAccount_TEST</testClassName>
+    <testClassName>MERGE_MergeAccounts_Batch_TEST</testClassName>
     <testClassName>MERGE_MergeContact_Batch_TEST</testClassName>
     <testClassName>MERGE_MergeContact_TEST</testClassName>
     <testClassName>MERGE_MergeHelper_TEST</testClassName>
@@ -49,19 +49,19 @@
     <testClassName>NS_TestDataFactory</testClassName>
     <testClassName>Order_AccountSubsidiary_Test</testClassName>
     <testClassName>Order_ActivateAPISendOrderItems_test</testClassName>
+    <testClassName>Order_AssetRenewal_test</testClassName>
     <testClassName>Order_AssetRenewalDatesInvoc_TEST</testClassName>
     <testClassName>Order_AssetRenewalLineItemQueueable_test</testClassName>
-    <testClassName>Order_AssetRenewal_test</testClassName>
     <testClassName>Order_AssetsCreateOnOrderActivation_test</testClassName>
     <testClassName>Order_B2BOrderInvoice_test</testClassName>
     <testClassName>Order_B2BTriggerBatchRESTAPI_test</testClassName>
+    <testClassName>Order_Batch_AssetRenewal_test</testClassName>
+    <testClassName>Order_Batch_UpdateProductPricing_test</testClassName>
     <testClassName>Order_BatchAccountswithRenwalAsset_test</testClassName>
     <testClassName>Order_BatchOrderActivateAssetRenew_test</testClassName>
     <testClassName>Order_BatchResetAccountAssetRenewal_test</testClassName>
     <testClassName>Order_BatchUpdateB2BOrders_test</testClassName>
     <testClassName>Order_BatchUpdateOrdersOnMerge_test</testClassName>
-    <testClassName>Order_Batch_AssetRenewal_test</testClassName>
-    <testClassName>Order_Batch_UpdateProductPricing_test</testClassName>
     <testClassName>Order_CreateScrapOrders_TEST</testClassName>
     <testClassName>Order_ImportOrderItemGroupCreate_test</testClassName>
     <testClassName>Order_ImportOrderItemGroupUpdate_test</testClassName>

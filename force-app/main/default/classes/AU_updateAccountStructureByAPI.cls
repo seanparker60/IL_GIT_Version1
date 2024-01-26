@@ -66,9 +66,7 @@ public class AU_updateAccountStructureByAPI implements Queueable, Database.Allow
 
         System.debug('this.accountMap.size() ==> ' + this.accountMap.size());
         while (this.keepCounting && this.accountMap.size() > 0) {
-            //System.debug('math.min(this.accountMap.size(),(this.start + this.batchSize)) ==> ' + math.min(this.accountMap.size(),(this.start + this.batchSize)));
             for (Integer i = this.start; i < math.min(this.accountMap.size(),(this.start + this.batchSize)); i++) {
-                //System.debug('i >= (this.accountMap.size()-1) ===> ' + (i >= (this.accountMap.size()-1)));
                 if (i >= (this.accountMap.size()-1)) {
                     this.keepCounting = false;
                     break;
@@ -88,14 +86,19 @@ public class AU_updateAccountStructureByAPI implements Queueable, Database.Allow
             System.debug('keepCounting = ' + keepCounting);
             if (this.keepCounting) {
                 this.start = this.start + this.batchSize;
-                System.enqueueJob(new AU_updateAccountStructureByAPI(this.accountMap, this.currentPlantynAccounts, this.start, this.agodiUpdateId, this.accountsForUpdate, this.results, this.createdAccountIdList, this.updatedAccountIdList));
+
+                if (!Test.isRunningTest()) {
+                    System.enqueueJob(new AU_updateAccountStructureByAPI(this.accountMap, this.currentPlantynAccounts, this.start, this.agodiUpdateId, this.accountsForUpdate, this.results, this.createdAccountIdList, this.updatedAccountIdList));
+                }
                 return;
             }
         }
 
         handleSaveResults(this.results, this.accountsForUpdate, this.agodiUpdateId);
 
-        System.enqueueJob(new AU_createAccSubsidiaries_queueable(this.createdAccountIdList, this.updatedAccountIdList));
+        if (!Test.isRunningTest()) {
+            System.enqueueJob(new AU_createAccSubsidiaries_queueable(this.createdAccountIdList, this.updatedAccountIdList));
+        }
 
     }
 
@@ -122,6 +125,8 @@ public class AU_updateAccountStructureByAPI implements Queueable, Database.Allow
 
         Integer statusCode = res.getStatusCode();
 
+        System.debug('STATUSCODE ===> ' + statusCode);
+
         Account acc = new Account();
         Boolean returnAccount = false;
 
@@ -132,37 +137,30 @@ public class AU_updateAccountStructureByAPI implements Queueable, Database.Allow
         }
 
         if (statusCode == 200) {
-            // System.debug('Correct Response from API, Statuscode: ' + statusCode + ', returning body as String.');
 
             JSONParser parser = JSON.createParser(body);
             
             // Create List of Instellingen from returned JSON
             while (parser.nextToken() != null) {
-    
-                // if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
-                //     while (parser.nextToken() != null && parser.getCurrentName() != 'links') {
-                        InstellingDetails inst = (InstellingDetails)parser.readValueAs(InstellingDetails.class);
-                        if (inst == null) {
-                            break;
-                        }
-                        
-                        if (inst.instelling_bestuur != null) {
-                            if (currentPlantynAccounts.containsKey(String.valueOf(inst.instelling_bestuur.instellingsnummer))) {
-                                returnAccount = true;
-                                acc.PurchasingGroup__c = currentPlantynAccounts.get(String.valueOf(inst.instelling_bestuur.instellingsnummer)).Id;
-                            }
-                        }
 
-                        if (inst.instelling_scholengemeenschap != null) {
-                            if (currentPlantynAccounts.containsKey(String.valueOf(inst.instelling_scholengemeenschap.instellingsnummer))) {
-                                returnAccount = true;
-                                acc.ParentId = currentPlantynAccounts.get(String.valueOf(inst.instelling_scholengemeenschap.instellingsnummer)).Id;
-                            }
-                        }
+                InstellingDetails inst = (InstellingDetails)parser.readValueAs(InstellingDetails.class);
+                if (inst == null) {
+                    break;
+                }
+                
+                if (inst.instelling_bestuur != null) {
+                    if (currentPlantynAccounts.containsKey(String.valueOf(inst.instelling_bestuur.instellingsnummer))) {
+                        returnAccount = true;
+                        acc.PurchasingGroup__c = currentPlantynAccounts.get(String.valueOf(inst.instelling_bestuur.instellingsnummer)).Id;
+                    }
+                }
 
-                        // parser.skipChildren();
-                //     }
-                // }
+                if (inst.instelling_scholengemeenschap != null) {
+                    if (currentPlantynAccounts.containsKey(String.valueOf(inst.instelling_scholengemeenschap.instellingsnummer))) {
+                        returnAccount = true;
+                        acc.ParentId = currentPlantynAccounts.get(String.valueOf(inst.instelling_scholengemeenschap.instellingsnummer)).Id;
+                    }
+                }
             }
         } else {
             System.debug('Incorrect Response from API, Statuscode: ' + statusCode);
@@ -257,86 +255,6 @@ public class AU_updateAccountStructureByAPI implements Queueable, Database.Allow
         public instelling_pedagogische_methode instelling_pedagogische_methode;
         public instelling_soort_bestuur instelling_soort_bestuur;
         public String instelling_datum_laatste_wijziging;
-
-        // public Instelling ( String naam,
-        //                     String naamVolledig,
-        //                     String volledigeNaam,
-        //                     Integer nummer,
-        //                     Integer hoofdzetelVertigingsNr,
-        //                     String postcode,
-        //                     String gemeente,
-        //                     String straatnaam,
-        //                     String huisnummer,
-        //                     String busnummer,
-        //                     String provincie,
-        //                     instelling_niveau niveau,
-        //                     Boolean buitengewoon,
-        //                     Boolean deeltijd,
-        //                     Boolean voltijd,
-        //                     instelling_net net,
-        //                     instelling_levensbeschouwing levensBeschouwing,
-        //                     instelling_taalstelsel talenStelsel,
-        //                     String kboOndernemingsNr,
-        //                     String kboVestigingsEenheidsNr,
-        //                     String tel,
-        //                     String email,
-        //                     String website,
-        //                     String gemeenteNis,
-        //                     String crabCode,
-        //                     instelling_directeur directeur,
-        //                     instelling_clb clb,
-        //                     instelling_koepel koepel,
-        //                     instelling_scholengemeenschap scholenGemeenschap,
-        //                     internaat internaat,
-        //                     String beginDatum,
-        //                     String eindDatum,
-        //                     instelling_status_erkenning statusErkenning,
-        //                     instelling_type type,
-        //                     instelling_hoofdstructuur hoofdStructuur,
-        //                     instelling_pedagogische_methode pedagogischeMethode,
-        //                     instelling_soort_bestuur soortBestuur,
-        //                     String laatsteWijziging)
-        //     {
-        //         instelling_naam = naam;
-        //         instelling_naam_volledig = naamVolledig;
-        //         instelling_volledige_naam = volledigeNaam;
-        //         instelling_nummer = nummer;
-        //         instelling_hoofdzetel_vestigingsnr = hoofdzetelVertigingsNr;
-        //         instelling_postcode = postcode;
-        //         instelling_gemeente = gemeente;
-        //         instelling_straatnaam = straatnaam;
-        //         instelling_huisnummer = huisnummer;
-        //         instelling_busnummer = busnummer;
-        //         instelling_provincie = provincie;
-        //         instelling_niveau = niveau;
-        //         instelling_buitengewoon = buitengewoon;
-        //         instelling_biedt_deeltijds_aan = deeltijd;
-        //         instelling_biedt_voltijds_aan = voltijd;
-        //         instelling_net = net;
-        //         instelling_levensbeschouwing = levensBeschouwing;
-        //         instelling_taalstelsel = talenStelsel;
-        //         instelling_kbo_ondernemingsnummer = kboOndernemingsNr;
-        //         instelling_kbo_vestigingseenheidsnummer = kboVestigingsEenheidsNr;
-        //         instelling_telefoon = tel;
-        //         instelling_email = email;
-        //         instelling_website = website;
-        //         instelling_gemeente_nis = gemeenteNis;
-        //         instelling_crab_code = crabCode;
-        //         instelling_directeur = directeur;
-        //         instelling_bestuur = bestuur;
-        //         instelling_clb = clb;
-        //         instelling_koepel = koepel;
-        //         instelling_scholengemeenschap = scholengemeenschap;
-        //         internaat = internaat;
-        //         instelling_begindatum = beginDatum;
-        //         instelling_einddatum = eindDatum;
-        //         instelling_status_erkenning = statusErkenning;
-        //         instelling_type = type;
-        //         instelling_hoofdstructuur = hoofdStructuur;
-        //         instelling_pedagogische_methode = pedagogischeMethode;
-        //         instelling_soort_bestuur = soortBestuur;
-        //         instelling_datum_laatste_wijziging = laatsteWijziging;
-        //     }
     }
     public class instelling_niveau { public String code,omschrijving; }
     public class instelling_type { public String code,omschrijving; }

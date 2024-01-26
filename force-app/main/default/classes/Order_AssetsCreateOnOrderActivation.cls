@@ -317,13 +317,13 @@ public with sharing class Order_AssetsCreateOnOrderActivation implements Queueab
                                                 NewAsset.Informhfdstructuur__c = item.Order.Hfdstructuur__c;
                                                 item.Hfdstructuur__c = item.Order.Hfdstructuur__c;
                                             }                                            
-                                            
+                                            //--->
+
                                             for(AssetQuantityTypeUpdateCheck__mdt type:lstQuantityType){
                                                 if(item.Order.Pricebook2.Name.contains(type.Pricebook__c)){
                                                         NewAsset.QuantityUpdateCheckYearly__c = true;
                                                 }
                                             }
-                                            //--->
 
                                             lstNewAsset.add(NewAsset);
                                             varIterator++;

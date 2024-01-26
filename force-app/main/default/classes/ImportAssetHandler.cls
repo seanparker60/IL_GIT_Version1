@@ -10,6 +10,6 @@ public class ImportAssetHandler {
     public static void handleAssetImports(List<ImportAssets__c> recordInput){
         // pass list of import assets (bulkification)
         ImportAssetHandlerBatch batchJob = new ImportAssetHandlerBatch(recordInput);
-        Id batchJobId = Database.executeBatch(batchJob, 25);
+        Id batchJobId = Database.executeBatch(batchJob, 5);
     }
 }

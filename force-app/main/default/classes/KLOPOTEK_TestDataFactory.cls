@@ -99,12 +99,13 @@ public class KLOPOTEK_TestDataFactory {
                 a.OperatingCompany__c = 'Liber';
             } else {
                 a.OperatingCompany__c = 'Noordhoff';
-                a.ExternalDatabase__c = 'RIO';
             }
             a.ExternalCustomerId__c = '54321' + i;
             a.NumberofStudents__c = 0;
             accLst.add(a);
         }
+
+        System.debug('AccountList:\n' + accLst);
         insert accLst;
         
         //Create Test Contacts
@@ -127,11 +128,15 @@ public class KLOPOTEK_TestDataFactory {
 
         //Create Test Klopotek Classifications for Contacts
         List<KlopotekClassification__c> kcLst = new List<KlopotekClassification__c>();
-        for (Integer i = 0; i < 5; i++) {
+        for (Integer i = -1; i < 5; i++) {
             KlopotekClassification__c kc = new KlopotekClassification__c();
             kc.DocNr__c = '12345' + i;
             kc.SchNr__c = '54321' + i;
-            kc.CatCode__c = '/' + i + '/Test/Contact';
+            if (i == -1) {
+                kc.CatCode__c = '/01/TestGDPRCakCode';
+            } else {
+                kc.CatCode__c = '/' + i + '/Test/Contact';
+            }
             if (i == 0) {
                 kc.OperatingCompany__c = 'Plantyn';
             } else if (i == 1) {
@@ -143,21 +148,50 @@ public class KLOPOTEK_TestDataFactory {
         }
 
         //Create Test Klopotek Classifications for Accounts
-        for (Integer i = 0; i < 5; i++) {
+        for (Integer i = -3; i < 5; i++) {
             KlopotekClassification__c kc = new KlopotekClassification__c();
             kc.SchNr__c = '54321' + i;
-            kc.CatCode__c = '/' + i + '/Test/Account';
+            if (i == -2) {
+                kc.CatCode__c = 'TestCatcodeForOldValues/A';
+            } else if (i == -1) {
+                kc.CatCode__c = '/1/FU00';
+            } else {
+                kc.CatCode__c = '/' + i + '/Test/Account';
+            }
+            
             if (i == 0) {
                 kc.OperatingCompany__c = 'Plantyn';
             } else if (i == 1) {
                 kc.OperatingCompany__c = 'Liber';
-            } else {
+            } else if (i > -3) {
                 kc.OperatingCompany__c = 'Noordhoff';
             }
             kcLst.add(kc);
         }
         insert kcLst;
 
+        //Create Classification Data Test records
+        List<ClassificationData__c> cdLst = new List<ClassificationData__c>();
+        for (Account  acc : accLst) {
+            cdLst.add(createClassificationDataForAccount(acc));
+        }
+        for (Contact con : ctLst) {
+            cdLst.add(createClassificationDataForContact(con));
+        }
+        insert cdLst;
+
+    }
+
+    public static ClassificationData__c createClassificationDataForAccount(Account acc) {
+        ClassificationData__c cd = new ClassificationData__c();
+        cd.Account__c = acc.Id;
+        return cd;
+    }
+
+    public static ClassificationData__c createClassificationDataForContact(Contact con) {
+        ClassificationData__c cd = new ClassificationData__c();
+        cd.Contact__c = con.Id;
+        return cd;
     }
 
 }

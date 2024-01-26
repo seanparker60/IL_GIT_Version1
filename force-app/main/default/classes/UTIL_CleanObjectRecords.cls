@@ -43,6 +43,10 @@ global class UTIL_CleanObjectRecords implements Database.Batchable<sObject>, Dat
             dynamicQuery = 'SELECT Id FROM ' + mdtObject.ObjectAPIName__c + ' WHERE DAY_ONLY(CreatedDate) >= :startDate AND DAY_ONLY(CreatedDate) <= :endDate';
         }
 
+        if(mdtObject.WhereClause__c != null){
+            dynamicQuery += ' AND ' + mdtObject.WhereClause__c;
+        }
+
         return database.getQueryLocator(dynamicQuery);
     }
     

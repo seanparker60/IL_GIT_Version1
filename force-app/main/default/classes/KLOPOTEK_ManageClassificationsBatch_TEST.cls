@@ -16,7 +16,7 @@ public class KLOPOTEK_ManageClassificationsBatch_TEST {
             Database.executeBatch(kmc);
         Test.stopTest();
         
-        System.assertEquals(10, [SELECT Id FROM ClassificationData__c].size());
+        System.assertEquals(20, [SELECT Id FROM ClassificationData__c].size());
 
     }
 }

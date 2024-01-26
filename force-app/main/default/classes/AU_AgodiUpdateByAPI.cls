@@ -20,7 +20,7 @@ public class AU_AgodiUpdateByAPI implements Queueable, Database.AllowsCallouts {
     String inrichtendemachtenInstellingsType = '300';
     String scholengemeenschappenInstellingsType = '400';
     List<String> scholenInstellingsType = new List<String>();
-    List<String> instellingHoofdstructuurList = new List<String>{'111','121','211','221','311','312','313','314','315','316','317','321','411','416','417','450','511','618'};
+    List<String> instellingHoofdstructuurList = new List<String>{'111','121','211','221','311','312','313','314','315','316','317','321','411','416','417','450','511','618','H00'};
 
     List<Instelling> inrichtendemachtenInstellingen, scholengemeenschappenInstellingen;
     List<Account> newAccountsIM, newAccountsSG, newAccountsS;
@@ -352,6 +352,10 @@ public class AU_AgodiUpdateByAPI implements Queueable, Database.AllowsCallouts {
                         Set<String> classificationList = new Set<String>();
                         // Check Classifications
                         String classificationString = '';
+                        List<String> currentClassificationList = new List<String>();
+                        if (currentPlantynAccount.Classification__c != null) {
+                            currentClassificationList = currentPlantynAccount.Classification__c.split(';');
+                        }
                         for (String code : hfdStrString.split(';')) {
                             
                             System.debug('Code ==> ' + code);
@@ -373,11 +377,12 @@ public class AU_AgodiUpdateByAPI implements Queueable, Database.AllowsCallouts {
                                 cls = 'Vocational';
                             }
     
-                            if (cls.length() > 1) {
+                            if (!currentClassificationList.contains(cls) && cls != '') {
                                 classificationList.add(cls);
                             }
                         }
-                        classificationString = String.join(new List<String>(classificationList), ';');
+                        classificationString = currentPlantynAccount.Classification__c;
+                        classificationString += String.join(new List<String>(classificationList), ';');
                         System.debug('ClassificationString ==> ' + classificationString);
     
                         a.Classification__c = classificationString;
@@ -471,6 +476,7 @@ public class AU_AgodiUpdateByAPI implements Queueable, Database.AllowsCallouts {
                     Set<String> classificationList = new Set<String>();
                     // Check Classifications
                     String classificationString = '';
+
                     for (String code : hfdStrString.split(';')) {
                         
                         System.debug('Code ==> ' + code);
@@ -492,10 +498,11 @@ public class AU_AgodiUpdateByAPI implements Queueable, Database.AllowsCallouts {
                             cls = 'Vocational';
                         }
 
-                        if (cls.length() > 1) {
+                        if (cls != '') {
                             classificationList.add(cls);
                         }
                     }
+
                     classificationString = String.join(new List<String>(classificationList), ';');
                     System.debug('ClassificationString ==> ' + classificationString);
 

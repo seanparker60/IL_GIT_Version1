@@ -10,11 +10,19 @@ public class SU_StudentUserNumbersTriggerHandler {
 
         List<StudentAndUsernumbers__c> fullSuList = [SELECT 
                                                         Id, 
-                                                        Account__c, 
+                                                        Account__c,
+                                                        Account__r.NumberofStudents__c, 
+                                                        Account__r.KGStudents__c,
+                                                        Account__r.PEStudents__c,
+                                                        Account__r.SEStudents__c,
+                                                        Account__r.SEStudentsPartTime__c,
+                                                        Account__r.HEStudents__c,
+                                                        Account__r.VEStudents__c,
                                                         TotalNumber__c, 
                                                         KindergartenNumber__c, 
                                                         PrimaryEducationNumber__c, 
-                                                        SecondaryEducationNumber__c, 
+                                                        SecondaryEducationNumber__c,
+                                                        SecondaryEducationPartTime__c, 
                                                         HigherEducationNumber__c, 
                                                         VocationalEducationNumber__c,
                                                         IsDeleted 
@@ -42,6 +50,7 @@ public class SU_StudentUserNumbersTriggerHandler {
                     acc.KGStudents__c = null;
                     acc.PEStudents__c = null;
                     acc.SEStudents__c = null;
+                    acc.SEStudentsPartTime__c = null;
                     acc.HEStudents__c = null;
                     acc.VEStudents__c = null;
                 }
@@ -58,6 +67,9 @@ public class SU_StudentUserNumbersTriggerHandler {
                     }
                     if (su.SecondaryEducationNumber__c != null) {
                         acc.SEStudents__c = su.SecondaryEducationNumber__c;
+                    }
+                    if (su.SecondaryEducationPartTime__c  != null) {
+                        acc.SEStudentsPartTime__c = su.SecondaryEducationPartTime__c;
                     }
                     if (su.HigherEducationNumber__c != null) {
                         acc.HEStudents__c = su.HigherEducationNumber__c;
@@ -84,6 +96,7 @@ public class SU_StudentUserNumbersTriggerHandler {
                     acc.KGStudents__c = null;
                     acc.PEStudents__c = null;
                     acc.SEStudents__c = null;
+                    acc.SEStudentsPartTime__c = null;
                     acc.HEStudents__c = null;
                     acc.VEStudents__c = null;
                 }
@@ -101,6 +114,9 @@ public class SU_StudentUserNumbersTriggerHandler {
                     if (su.SecondaryEducationNumber__c != null) {
                         acc.SEStudents__c = su.SecondaryEducationNumber__c;
                     }
+                    if (su.SecondaryEducationPartTime__c  != null) {
+                        acc.SEStudentsPartTime__c = su.SecondaryEducationPartTime__c;
+                    }
                     if (su.HigherEducationNumber__c != null) {
                         acc.HEStudents__c = su.HigherEducationNumber__c;
                     }
@@ -114,24 +130,35 @@ public class SU_StudentUserNumbersTriggerHandler {
                 }
                 
             } else {
+                acc.Id = su.Account__c;
 
                 if (!su.IsDeleted) {
                     if (su.TotalNumber__c != null) {
+                        acc.NumberofStudents__c = su.Account__r.NumberofStudents__c != null ? su.Account__r.NumberofStudents__c : 0;
                         acc.NumberofStudents__c += su.TotalNumber__c;
                     }
                     if (su.KindergartenNumber__c != null) {
+                        acc.KGStudents__c = su.Account__r.KGStudents__c != null ? su.Account__r.KGStudents__c : 0;
                         acc.KGStudents__c += su.KindergartenNumber__c;
                     }
                     if (su.KindergartenNumber__c != null) {
+                        acc.PEStudents__c = su.Account__r.PEStudents__c != null ? su.Account__r.PEStudents__c : 0;
                         acc.PEStudents__c += su.PrimaryEducationNumber__c;
                     }
                     if (su.SecondaryEducationNumber__c != null) {
+                        acc.SEStudents__c = su.Account__r.SEStudents__c != null ? su.Account__r.SEStudents__c : 0;
                         acc.SEStudents__c += su.SecondaryEducationNumber__c;
                     }
+                    if (su.SecondaryEducationPartTime__c  != null) {
+                        acc.SEStudentsPartTime__c = su.Account__r.SEStudentsPartTime__c != null ? su.Account__r.SEStudentsPartTime__c : 0;
+                        acc.SEStudentsPartTime__c += su.SecondaryEducationPartTime__c;
+                    }
                     if (su.HigherEducationNumber__c != null) {
+                        acc.HEStudents__c = su.Account__r.HEStudents__c != null ? su.Account__r.HEStudents__c : 0;
                         acc.HEStudents__c += su.HigherEducationNumber__c;
                     }
                     if (su.VocationalEducationNumber__c != null) {
+                        acc.VEStudents__c = su.Account__r.VEStudents__c != null ? su.Account__r.VEStudents__c : 0;
                         acc.VEStudents__c += su.VocationalEducationNumber__c;
                     }
     
@@ -149,6 +176,7 @@ public class SU_StudentUserNumbersTriggerHandler {
                 acc.KGStudents__c = null;
                 acc.PEStudents__c = null;
                 acc.SEStudents__c = null;
+                acc.SEStudentsPartTime__c = null;
                 acc.HEStudents__c = null;
                 acc.VEStudents__c = null;
                 accountList.add(Acc);

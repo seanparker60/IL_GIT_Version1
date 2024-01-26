@@ -29,8 +29,8 @@
     <testClassName>LightningLookupControllerTest</testClassName>
     <testClassName>ListActionsTest</testClassName>
     <testClassName>LPD_customListPriceDiscountView_TEST</testClassName>
-    <testClassName>MERGE_MergeAccounts_Batch_TEST</testClassName>
     <testClassName>MERGE_MergeAccount_TEST</testClassName>
+    <testClassName>MERGE_MergeAccounts_Batch_TEST</testClassName>
     <testClassName>MERGE_MergeContact_Batch_TEST</testClassName>
     <testClassName>MERGE_MergeContact_TEST</testClassName>
     <testClassName>MERGE_MergeHelper_TEST</testClassName>
@@ -40,18 +40,18 @@
     <testClassName>NS_TestDataFactory</testClassName>
     <testClassName>Order_AccountSubsidiary_Test</testClassName>
     <testClassName>Order_ActivateAPISendOrderItems_test</testClassName>
-    <testClassName>Order_AssetRenewalLineItemQueueable_test</testClassName>
     <testClassName>Order_AssetRenewal_test</testClassName>
+    <testClassName>Order_AssetRenewalLineItemQueueable_test</testClassName>
     <testClassName>Order_AssetsCreateOnOrderActivation_test</testClassName>
     <testClassName>Order_B2BOrderInvoice_test</testClassName>
     <testClassName>Order_B2BTriggerBatchRESTAPI_test</testClassName>
+    <testClassName>Order_Batch_AssetRenewal_test</testClassName>
+    <testClassName>Order_Batch_UpdateProductPricing_test</testClassName>
     <testClassName>Order_BatchAccountswithRenwalAsset_test</testClassName>
     <testClassName>Order_BatchOrderActivateAssetRenew_test</testClassName>
     <testClassName>Order_BatchResetAccountAssetRenewal_test</testClassName>
     <testClassName>Order_BatchUpdateB2BOrders_test</testClassName>
     <testClassName>Order_BatchUpdateOrdersOnMerge_test</testClassName>
-    <testClassName>Order_Batch_AssetRenewal_test</testClassName>
-    <testClassName>Order_Batch_UpdateProductPricing_test</testClassName>
     <testClassName>Order_ImportOrderItemGroupCreate_test</testClassName>
     <testClassName>Order_ImportOrderItemGroupUpdate_test</testClassName>
     <testClassName>Order_ImportOrderSuccessorUpdate_test</testClassName>

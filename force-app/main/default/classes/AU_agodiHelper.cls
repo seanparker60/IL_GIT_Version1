@@ -150,7 +150,8 @@ public class AU_agodiHelper implements Queueable, Database.AllowsCallouts {
                     ExternalDatabase__c,
                     PhoneCountry__c,
                     CustomerDiscountGroup__c,
-                    Hfdstructuur__c 
+                    Hfdstructuur__c ,
+                    Classification__c 
                     FROM Account 
                     WHERE OperatingCompany__c = 'Plantyn'
                     AND ExternalDatabase__c = 'Agodi' 
@@ -166,7 +167,8 @@ public class AU_agodiHelper implements Queueable, Database.AllowsCallouts {
                     ExternalDatabase__c,
                     PhoneCountry__c,
                     CustomerDiscountGroup__c,
-                    Hfdstructuur__c 
+                    Hfdstructuur__c,
+                    Classification__c 
                     FROM Account 
                     WHERE OperatingCompany__c = 'Plantyn'
                     AND ExternalDatabase__c = 'Agodi' 

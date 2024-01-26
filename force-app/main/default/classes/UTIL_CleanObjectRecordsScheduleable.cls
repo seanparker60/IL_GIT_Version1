@@ -81,7 +81,14 @@ global class UTIL_CleanObjectRecordsScheduleable Implements Schedulable {
     }
     
     public Set<Id> createWeeklyData(Objects_to_Clean__mdt mdtObject, Id parentId){
-        String query = 'SELECT Count(ID)total, week_in_year(CreatedDate)weekNum, calendar_year(CreatedDate)calYear FROM ' + mdtObject.ObjectAPIName__c + ' WHERE DAY_ONLY(CreatedDate) <= :filterStartDate GROUP BY week_in_year(CreatedDate), calendar_year(CreatedDate)';
+        String query = 'SELECT Count(ID)total, week_in_year(CreatedDate)weekNum, calendar_year(CreatedDate)calYear FROM ' + mdtObject.ObjectAPIName__c + ' WHERE DAY_ONLY(CreatedDate) <= :filterStartDate';
+
+        if(mdtObject.WhereClause__c != null){
+            query += ' AND ' + mdtObject.WhereClause__c + ' GROUP BY week_in_year(CreatedDate), calendar_year(CreatedDate)';
+        } else {
+            query += ' GROUP BY week_in_year(CreatedDate), calendar_year(CreatedDate)';
+        }
+
         //system.debug('createWeeklyData query: ' + query);
         List<AggregateResult> aggResLs = Database.query(query);
         
