@@ -115,9 +115,11 @@ public with sharing class Order_B2BOrderInvoice_test {
         
         List<Product2> lstProduct = TestDataFactory.insertProducts(3,false);
         for(Product2 prod : lstProduct){
+
             prod.FreeFromDate__c = Date.newInstance(2025, 07, 01);
             prod.FixedStartDate__c = Date.newInstance(2022, 09, 01);
             prod.LicenseBreakDate__c = Date.newInstance(2022, 01, 01);
+
         }
         insert lstproduct;
         
@@ -133,7 +135,9 @@ public with sharing class Order_B2BOrderInvoice_test {
         lstOrder[0].OrderNotificationEmail__c = null;
         lstOrder[0].OrderNotificationEmail2__c = null;
         lstOrder[0].InvoiceEmail2__c = null;
+
         lstOrder[0].ShipbyDate__c = Date.newInstance(system.today().year(), 06, 09);
+
         lstOrder[0].PricingMethod__c = 'OrderTotalAmount';
         update lstOrder[0];
         
@@ -171,9 +175,11 @@ Order_B2BOrderInvocable.B2BOrderInvocable(request);
         
         List<Product2> lstProduct = TestDataFactory.insertProducts(3,false);
         for(Product2 prod : lstProduct){
+
             prod.FreeFromDate__c = Date.newInstance(2025, 07, 01);
             prod.FixedStartDate__c = Date.newInstance(2022, 09, 01);
             prod.LicenseBreakDate__c = Date.newInstance(2022, 01, 01);
+
         }
         insert lstproduct;
         
@@ -196,7 +202,9 @@ Order_B2BOrderInvocable.B2BOrderInvocable(request);
         lstOrder[0].BillingReminderEmail__c = null;
         lstOrder[0].DigitalActivationEmail__c = null;
         lstOrder[0].InvoiceEmail__c = null;
+
         lstOrder[0].ShipbyDate__c = Date.newInstance(system.today().year(), 06, 09);
+
         lstOrder[0].PricingMethod__c = 'OrderTotalAmount';
         update lstOrder[0];
         
