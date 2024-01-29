@@ -1138,6 +1138,18 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
             </value>
         </inputAssignments>
         <inputAssignments>
+            <field>ExternalContactId__c</field>
+            <value>
+                <elementReference>$Record.ExternalCustomerId__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>External_Database__c</field>
+            <value>
+                <elementReference>$Record.ExternalDatabase__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
             <field>FirstName</field>
             <value>
                 <elementReference>$Record.authorFirstName__c</elementReference>
@@ -1171,6 +1183,12 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
             <field>Phone</field>
             <value>
                 <elementReference>$Record.Phone</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UniqueExternalDatabaseNumber__c</field>
+            <value>
+                <elementReference>$Record.UniqueExternalDatabaseNumber__c</elementReference>
             </value>
         </inputAssignments>
         <object>Contact</object>
