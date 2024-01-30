@@ -96,7 +96,7 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
     
 
   //  if(PricingMethod.contains('UsageBased')){
-
+/*
         asset[] loadAssetsListGroupRate  = [Select id,Name,Product2.Name,Product2.OrderLineType__c,PriceBook__c,PriceBook__r.FollowUpPriceBook__c,RenewalDate__c,Account.DigitalActivationEmail__c ,Product2.ProductDiscountGroup__c,Product2.ProductRateGroup__c,RenewalTerm__c,IsUpForRenewal__c,AccountId,PricingMethod__c,BillToAccount__r.ShippingCostMethod__c,BillToAccount__r.PaymentMethod__c,Price,Quantity, BillToAccount__c,Product2Id 
                                                 from asset 
                                                 where (CancellationDate__c >: CurrrentDay OR CancellationDate__c =:null)
@@ -108,6 +108,12 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
                                                 //AND Contract__c =:null
 
         system.debug('**Order_UpdateOrderListPrice: loadAssetsListGroupRate**'+loadAssetsListGroupRate.size());
+*/
+
+Date CurrentDay = system.today();
+Date RenewalDay = system.today();
+asset[] loadAssetsListGroupRate  = Database.query(Order_SoqlFactory.returnasset('ListPriceDiscount',Set_BillTo));
+system.debug('**Order_SoqlFactory.Order_UpdateOrderListPriceDiscountAll.loadAssetsListGroupRate :Size**'+loadAssetsListGroupRate.size());
 
         for(asset ass:loadAssetsListGroupRate){
             String ProdAcc=ass.Product2Id;
