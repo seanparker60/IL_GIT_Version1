@@ -2,7 +2,7 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
 
 
 
-    
+    /*
     Public static void UpdateOrdeItemswithListPriceDiscount(Decimal NoStudents, List<String> lstOrderId , String PricebookId){
         
         
@@ -27,7 +27,7 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
         }
         
      }
-
+*/
     
     Public static List<OrderItem>  ProcessUpdate(Decimal NoStudents, List<String> lstOrderId , String PricebookId,OrderItem[] lstOrderItem, ListPriceDiscount__c[] lst_ListPriceDiscountRegular){
 
@@ -250,22 +250,23 @@ system.debug('**Order_SoqlFactory.Order_UpdateOrderListPriceDiscountAll.loadAsse
                     
                 }
 
-    
+                /*
+                No need to check Prodct type: Match Order line type with LDP?
                 List<String> PriceProductType = new List<String>();
                 PriceProductType.AddAll(Item.Product2.OrderLineType__c.Split(';'));                
                 Map_PriceProductType.put(Item.Product2Id,PriceProductType);
-            
+                */
                 
     }
 
     system.debug('**Order_UpdateOrderListPrice: Map_OrderProdMap Final'+Map_OrderProdMap);
 
-    lstOrderItem = returnItemswithListpriceId(OrderType,lstOrderItem,lst_ListPriceDiscountRegular,Map_OrderProdMap,Map_PriceProductType);
+    lstOrderItem = returnItemswithListpriceId(OrderType,lstOrderItem,lst_ListPriceDiscountRegular,Map_OrderProdMap); //,Map_PriceProductType
 
     return lstOrderItem;
 }    
 
-Public static List<OrderItem> returnItemswithListpriceId(String Type, List<OrderItem> lstOrderItem, List<ListPriceDiscount__c> lst_ListPriceDiscountRegular,Map<String,Decimal> Map_OrderProdMap, Map<String,List<String>> Map_PriceProductType){ 
+Public static List<OrderItem> returnItemswithListpriceId(String Type, List<OrderItem> lstOrderItem, List<ListPriceDiscount__c> lst_ListPriceDiscountRegular,Map<String,Decimal> Map_OrderProdMap){ //, Map<String,List<String>> Map_PriceProductType
 
     Boolean listPriceSelected;
     String ProdGroup;
