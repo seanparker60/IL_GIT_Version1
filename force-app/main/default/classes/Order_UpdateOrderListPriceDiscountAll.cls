@@ -37,14 +37,11 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
       Order[] curOrder = [Select Pricebook2Id,Billto__r.OperatingCompany__c,Billto__r.CustomerDiscountGroup__c,Type,PricingMethod__c,Billto__c from Order where id in: lstOrderId];
     
       /* OrderLineItemType__c, */
+    /*  
     if(lstOrderItem == null){
         lstOrderItem = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,lstOrderId);
      
-    }
-     
-
-    
-                      
+    }         
 
     Date CurDate = system.today();
 
@@ -54,7 +51,7 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
                                                                                         AND StartDate__c  <=:CurDate  
                                                                                         ORDER BY StartQuantity__c DESC];
     }
-    
+    */
 
 
         system.debug('**Order_UpdateOrderListPrice 2: lstOrderItem**'+lstOrderItem);
