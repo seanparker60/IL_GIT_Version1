@@ -37,13 +37,12 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
       Order[] curOrder = [Select Pricebook2Id,Billto__r.OperatingCompany__c,Billto__r.CustomerDiscountGroup__c,Type,PricingMethod__c,Billto__c from Order where id in: lstOrderId];
     
       /* OrderLineItemType__c, */
-    
-    /*
+    /*  
     if(lstOrderItem == null){
         lstOrderItem = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,lstOrderId);
      
-    }
-     
+    }         
+
     Date CurDate = system.today();
 
     if(lst_ListPriceDiscountRegular == null){
@@ -94,7 +93,7 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
     
 
   //  if(PricingMethod.contains('UsageBased')){
-        /*
+/*
         asset[] loadAssetsListGroupRate  = [Select id,Name,Product2.Name,Product2.OrderLineType__c,PriceBook__c,PriceBook__r.FollowUpPriceBook__c,RenewalDate__c,Account.DigitalActivationEmail__c ,Product2.ProductDiscountGroup__c,Product2.ProductRateGroup__c,RenewalTerm__c,IsUpForRenewal__c,AccountId,PricingMethod__c,BillToAccount__r.ShippingCostMethod__c,BillToAccount__r.PaymentMethod__c,Price,Quantity, BillToAccount__c,Product2Id 
                                                 from asset 
                                                 where (CancellationDate__c >: CurrrentDay OR CancellationDate__c =:null)
@@ -104,13 +103,14 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
                                                 AND BillToAccount__c in:Set_BillTo
                                                 ]; 
                                                 //AND Contract__c =:null
-        */
-        Date CurrentDay = system.today();
-        Date RenewalDay = system.today();
-        asset[] loadAssetsListGroupRate  = Database.query(Order_SoqlFactory.returnasset('ListPriceDiscount',Set_BillTo));
-        system.debug('**Order_SoqlFactory.Order_UpdateOrderListPriceDiscountAll.loadAssetsListGroupRate :Size**'+loadAssetsListGroupRate.size());
-         
-        
+
+        system.debug('**Order_UpdateOrderListPrice: loadAssetsListGroupRate**'+loadAssetsListGroupRate.size());
+*/
+
+Date CurrentDay = system.today();
+Date RenewalDay = system.today();
+asset[] loadAssetsListGroupRate  = Database.query(Order_SoqlFactory.returnasset('ListPriceDiscount',Set_BillTo));
+system.debug('**Order_SoqlFactory.Order_UpdateOrderListPriceDiscountAll.loadAssetsListGroupRate :Size**'+loadAssetsListGroupRate.size());
 
         for(asset ass:loadAssetsListGroupRate){
             String ProdAcc=ass.Product2Id;
@@ -393,17 +393,17 @@ Boolean UpdateItemGroup = false;
                                                             
                                 system.debug('**Order_UpdateOrderListPrice: IN LPD 2**');
                                         if(lpr.ProductDiscountGroup__c == item.Product2.ProductDiscountGroup__c){ 
-                                                
+                                                /*
                                                 if(Map_PriceProductType.get(Item.Product2Id) != null){
 
                                                 
                                                     //Can this for be removed: Match Order line type with LDP?
-
+                                                        
                                                     for(String ProductType:Map_PriceProductType.get(Item.Product2Id)){
                                                         system.debug('**Order_UpdateOrderListPrice: IN LPD 3**');
-
-                                                                                                                          
-                                                        if((lpr.OrderLineType__c == ProductType) && (lpr.OrderLineType__c == Item.OrderLineType__c  ) && listPriceSelected==false){
+                                                        (lpr.OrderLineType__c == ProductType) &&
+                                                      */                                                                    
+                                                        if( (lpr.OrderLineType__c == Item.OrderLineType__c  ) && listPriceSelected==false){
                                                             if(lpr.DiscountType__c!='Market Segment' || (lpr.DiscountType__c=='Market Segment' && lpr.MarketSegment__c == item.Product2.MarketSegment__c)){
                                                                         
                                                                 system.debug('**Order_UpdateOrderListPrice: IN LPD 4**'+(lpr.Rate__c/100));
@@ -444,8 +444,8 @@ Boolean UpdateItemGroup = false;
                                                                 }
                                                                     
                                                         }
-                                                    }
-                                                    }  
+                                                    //}
+                                                   // }  
                                                 }     
                                     }      
                             }  
