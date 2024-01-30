@@ -22,6 +22,7 @@ global with sharing class HandleCustomException extends Exception {
             errorLog.RelatedToId__c = relatedToId;
             errorLog.ClassName__c = className;
             errorLog.MethodName__c = methodName;
+            system.debug('**HandleCustom Exception 0**'+e.getMessage());
             errorLog.ExceptionMessage__c = e.getMessage();
             errorLog.ExceptionType__c = e.getTypeName();
             errorLog.LineNumber__c = e.getLineNumber();
@@ -47,6 +48,7 @@ global with sharing class HandleCustomException extends Exception {
                     dmle.FieldNames__c = fieldNames;
                     dmle.IDofFailedRecord__c = e.getDmlId(i);
                     dmle.Index__c = e.getDmlIndex(i);
+                    system.debug('**HandleCustom Exception 1**'+e.getDmlMessage(i));
                     dmle.Message__c = e.getDmlMessage(i);
                     dmlErrorLogs.add(dmle);
                 }
@@ -106,6 +108,7 @@ global with sharing class HandleCustomException extends Exception {
                 errorLog.MethodName__c = methodName;
                 errorLog.ExceptionType__c = 'Critical Governor Limits';
                 errorLog.GovtLimitExecutingCode__c = createGovernorLimtsString(governorLimitMap);
+                system.debug('**HandleCustom Exception 2**'+createGovernorLimtsString(governorLimitMap));
                 database.insert(errorLog);
             }
 
