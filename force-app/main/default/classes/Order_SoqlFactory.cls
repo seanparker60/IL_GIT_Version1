@@ -2,12 +2,7 @@ public with sharing class Order_SoqlFactory {
   
 //Comment
 
-<<<<<<< HEAD
         Public static List<OrderItem> returnQueryOrderItems(Set<String> Set_ItemId,List<Id> OrderId, Set<String> Set_ItemGroupBlock,  String Type){
-=======
-//Comment
-
->>>>>>> 42a4b9e4acb2e17d6ca43822333cbec2f0c1b728
     
             String Querystr;
             //Order.Hfdstructuur__c,Hfdstructuur__c 
@@ -834,8 +829,5 @@ Public static List<ImportOrder__c> returnImportOrders(String Type,List<Id> Order
     return lst_ImportOrder;
 
 }
-<<<<<<< HEAD
     
 }
-=======
->>>>>>> 42a4b9e4acb2e17d6ca43822333cbec2f0c1b728
