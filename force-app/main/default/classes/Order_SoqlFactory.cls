@@ -290,10 +290,12 @@ public with sharing class Order_SoqlFactory {
         Querystr += ' ORDER BY StartAmount__c DESC';
     }
     else{
+        /*
         if(Type =='ProductSelectorv2'){
             Querystr += ' AND StartQuantity__c <=: NoStudents   '; 
         }
-       
+       */
+
         Querystr += ' AND ValueType__c = \'Quantity\' '; 
         Querystr += ' ORDER BY StartQuantity__c DESC'; 
     }
@@ -588,7 +590,7 @@ public with sharing class Order_SoqlFactory {
        
     
     
-    Public static String returnasset(String Type,Set<String> Set_BillTo){
+    Public static String returnasset(String Type,Set<String> Set_BillTo,Set<string> Set_ProdId){
     
         String Querystr;
         Date CurrentDay = system.today();
@@ -676,16 +678,18 @@ public with sharing class Order_SoqlFactory {
                 Querystr +=' AND Contract__c !=null';
             }    
         }
+        /*Commented out in the class
         else if(Type =='Activation'){
-            Querystr += 'Product2Id in:Set_Asset' 
-            +'AND BillToAccount__c in:Set_BillTo' 
+            Querystr += 'Product2Id in:Set_Asset ' 
+            +'AND BillToAccount__c in:Set_BillTo ' 
             +'AND AccountId in:Set_ShipTo '
-            +'AND PricingMethod__c in: Set_PricingMethod'; 
+            +'AND PricingMethod__c in: Set_PricingMethod '; 
         }
+        */
         else if(Type == 'AssetsFromOrder'){
-            Querystr += 'Product2Id in: Set_ProdId' 
-            +'AND AccountId in: Set_Shipto' 
-            +'AND (CancellationDate__c >: Startdate OR CancellationDate__c=null)';
+            Querystr += 'Product2Id in: Set_ProdId ' 
+            +'AND AccountId in: Set_BillTo ' 
+            +'AND (CancellationDate__c >: CurrentDay OR CancellationDate__c=null)';
         }
         else if(Type =='ProductSelector' || Type =='ListPriceDiscount'){
     

@@ -44,7 +44,7 @@ public with sharing class Order_SoqlFactory_test {
 
         Set<String> Set_ItemId = new Set<String>();
         List<Id> OrderId = new List<Id>();
-        Set<String> Set_ItemGroupBlock = new Set<String>();  
+        Set<String> Set_ItemGroupBlock = new Set<String>();   
         List<Id> MaxOrderLineId = new List<Id>();
         Set<String> ShiptoId = new Set<String>();
         String LPDType;
@@ -65,7 +65,9 @@ public with sharing class Order_SoqlFactory_test {
         Type = 'AssetsCreateOnOrderActivation';
         OrderItem[] lstOrderItem = order_soqlfactory.returnQueryOrderItems(Set_ItemId,OrderId,Set_ItemGroupBlock,Type);        
         Type = 'ProductSelectController';
-        lstOrderItem = order_soqlfactory.returnQueryOrderItems(Set_ItemId,OrderId,Set_ItemGroupBlock,Type);
+        lstOrderItem = order_soqlfactory.returnQueryOrderItems(Set_ItemId,null,Set_ItemGroupBlock,Type);
+        lstOrderItem = order_soqlfactory.returnQueryOrderItems(Set_ItemId,null,null,Type);
+
 
         Type = 'OrderActivateQueueHandler';
         lstOrder = order_soqlfactory.returnQueryOrder(OrderId,MaxOrderLineId,Type);
@@ -81,7 +83,24 @@ public with sharing class Order_SoqlFactory_test {
             Set_ProdDiscountGroup.add(item.Product2.ProductDiscountGroup__c);
             Set_OrderLineItemType.add(item.OrderLineType__c);
         }
+
+        LPDType = 'AllDiscount';
         ListPriceDiscount__c[] lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+
+        LPDType = 'ProductSelector';
+        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+
+
+        
+        LPDType ='ProductSelectorv2';
+        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+
+        PricingMethod = 'OrderTotalAmount';
+        LPDType ='ProductSelectorv2';
+        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+
+        //Max
+
 
         Test.stopTest();
         
@@ -156,7 +175,7 @@ public with sharing class Order_SoqlFactory_test {
         lstProduct = order_soqlfactory.returnProduct(Set_ProdId);
 
         Pricebook2[] lstPricebook = order_soqlfactory.returnPricebook(Set_PriceBook, Set_Subsid);   
-        
+        lstPricebook = order_soqlfactory.returnPricebook(Set_PriceBook,null);
 
         Type = 'AssetRenewalProductsbyPriceBook';
         SearchString = 'Prod';
@@ -169,8 +188,50 @@ public with sharing class Order_SoqlFactory_test {
         Type = 'ProductSelectorSearch';
         lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
 
+        Type = 'ProductSelectorLoad';
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+
+        
+        Type = 'ProductSelectorItemGroup';
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+
+
+        Type = 'Itemgroupcreate';
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+
+        
+        Type = 'SuccessorPricebookentrycreate_1';
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+
+        
+        Type ='SuccessorPricebookentrycreate_2';
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+
+        
+        Type = 'SuccessorPricebookentrycreate_3';
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+
+
+
         Type = 'ProductSelector1';
         lstPricing =order_soqlfactory.returnPricing(Type,Set_ProdItemGroup,lst_ProdPriceId);
+
+        Type = 'ProductSelector2';
+        order_soqlfactory.returnPricing(Type,Set_ProdItemGroup,lst_ProdPriceId);
+        
+        Type = 'Itemgroupupdate';
+        order_soqlfactory.returnPricing(Type,Set_ProdItemGroup,lst_ProdPriceId);
+
+        Type = 'Itemgroupcreate';
+        order_soqlfactory.returnPricing(Type,Set_ProdItemGroup,lst_ProdPriceId);
+        
+        Type = 'Pricebookentrycreate';
+        order_soqlfactory.returnPricing(Type,Set_ProdItemGroup,lst_ProdPriceId);
+        
+        Type ='UpdatePricingfromProduct';
+        order_soqlfactory.returnPricing(Type,Set_ProdItemGroup,lst_ProdPriceId);
+    
+
 
         Test.stopTest();
         
@@ -190,22 +251,38 @@ public with sharing class Order_SoqlFactory_test {
         List<Asset>lst_Asset = TestDataFactory.insertAsset(standardPricebook.id ,lstProduct,lstAccount, lstAccount,true);
        
         Set<String> Set_BillTo = new Set<String>();
-
+        Set<string> Set_ProdId = new Set<string>();
         for(Account acc:lstAccount){
                 Set_BillTo.add(acc.id);
         }          
 
+        for(Product2 prod:lstProduct){
+            Set_ProdId.add(prod.id);
+        }
+
         //SOQLS
         String Type = 'renewal';
 
-        String strAsset = order_soqlfactory.returnasset(Type,Set_BillTo);
+        String strAsset = order_soqlfactory.returnasset(Type,Set_BillTo,Set_ProdId);
+        
+       // Type = 'Activation';
+       // strAsset = order_soqlfactory.returnasset(Type,Set_BillTo,Set_ProdId);
+        
+        Type = 'AssetsFromOrder';
+        strAsset = order_soqlfactory.returnasset(Type,Set_BillTo,Set_ProdId);
+
+        Type = 'ProductSelector';
+        strAsset = order_soqlfactory.returnasset(Type,Set_BillTo,Set_ProdId);
+
+       // Set_BillTo = null;
+       // strAsset = order_soqlfactory.returnasset(Type,Set_BillTo,Set_ProdId);
         Test.stopTest();
         
     }
 
 
     
-/*
+
     Public static testmethod void SoqlFactory4(){
         
         Test.startTest();
@@ -273,17 +350,15 @@ public with sharing class Order_SoqlFactory_test {
 
         List<OpportunityLineItem> lstOpportunityItems = TestDataFactory.insertOpportunityItems(2,lstAccount,lstOpportunity, lstPricebookEntryItemGroup,true);
         
-
-
+        String curOrderId = lstOpportunity[0].id;
 
         //SOQLS
-        OpportunityLineItem[] lstOpportunity = order_soqlfactory.returnOpportunityLine(String curOrderId);
+        lstOpportunityItems = order_soqlfactory.returnOpportunityLine(curOrderId);
         Test.stopTest();
         
     }
 
             
-    
     Public static testmethod void SoqlFactory5(){
         
         Test.startTest();
@@ -305,32 +380,113 @@ public with sharing class Order_SoqlFactory_test {
         }
 
         update lstAccountSubsidiary;
+        
+        List<Product2> lstProductItemGroup = TestDataFactory.insertProducts(5,false);
+        List<Product2> lstProductItem = TestDataFactory.insertProducts(1,false);
+
+        Integer ISBN = lstProductItemGroup.size()+1;
+        
+        i = 0;
+        for(Product2 prod:lstProductItem){
+            prod.ISBN__c = prod.ISBN__c + i;
+            prod.EAN__c = prod.EAN__c + i;
+           // prod.itemGroupManualBlock__c = true;
+            i++;
+        }
 
 
-        lstAccount = [Select NetsuiteInternalId__c from Account];
-        List<ImportOrder__c> lstinsertImportOrder = Order_TestDataFactory.insertImportOrderOrder(lstAccount,false,OrderExternalId,'eCommerce B2B');
-        lstinsertImportOrder[0].Status__c = 'Completed';
-        insert lstinsertImportOrder;
+        insert lstProductItem;
+        insert lstProductItemGroup;
+
+
+        Pricebook2 standardPricebook = TestDataFactory.insertPricebook();
  
-        List<ImportOrder__c> lstinsertImportOrderItem = Order_TestDataFactory.insertImportOrderItem(lstProductItem,false,OrderExternalId,null,'eCommerce B2B');
-        List<ImportOrder__c> lstinsertImportOrderItemGroup = Order_TestDataFactory.insertImportOrderItem(lstProductItemGroup,false,OrderExternalId,lstProductItem[0].EAN__c,'eCommerce B2B');
-        lstinsertImportOrderItem.addAll(lstinsertImportOrderItemGroup);
+        Pricebook2 PricebookCustom = TestDataFactory.insertPricebookCustom('Plantyn - All 2023');
+ 
+        List<ProductComponent__c> lstProductComponent = Order_TestDataFactory.InsertGroupComponent(lstProductItem,lstProductItemGroup,true);
+
+        Order_TestDataFactory.InsertPricing(lstProductItemGroup,null,true);
+        Pricing__c[] lstPricing = Order_TestDataFactory.InsertPricing(lstProductItem,lstProductComponent,true);
+
+        
+
+        Pricing__c[] lstPricingComponent = Order_TestDataFactory.InsertPricingProductComponent(lstProductComponent,false);
+        
+     //   for(Pricing__c price:lstPricingComponent){
+    //         price.ListRate__c =null;
+    //     }
+         insert lstPricingComponent;
+
+        String OrderExternalId = 'Ext123';
+
+
+        Pricing__c[] lstPricingCheck = [Select ProductComponent__r.Product__c from Pricing__c where ProductComponent__r.Product__c !=: null AND ProductComponent__r.MainProduct__c != null]; //where ProductComponent__r.Product__c !=: null
+
+        system.debug('**Price check: lstPricingCheck**'+lstPricingCheck.size());
+
+
+       PricebookEntry[] lstPricebookEntry = [Select id, Pricebook2.Name,Product2.ISBN__c, UnitPrice from PricebookEntry where Pricebook2.Name like: '%Plantyn%' ];
+
+       
+       for(PricebookEntry pbe:lstPricebookEntry){
+            if(!pbe.Pricebook2.Name.contains('Standard')){
+                PricebookCustom.id = pbe.Pricebook2Id;
+            }
+            system.debug('**Before Pricebook2.Name**'+pbe.Pricebook2.Name);
+            system.debug('**Before Product2.ISBN**'+pbe.Product2.ISBN__c);
+            system.debug('**Before UnitPrice**'+pbe.UnitPrice);
+       }
+      
+       List<Contract> lstContract = TestDataFactory.insertContract(1,lstAccount,PricebookCustom.id,true);
+      
+       List<Order> lstOrder = TestDataFactory.insertOrderHeader(1,lstAccount,lstContract,PricebookCustom.id,true);
+       List<OrderItem> lstOrderItems = TestDataFactory.insertOrderItems(1,lstAccount,Map_AccSub,lstOrder,lstPricebookEntry,true);
+       List<Order_ImportOrderItemGroupUpdate.Request> lst_request = new  List<Order_ImportOrderItemGroupUpdate.Request>();
+
+
+       lstAccount = [Select NetsuiteInternalId__c from Account];
+       List<ImportOrder__c> lstinsertImportOrder = Order_TestDataFactory.insertImportOrderOrder(lstAccount,false,OrderExternalId,'eCommerce B2B');
+       lstinsertImportOrder[0].Status__c = 'Completed';
+       insert lstinsertImportOrder;
+
+       List<ImportOrder__c> lstinsertImportOrderItem = Order_TestDataFactory.insertImportOrderItem(lstProductItem,false,OrderExternalId,null,'eCommerce B2B');
+       List<ImportOrder__c> lstinsertImportOrderItemGroup = Order_TestDataFactory.insertImportOrderItem(lstProductItemGroup,false,OrderExternalId,lstProductItem[0].EAN__c,'eCommerce B2B');
+       lstinsertImportOrderItem.addAll(lstinsertImportOrderItemGroup);
        
        for(ImportOrder__c io : lstinsertImportOrderItem){
-            io.Status__c = 'Completed';   
+            io.Status__c = 'Completed';
+            io.NetSalesPrice__c = 5;     
        }
        insert lstinsertImportOrderItem;
 
-
-
-
         //SOQLS
-        ImportOrder__c[] lstImportOrder = order_soqlfactory.returnImportOrders(String Type,List<Id> OrderId,Set<String> Set_ExternalOrderId,Set<String> Set_ImportOrderId);
+        String Type;
+        List<Id> OrderId = new List<Id>();
+        Set<String> Set_ExternalOrderId = new Set<String>(); 
+        Set<String> Set_ImportOrderId = new Set<String>(); 
+       
+        for(ImportOrder__c imp:lstinsertImportOrderItem){
+            Set_ExternalOrderId.add(imp.ExternalOrderId__c);
+            Set_ImportOrderId.add(imp.id);
+        }
+
+
+        for(Order ord:lstOrder){
+            OrderId.add(ord.id);
+        }
+
+        Type = 'ImportOrderItemGroupUpdate';
+        ImportOrder__c[] lstImportOrder = order_soqlfactory.returnImportOrders(Type,OrderId,Set_ExternalOrderId,Set_ImportOrderId);
+
+
+        type = 'ItemGroupSweeperQueueable';
+        lstImportOrder = order_soqlfactory.returnImportOrders(Type,OrderId,Set_ExternalOrderId,Set_ImportOrderId);
+
+
 
         Test.stopTest();
         
     }
-*/
    
 
 }
