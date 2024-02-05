@@ -75,7 +75,7 @@ public with sharing class Order_OrdeItemFromOrderTypeChange {
                                                                                                         AND MarketSegment__c in: Set_MarketSegment    
                                                                                                         ORDER BY StartQuantity__c DESC];
             */
-            ListPriceDiscount__c[] lst_ListPriceDiscountRegular  =  Order_SoqlFactory.returnListPriceDiscount('AllDiscount',lst_Order[0].PricingMethod__c,lst_Order, Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);
+            ListPriceDiscount__c[] lst_ListPriceDiscountRegular  =  Order_SoqlFactory.returnListPriceDiscount('AllDiscount',lst_Order[0].PricingMethod__c,Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);
             system.debug('**Order_SoqlFactory.Order_OrdeItemFromOrderTypeChange.lst_ListPriceDiscountRegular :Size**'+lst_ListPriceDiscountRegular.size());
         
             lst_OrdItem = Order_UpdateOrderListPriceDiscountAll.ProcessUpdate(Null,Lst_OrdId,Null,lst_OrdItem,lst_ListPriceDiscountRegular);
