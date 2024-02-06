@@ -415,21 +415,25 @@ public with sharing class Order_SoqlFactory {
         +' Product2.SuccessorItem__r.IsActive,'        
         +' Product2.Stocknumber__c,'       
         +' Product2.Type__c'
-        +' from PricebookEntry where IsActive =true ';
+        +' from PricebookEntry where ';
 
 
         if(Type =='AssetRenewalProductsbyPriceBook'){
+            
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id in:Set_Pricebook ' 
                 +'AND (Product2Id in: Set_ProdId OR Product2Id in: Set_SuccProductId)';
         }
         else if(Type =='AssetRenewalProductsbyPriceBookSuccessor'){       
+                
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id in:Set_Pricebook ' 
                 +'AND Product2Id in: Set_SuccProductId';
                
         }
         else if(Type == 'ProductSelectorSearch'){
                 String Search = '%'+SearchString+'%';
-                
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id =:Pricebook2Id'  
                 +'      AND Product2Id not in: Set_ProdId'
                 +'       AND Product2.HasBlock__c=  false'
@@ -443,6 +447,7 @@ public with sharing class Order_SoqlFactory {
         }    
         else if(Type == 'ProductSelectorLoad'){
                 system.debug('**ProductSelectorLoad**');
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id =:Pricebook2Id' 
                 +'  AND IsActive = true '
                 +' AND Product2.itemGroupManualBlock__c = false'
@@ -453,9 +458,12 @@ public with sharing class Order_SoqlFactory {
                 List<String> lst_ItemGroup = new List<String>();
 
                 lst_ItemGroup.addall(Map_ItemGroup.keyset());
+                Querystr += 'IsActive =true ';
                 Querystr +='AND Pricebook2Id =:Pricebook2Id AND Product2Id in:lst_ItemGroup';
         }
         else if(Type == 'Itemgroupcreate' ){
+                
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Product2Id in:Set_ProdId' 
                 +' AND Pricebook2Id !=:STPBId';
                 
@@ -464,12 +472,13 @@ public with sharing class Order_SoqlFactory {
                 } 
         }
         else if(Type=='SuccessorPricebookentrycreate_1'){
-            Querystr += 'AND Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId AND Pricebook2Id in: Set_Pricebook'; 
+            Querystr += ' Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId AND Pricebook2Id in: Set_Pricebook'; 
         }
         else if(Type=='SuccessorPricebookentrycreate_2'){
-                Querystr += 'AND Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId';  
+                Querystr += ' Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId';  
         }  
         else if(Type=='SuccessorPricebookentrycreate_3'){
+            Querystr += 'IsActive =true ';
             Querystr += 'AND Product2Id in:Set_SuccProductId AND Pricebook2Id =:Pricebook2Id'; 
         } 
 
