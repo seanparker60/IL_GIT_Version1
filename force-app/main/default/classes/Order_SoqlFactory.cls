@@ -407,6 +407,7 @@ public with sharing class Order_SoqlFactory {
         +' Product2.MarketSegment__c,'
         +' Product2.name,'
         +' Product2.OrderLineType__c,'
+        +' Product2.PlannedPrintDate__c,'
         +' Product2.ProductRateGroup__c,'
         +' Product2.ProductDiscountGroup__c,'
         +' Product2.QuantitySelectionType__c,'
