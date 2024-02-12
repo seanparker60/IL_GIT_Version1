@@ -93,9 +93,10 @@ public with sharing class Order_AssetRenewalLineItemQueueable implements Queueab
                                     Date CurDate = system.today();
                                 //Removed Code below was here
 
-                                 ListPriceDiscount__c[] lst_ListPriceDiscountRegular = Order_OrderandOrdeItemHandler.returnListPriceDiscount(CurOrder, Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);
-
-                                    Order_OrderandOrdeItemHandler.OrderItemBusinessLogichandler(lst_AssetItems,CurOrder,Lst_OrdId, 'AssetRenewal',lst_ListPriceDiscountRegular, index);
+                           //      ListPriceDiscount__c[] lst_ListPriceDiscountRegular = Order_OrderandOrdeItemHandler.returnListPriceDiscount(CurOrder, Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);                         
+                        ListPriceDiscount__c[] lst_ListPriceDiscountRegular  =  Order_SoqlFactory.returnListPriceDiscount('AllDiscount',CurOrder[0].PricingMethod__c, Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);
+                        system.debug('**Order_SoqlFactory.Order_AssetRenewalLineItemQueueable.lst_ListPriceDiscountRegular :Size**'+lst_ListPriceDiscountRegular.size());
+                        Order_OrderandOrdeItemHandler.OrderItemBusinessLogichandler(lst_AssetItems,CurOrder,Lst_OrdId, 'AssetRenewal',lst_ListPriceDiscountRegular, index);
                    
 
 
