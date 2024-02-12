@@ -72,7 +72,7 @@ public class VAT_checkVat {
                     if (vatNumberAccountMap.containsKey(cleanVATnr) && acc.Id != vatNumberAccountMap.get(cleanVATnr).Id) {
                         String vatStatus = vatNumberAccountMap.get(cleanVATnr).VATStatus__c;
                         System.debug('VATNumber already known, Status: ' + vatStatus);
-                        acc.VATStatus__c = vatStatus;
+                        newAcc.VATStatus__c = vatStatus;
                     } else if (!euCountryCodes.contains(acc.BillingCountryCode)) {
                         // If country is not within EU
                         newAcc.VATStatus__c = 'Manual verification required';
@@ -159,7 +159,7 @@ public class VAT_checkVat {
                 if (vatNumberAccountMap.containsKey(cleanVATnr) && acc.Id != vatNumberAccountMap.get(cleanVATnr).Id) {
                     String vatStatus = vatNumberAccountMap.get(cleanVATnr).VATStatus__c;
                     System.debug('VATNumber already known, Status: ' + vatStatus);
-                    acc.VATStatus__c = vatStatus;
+                    newAcc.VATStatus__c = vatStatus;
                 } else if (!euCountryCodes.contains(acc.BillingCountryCode)) {
                     // If country is not within EU
                     newAcc.VATStatus__c = 'Manual verification required';

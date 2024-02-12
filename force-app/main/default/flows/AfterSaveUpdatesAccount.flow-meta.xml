@@ -1168,12 +1168,6 @@ NOT(BEGINS( {!$Record.Website}, &apos;http://&apos;))) || CONTAINS({!$Record.Web
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>MobilePhone</field>
-            <value>
-                <elementReference>$Record.Phone</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>OperatingCompany__c</field>
             <value>
                 <elementReference>$Record.OperatingCompany__c</elementReference>

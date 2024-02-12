@@ -29,6 +29,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
         List<ImportAssetSetting__mdt> importAssetSettings = ImportAssetSetting__mdt.getAll().values();
         List<AssetProductRenewal__mdt> assetProducts = AssetProductRenewal__mdt.getAll().values();
         List<String> eanStrLs = new List<String>();
+        Set<String> SetAccExtId = new Set<String>();
         
         for(AssetProductRenewal__mdt ap : assetProducts){
             if(ap.BusinessUnit__c == 'PlantynInformat'){
@@ -56,7 +57,7 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
             
             record.QuantityStartDate__c = startDate;
             record.QuantityEndDate__c = endDate;
-            
+            SetAccExtId.Add(record.ExternalCustomerId__c);
             //4. Two Informat records and only one SF Asset - Flag error on Import Asset Record
             List<ImportAssets__c> duplicateImportAssetLs = [SELECT Id, Name, Hfdstructuur__c, ExternalCustomerId__c, Type__c, Status__c 
                                                             FROM ImportAssets__c
@@ -743,11 +744,14 @@ global class ImportAssetHandlerBatch implements Database.Batchable<ImportAssets_
         system.debug('startDate: ' + startDate);
         system.debug('endDate: ' + endDate);
         
-        List<Asset> assetLs = [SELECT Id, Quantity,AccountId,QuantityStartDate__c, QuantityEndDate__c,SubscriptionIdNumber__c,Informhfdstructuur__c, ShiptoExternalId__c,CancellationDate__c,CancellationReason__c,Product2Id,(SELECT Id, Name, Status__c, Hfdstructuur__c,Quantity__c, Wasnotinimport__c,Approved__c, QuantityStartDate__c,QuantityEndDate__c,Type__c FROM Import_Assets__r WHERE QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate) FROM Asset 
+        List<Asset> assetLs = [SELECT Id, Quantity,AccountId,QuantityStartDate__c, QuantityEndDate__c,SubscriptionIdNumber__c,Informhfdstructuur__c, ShiptoExternalId__c,CancellationDate__c,CancellationReason__c,Product2Id,
+        (SELECT Id, Name, Status__c, Hfdstructuur__c,Quantity__c, Wasnotinimport__c,Approved__c, QuantityStartDate__c,QuantityEndDate__c,Type__c 
+        FROM Import_Assets__r WHERE QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate) FROM Asset 
                                WHERE Id IN (SELECT Asset__c FROM ImportAssets__c 
                                             WHERE Error__c = '[Potential Duplicate] Multiple assets have been found for this hfdstructuur and customer number'
-                                            AND QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate)
+                                            AND QuantityStartDate__c =: startDate AND QuantityEndDate__c =: endDate AND ExternalCustomerId__c in:SetAccExtId)
                                             AND ImportAssetProcessedDate__c != TODAY
+                                             
                                             ORDER BY Product2.EAN__c];
         
         Set<Id> assetIdSet = (new Map<Id,SObject>(assetLs)).keySet();

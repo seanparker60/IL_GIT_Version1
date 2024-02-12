@@ -165,7 +165,7 @@ public with sharing class Order_SoqlFactory {
          +' DigitalActivationEmail__c,  ' 
          +' DeliveryEmail__c, '
          +' DeliveryPhone__c, ' 
-         +' DateUpdateBlock__c,' 
+    //     +' DateUpdateBlock__c,' 
          +' EffectiveDate, ' 
          +' ExternalOrderId__c,'
          +' ForTheAttentionOf__c,'
@@ -173,6 +173,7 @@ public with sharing class Order_SoqlFactory {
          +' InvoiceEmail__c,  ' 
          +' InvoiceEmail2__c,  ' 
          +' LineCount__c, '
+         +' MaxOrderLine__c,'
          +' MultipleShippingLocations__c,'
          +' MasterOrder__c, ' 
          +' NetSuiteIdAccountSubsidiary__c, '
@@ -212,6 +213,7 @@ public with sharing class Order_SoqlFactory {
          +' ValidationErrorsOrder__c, '
          +' ValidationErrorsOrderProducts__c, '
          +' WarehouseReference__c, '
+         +' WarehouseReferenceActive__c,'
          +' Shipto__r.NetsuiteInternalId__c, ' 
          +' Account.BillingReminderEmail__c,  ' 
          +' Account.DigitalActivationEmail__c,  ' 
@@ -229,6 +231,7 @@ public with sharing class Order_SoqlFactory {
          +' Billto__r.BillingReminderEmail__c, '
          +' Billto__r.BillingReminderEmail2__c, '
          +' Billto__r.InvoicingEmail__c,  ' 
+         +' Pricebook2.Name,'
          +' Shipto__r.OrderNotificationEmail__c,  ' 
          +' Shipto__r.OrderNotificationEmail2__c '
          +'  from Order where ';
@@ -255,7 +258,7 @@ public with sharing class Order_SoqlFactory {
     }
 
     
-    Public static List<ListPriceDiscount__c> returnListPriceDiscount(String Type,String PricingMethod,Order[] lst_Order ,Set<String> Set_CusDiscountGroup, Set<String> Set_OperatingCo, Set<String> Set_ProdDiscountGroup, Set<String> Set_OrderLineItemType, Set<String> Set_MarketSegment){
+    Public static List<ListPriceDiscount__c> returnListPriceDiscount(String Type,String PricingMethod,Set<String> Set_CusDiscountGroup, Set<String> Set_OperatingCo, Set<String> Set_ProdDiscountGroup, Set<String> Set_OrderLineItemType, Set<String> Set_MarketSegment){
 
         String Querystr;
         Date CurDate = system.today();
@@ -299,6 +302,12 @@ public with sharing class Order_SoqlFactory {
         Querystr += ' AND ValueType__c = \'Quantity\' '; 
         Querystr += ' ORDER BY StartQuantity__c DESC'; 
     }
+
+    system.debug('**Order_SoqlFactory.returnListPriceDiscount :Set_CusDiscountGroup**'+Set_CusDiscountGroup);
+    system.debug('**Order_SoqlFactory.returnListPriceDiscount :Set_OperatingCo**'+Set_OperatingCo);
+    system.debug('**Order_SoqlFactory.returnListPriceDiscount :Set_ProdDiscountGroup**'+Set_ProdDiscountGroup);
+    system.debug('**Order_SoqlFactory.returnListPriceDiscount :Set_OrderLineItemType**'+Set_OrderLineItemType);
+
     system.debug('**Order_SoqlFactory.returnListPriceDiscount :querystr**'+querystr);
     ListPriceDiscount__c[] lst_ListPriceDiscountRegular =  Database.query(querystr);
     
@@ -350,11 +359,11 @@ public with sharing class Order_SoqlFactory {
     +' IndexationPercentage__c,'
     +' FollowUpPriceBook__r.IndexationPercentage__c,'
     +' ShippingComplete__c,'
+    +' StartDate__c, '
+    +' EndDate__c, '
     +' isStandard,'
     +' PricebookType__c,'
-    +' SoldInSubSegment__c,'
-    +' EndDate__c,'
-    +' StartDate__c '
+    +' SoldInSubSegment__c'
     +' from Pricebook2 where ';
     
     if(Set_Subsid != null){
@@ -374,10 +383,9 @@ public with sharing class Order_SoqlFactory {
     }
     
     
-    Public static List<PricebookEntry> returnPricebookEntry(String Type, String SearchString, Set<String> Set_ProdId,Set<String> Set_Pricebook,String Pricebook2Id,Map<String,String> Map_ItemGroup,Set<String> Set_SuccProductId){
+    Public static List<PricebookEntry> returnPricebookEntry(String Type, String SearchString, Set<String> Set_ProdId,Set<String> Set_Pricebook,String Pricebook2Id,Map<String,String> Map_ItemGroup,Set<String> Set_SuccProductId,Date PricebookStart, Date PricebookEnd){
         String Querystr;
         
-       // ,,,,,,,Product2.Type__c,productcode,unitprice,Product2Id
     
        Pricebook2 standardPB = [select id from Pricebook2 where isStandard=true];
 
@@ -399,6 +407,7 @@ public with sharing class Order_SoqlFactory {
         +' Product2.MarketSegment__c,'
         +' Product2.name,'
         +' Product2.OrderLineType__c,'
+        +' Product2.PlannedPrintDate__c,'
         +' Product2.ProductRateGroup__c,'
         +' Product2.ProductDiscountGroup__c,'
         +' Product2.QuantitySelectionType__c,'
@@ -407,24 +416,33 @@ public with sharing class Order_SoqlFactory {
         +' Product2.SuccessorItem__c,'
         +' Product2.SuccessorItem__r.IsActive,'        
         +' Product2.Stocknumber__c,'       
-        +' Product2.Type__c'
-        +' from PricebookEntry where IsActive =true ';
+        +' Product2.Type__c,'
+        +' PriceBook2.StartDate__c,'
+        +' PriceBook2.EndDate__c'
+        +' from PricebookEntry where ';
 
 
         if(Type =='AssetRenewalProductsbyPriceBook'){
+            
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id in:Set_Pricebook ' 
                 +'AND (Product2Id in: Set_ProdId OR Product2Id in: Set_SuccProductId)';
         }
         else if(Type =='AssetRenewalProductsbyPriceBookSuccessor'){       
+                
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id in:Set_Pricebook ' 
                 +'AND Product2Id in: Set_SuccProductId';
                
         }
         else if(Type == 'ProductSelectorSearch'){
                 String Search = '%'+SearchString+'%';
-                
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id =:Pricebook2Id'  
                 +'      AND Product2Id not in: Set_ProdId'
+                +'      AND Price__r.IsActive__c = true'
+                +'    AND PriceBook2.StartDate__c =: PricebookStart'
+                +'    AND PriceBook2.EndDate__c =: PricebookEnd'
                 +'       AND Product2.HasBlock__c=  false'
                 +'      AND Product2.itemGroupManualBlock__c = false'
                 +'      AND (Product2.Name  like:Search '
@@ -436,8 +454,12 @@ public with sharing class Order_SoqlFactory {
         }    
         else if(Type == 'ProductSelectorLoad'){
                 system.debug('**ProductSelectorLoad**');
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Pricebook2Id =:Pricebook2Id' 
                 +'  AND IsActive = true '
+                +'      AND Price__r.IsActive__c = true'
+                +'    AND PriceBook2.StartDate__c =: PricebookStart'
+                +'    AND PriceBook2.EndDate__c =: PricebookEnd'
                 +' AND Product2.itemGroupManualBlock__c = false'
                 +' AND Product2Id not in: Set_ProdId'
                 +' AND Product2.HasBlock__c= false Order by Product2.Name ASC limit 70 ';
@@ -446,9 +468,12 @@ public with sharing class Order_SoqlFactory {
                 List<String> lst_ItemGroup = new List<String>();
 
                 lst_ItemGroup.addall(Map_ItemGroup.keyset());
+                Querystr += 'IsActive =true ';
                 Querystr +='AND Pricebook2Id =:Pricebook2Id AND Product2Id in:lst_ItemGroup';
         }
         else if(Type == 'Itemgroupcreate' ){
+                
+                Querystr += 'IsActive =true ';
                 Querystr += 'AND Product2Id in:Set_ProdId' 
                 +' AND Pricebook2Id !=:STPBId';
                 
@@ -457,12 +482,13 @@ public with sharing class Order_SoqlFactory {
                 } 
         }
         else if(Type=='SuccessorPricebookentrycreate_1'){
-            Querystr += 'AND Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId AND Pricebook2Id in: Set_Pricebook'; 
+            Querystr += ' Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId AND Pricebook2Id in: Set_Pricebook'; 
         }
         else if(Type=='SuccessorPricebookentrycreate_2'){
-                Querystr += 'AND Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId';  
+                Querystr += ' Product2Id in:Set_ProdId AND Pricebook2Id !=:STPBId';  
         }  
         else if(Type=='SuccessorPricebookentrycreate_3'){
+            Querystr += 'IsActive =true ';
             Querystr += 'AND Product2Id in:Set_SuccProductId AND Pricebook2Id =:Pricebook2Id'; 
         } 
 
@@ -598,13 +624,16 @@ public with sharing class Order_SoqlFactory {
      
         Querystr =  'Select id,'
         +' AccountId,'
+        +' ApplyIndexationPercentage__c,'
         +' BillToAccount__c,'
+        +' CancellationDate__c,'
         +' CurrencyIsoCode,'
         +' Contract__c,'
         +' DiscountedPrice__c, '
         +' DigitalActivationEMail__c,'
         +' IsUpForRenewal__c,'
         +' LastRenewalUpdate__c, '
+        +' ListPrice__c,'
         +' ManualDiscountPercent__c, '
         +' ManualDiscountValue__c, '
         +' ManualDiscount__c,'
@@ -637,6 +666,7 @@ public with sharing class Order_SoqlFactory {
         +' BillToAccount__r.BillingPostalCode,'
         +' BillToAccount__r.BillingCountry,'
         +' BillToAccount__r.BillingCity,'
+        +' Contract__r.Indexation__c,'
         +' BillToAccount__r.ShippingCostMethod__c,'
         +' Product2.CustomPricingAllowed__c,'
         +' Product2.IsSuccessorItemActive__c,'
@@ -655,17 +685,28 @@ public with sharing class Order_SoqlFactory {
         if(Type.contains('renewal')){
             
             if(Set_BillTo != null){
-                Querystr +='  (Product2Id != null AND BillToAccount__c in: Set_BillTo AND PricingMethod__c != null )';
+                Querystr +='(Product2Id != null AND BillToAccount__c in: Set_BillTo AND PricingMethod__c != null )';
             }
             else{
-                Querystr +=' (Product2Id != null AND BillToAccount__c != null AND PricingMethod__c != null )';
+                Querystr +='BillToAccount__r.RenewalAssetToday__c = false ';
+                Querystr +='AND (Product2Id != null AND BillToAccount__c != null AND PricingMethod__c != null )';
             }
             Querystr +=' AND(('
             +' (CancellationDate__c >: CurrentDay OR CancellationDate__c = null)'
-            +' AND RenewalDate__c  =: RenewalDay'
+            +'AND ( '
+                +' ('
+                +    '(RenewalDate__c  =: RenewalDay AND RenewalRunDate__c = null) '
+                +'   OR RenewalRunDate__c =: CurrentDay  '
+                +'   OR (RenewalDate__c  <: CurrentDay AND QuantityUpdateCheckYearly__c = True)'
+                +  ')'
+                +'AND '
+                +'('
+                +' (QuantityUpdateCheckYearly__c = false)'
+                +' OR(QuantityUpdateCheckYearly__c = True AND QuantityStartDate__c <=:CurrentDay AND QuantityEndDate__c >=:CurrentDay  )'
+                +')'
+            +')'
             +' AND LastRenewalUpdate__c !=: CurrentDay'
             +' AND AutomatedRenewProcess__c = true' 
-          //  +' AND Contract__c =null'
             +' AND Product2.Type__c != \'Item Group\' '
             +' )'
             +' OR('
@@ -673,10 +714,7 @@ public with sharing class Order_SoqlFactory {
             +' AND Product2.Type__c != \'Item Group\' '
             +' )'
             +' )';
-
-            if(Type.contains('Contract')){
-                Querystr +=' AND Contract__c !=null';
-            }    
+ 
         }
         /*Commented out in the class
         else if(Type =='Activation'){

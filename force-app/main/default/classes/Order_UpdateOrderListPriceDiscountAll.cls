@@ -109,7 +109,7 @@ public with sharing class Order_UpdateOrderListPriceDiscountAll {
 
 Date CurrentDay = system.today();
 Date RenewalDay = system.today();
-asset[] loadAssetsListGroupRate  = Database.query(Order_SoqlFactory.returnasset('ListPriceDiscount',Set_BillTo));
+asset[] loadAssetsListGroupRate  = Database.query(Order_SoqlFactory.returnasset('ListPriceDiscount',Set_BillTo,null));
 system.debug('**Order_SoqlFactory.Order_UpdateOrderListPriceDiscountAll.loadAssetsListGroupRate :Size**'+loadAssetsListGroupRate.size());
 
         for(asset ass:loadAssetsListGroupRate){

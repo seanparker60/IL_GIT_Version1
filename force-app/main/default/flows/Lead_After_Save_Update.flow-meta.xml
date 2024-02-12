@@ -90,7 +90,7 @@
     <decisions>
         <name>Modify_Interact_with_Lead</name>
         <label>Modify/Interact with Lead</label>
-        <locationX>908</locationX>
+        <locationX>776</locationX>
         <locationY>431</locationY>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -186,21 +186,6 @@
                 <targetReference>Auto_Convert_Flow</targetReference>
             </connector>
             <label>Auto Convert</label>
-        </rules>
-        <rules>
-            <name>test</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>$Record.IsConverted</leftValueReference>
-                <operator>EqualTo</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Update</targetReference>
-            </connector>
-            <label>test</label>
         </rules>
         <rules>
             <name>Set_No_Students</name>
@@ -337,7 +322,7 @@ ISCHANGED({!$Record.Message__c})
     <recordLookups>
         <name>get_Account_Data</name>
         <label>get Account Data</label>
-        <locationX>1370</locationX>
+        <locationX>1106</locationX>
         <locationY>539</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -386,7 +371,7 @@ ISCHANGED({!$Record.Message__c})
     <recordLookups>
         <name>Get_Lead_Record</name>
         <label>Get Lead Record</label>
-        <locationX>908</locationX>
+        <locationX>776</locationX>
         <locationY>323</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -407,35 +392,12 @@ ISCHANGED({!$Record.Message__c})
     <recordUpdates>
         <name>Set_Number_of_Students</name>
         <label>Set Number of Students</label>
-        <locationX>1370</locationX>
+        <locationX>1106</locationX>
         <locationY>647</locationY>
         <inputAssignments>
             <field>NumberOfEmployees</field>
             <value>
                 <elementReference>get_Account_Data.NumberofStudents__c</elementReference>
-            </value>
-        </inputAssignments>
-        <inputReference>$Record</inputReference>
-    </recordUpdates>
-    <recordUpdates>
-        <name>Update</name>
-        <label>Update</label>
-        <locationX>1106</locationX>
-        <locationY>539</locationY>
-        <connector>
-            <isGoTo>true</isGoTo>
-            <targetReference>Modify_Interact_with_Lead</targetReference>
-        </connector>
-        <inputAssignments>
-            <field>Opportunity__c</field>
-            <value>
-                <elementReference>$Record.ConvertedOpportunityId</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
-            <field>Status</field>
-            <value>
-                <stringValue>Converted</stringValue>
             </value>
         </inputAssignments>
         <inputReference>$Record</inputReference>
@@ -495,7 +457,7 @@ ISCHANGED({!$Record.Message__c})
         <inputReference>$Record</inputReference>
     </recordUpdates>
     <start>
-        <locationX>782</locationX>
+        <locationX>650</locationX>
         <locationY>0</locationY>
         <connector>
             <targetReference>Get_Lead_Record</targetReference>
@@ -504,7 +466,7 @@ ISCHANGED({!$Record.Message__c})
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Obsolete</status>
+    <status>Active</status>
     <subflows>
         <name>Auto_Convert_Flow</name>
         <label>Auto Convert Flow</label>

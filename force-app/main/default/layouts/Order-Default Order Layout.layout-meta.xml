@@ -5,6 +5,7 @@
     <excludeButtons>ActivateOrder</excludeButtons>
     <excludeButtons>ChangeRecordType</excludeButtons>
     <excludeButtons>Clone</excludeButtons>
+    <excludeButtons>CreateContractFromOrder</excludeButtons>
     <excludeButtons>Deactivate</excludeButtons>
     <excludeButtons>Delete</excludeButtons>
     <excludeButtons>ReduceOrder</excludeButtons>
@@ -518,6 +519,13 @@
         <fields>NAME</fields>
         <fields>ShiptoAccount__c</fields>
         <relatedList>OrderShipto__c.Order__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>CASES.CASE_NUMBER</fields>
+        <fields>CASES.SUBJECT</fields>
+        <fields>CASES.CREATED_DATE</fields>
+        <fields>CASES.PRIORITY</fields>
+        <relatedList>Case.Order__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>TASK.SUBJECT</fields>

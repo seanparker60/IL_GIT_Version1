@@ -78,7 +78,12 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
    
         List<Id> OrderId = new List<Id>();
         OrderId.add(lstOrder[0].id);
-        OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+       // OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+
+
+        OrderItem[] lstOrderItemGet =  Order_SoqlFactory.returnQueryOrderItems(null,OrderId,null,null);
+        system.debug('**Order_SoqlFactory.Order_OrderandOrdeItemHandler_test.lstOrderItemGet :Size**'+lstOrderItemGet.size());
+
         Order_OrderandOrdeItemHandler.triggerhandler(lstOrderItemGet);
 
 
@@ -125,7 +130,10 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
 
         List<Id> OrderId = new List<Id>();
         OrderId.add(lstOrder[0].id);
-        OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+        //OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+        OrderItem[] lstOrderItemGet =  Order_SoqlFactory.returnQueryOrderItems(null,OrderId,null,null);
+        system.debug('**Order_SoqlFactory.Order_OrderandOrdeItemHandler_test2.lstOrderItemGet :Size**'+lstOrderItemGet.size());
+
         Order_OrderandOrdeItemHandler.triggerhandler(lstOrderItemGet);
 
     }
@@ -174,7 +182,11 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
 
         List<Id> OrderId = new List<Id>();
         OrderId.add(lstOrder[0].id);
-        OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+     //   OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+
+        OrderItem[] lstOrderItemGet =  Order_SoqlFactory.returnQueryOrderItems(null,OrderId,null,null);
+        system.debug('**Order_SoqlFactory.Order_OrderandOrdeItemHandler_test3.lstOrderItemGet :Size**'+lstOrderItemGet.size());
+
 
         Order_OrderandOrdeItemHandler.triggerhandler(lstOrderItemGet);
 
@@ -221,7 +233,7 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
             Set_OrderItemId.add(oi.Id);
         }
 
-        Order_OrderandOrdeItemHandler.returnQueryOrderItems(Set_OrderItemId, List_OrdId);
+      //  Order_OrderandOrdeItemHandler.returnQueryOrderItems(Set_OrderItemId, List_OrdId);
 
     }
     
@@ -267,6 +279,7 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
             Set_OrderItemId.add(oi.Id);
         }
 
+        /*
         Order_OrderandOrdeItemHandler.returnQueryOrderItems(Set_OrderItemId, List_OrdId);
         Set<String> Set_CusDiscountGroup = new Set<String>(); 
         Set<String> Set_OperatingCo= new Set<String>();
@@ -275,6 +288,7 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
         Set<String> Set_MarketSegment = new Set<String>();
 
         Order_OrderandOrdeItemHandler.returnListPriceDiscount(lstOrder ,Set_CusDiscountGroup, Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType, Set_MarketSegment);
+        */
 
     }
 
@@ -332,7 +346,11 @@ public with sharing class Order_OrderandOrdeItemHandler_test {
         
         List<Id> OrderId = new List<Id>();
         OrderId.add(lstOrder[0].id);
-        OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+       // OrderItem[] lstOrderItemGet = Order_OrderandOrdeItemHandler.returnQueryOrderItems(null,OrderId);
+
+        OrderItem[] lstOrderItemGet =  Order_SoqlFactory.returnQueryOrderItems(null,OrderId,null,null);
+        system.debug('**Order_SoqlFactory.Order_OrderandOrdeItemHandler_test4.lstOrderItemGet :Size**'+lstOrderItemGet.size());
+
 
 		List<ListPriceDiscount__c> ListPriceDiscount = Order_TestDataFactory.insertListPriceDiscount(5,'Regular','Workbooks',true);
         //Order_OrderandOrdeItemHandler.triggerhandler(lstOrderItemGet);

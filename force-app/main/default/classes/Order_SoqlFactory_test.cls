@@ -85,19 +85,19 @@ public with sharing class Order_SoqlFactory_test {
         }
 
         LPDType = 'AllDiscount';
-        ListPriceDiscount__c[] lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+        ListPriceDiscount__c[] lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
 
         LPDType = 'ProductSelector';
-        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
 
 
         
         LPDType ='ProductSelectorv2';
-        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
 
         PricingMethod = 'OrderTotalAmount';
         LPDType ='ProductSelectorv2';
-        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,lstOrder ,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
+        lstListPrice = order_soqlfactory.returnListPriceDiscount(LPDType,PricingMethod,Set_CusDiscountGroup,Set_OperatingCo,Set_ProdDiscountGroup,Set_OrderLineItemType,Set_MarketSegment);
 
         //Max
 
@@ -179,37 +179,42 @@ public with sharing class Order_SoqlFactory_test {
 
         Type = 'AssetRenewalProductsbyPriceBook';
         SearchString = 'Prod';
-        PricebookEntry[] lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        Date PricebookStart; 
+        Date PricebookEnd; 
+        PricebookStart = lstPricebook[0].StartDate__c;
+        PricebookEnd =  lstPricebook[0].EndDate__c;
+
+        PricebookEntry[] lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
 
         Type ='AssetRenewalProductsbyPriceBookSuccessor';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
         Type = 'ProductSelectorSearch';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
         Type = 'ProductSelectorLoad';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
         
         Type = 'ProductSelectorItemGroup';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
 
         Type = 'Itemgroupcreate';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
         
         Type = 'SuccessorPricebookentrycreate_1';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
         
         Type ='SuccessorPricebookentrycreate_2';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
         
         Type = 'SuccessorPricebookentrycreate_3';
-        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId);
+        lstPBEntry = order_soqlfactory.returnPricebookEntry(Type,SearchString, Set_ProdId,Set_Pricebook,Pricebook2Id,Map_ItemGroup,Set_SuccProductId,PricebookStart,PricebookEnd);
 
 
 

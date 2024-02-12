@@ -91,7 +91,7 @@ public with sharing class Order_RemoveAccounts_OrderContract {
                 List<String> OrderId = new List<String>();
                 OrderId.add(req[0].RecordId);
 
-                Order_UpdateOrderListPriceDiscountAll.UpdateOrdeItemswithListPriceDiscount(Response[0].totalnumbers,OrderId,req[0].PricebookId);
+             //   Order_UpdateOrderListPriceDiscountAll.UpdateOrdeItemswithListPriceDiscount(Response[0].totalnumbers,OrderId,req[0].PricebookId);
                 if(Test.isRunningTest() && UTIL_TestClassExceptions.TESTCLASSEXCEPTION==True){
                     CalloutException e = new CalloutException();
                     e.setMessage('Error');

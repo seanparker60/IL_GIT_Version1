@@ -414,7 +414,7 @@ public static void processListPriceDiscount(List<String> OrderId){
         Set_OrderLineItemType.add(item.OrderLineType__c);
     }
 
-    ListPriceDiscount__c[] lst_ListPriceDiscountRegular = Order_OrderandOrdeItemHandler.returnListPriceDiscount(lst_Order, Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);
+    ListPriceDiscount__c[] lst_ListPriceDiscountRegular = Order_SoqlFactory.returnListPriceDiscount('AllDiscount','OrderProductQuantity', Set_CusDiscountGroup, Set_OperatingCo, Set_ProdDiscountGroup, Set_OrderLineItemType, Set_MarketSegment);
     system.debug('**UpdateOrderListPriceDiscountAll1_test:LPD 1**'+lst_ListPriceDiscountRegular);
 
     Date CurDate = system.today();

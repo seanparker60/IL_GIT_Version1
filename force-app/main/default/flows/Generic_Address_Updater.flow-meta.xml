@@ -2308,7 +2308,10 @@
     <formulas>
         <name>addressLabel_FORM</name>
         <dataType>String</dataType>
-        <expression>{!streetName_val} &amp; &quot; &quot; &amp; {!houseNumber_val} &amp; {!houseNumberAddition_val} &amp; &quot;, &quot; &amp; {!postalCode_val} &amp; &quot;, &quot; &amp; {!country_val}</expression>
+        <expression>IF({!bValidationOverriden}, 
+{!streetName_val} &amp; &quot; &quot; &amp; {!houseNumber_val} &amp; {!houseNumberAddition_val} &amp; &quot;, &quot; &amp; {!postalCode_val} &amp; &quot;, &quot; &amp; {!countryCode_val},
+{!streetName_val} &amp; &quot; &quot; &amp; {!houseNumber_val} &amp; {!houseNumberAddition_val} &amp; &quot;, &quot; &amp; {!postalCode_val} &amp; &quot;, &quot; &amp; {!country_val}
+)</expression>
     </formulas>
     <formulas>
         <name>dtNow</name>
@@ -3937,6 +3940,9 @@ IF({!Copy_1_of_Select_which_type_of_address_you_d_like_to_update}=&apos;Copy the
             </value>
         </filters>
         <inputAssignments>
+            <field>Country__c</field>
+        </inputAssignments>
+        <inputAssignments>
             <field>ValidationOverridden__c</field>
             <value>
                 <booleanValue>true</booleanValue>
@@ -3966,6 +3972,9 @@ IF({!Copy_1_of_Select_which_type_of_address_you_d_like_to_update}=&apos;Copy the
                 <elementReference>createdAddressID</elementReference>
             </value>
         </filters>
+        <inputAssignments>
+            <field>Country__c</field>
+        </inputAssignments>
         <inputAssignments>
             <field>ValidationOverridden__c</field>
             <value>
