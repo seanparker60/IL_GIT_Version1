@@ -97,14 +97,14 @@ public with sharing class Order_ImportOrderItemGroupCreate {
         if(Set_PB.size()>0){
            // lstPricebookEntryExist = [Select id,Product2Id,Product2.Name, Pricebook2Id,Product2.IsSuccessorItemActive__c,Product2.SuccessorItem__c,Product2.Stocknumber__c,Product2.StockLevel__c, Product2.PlannedPrintDate__c from PricebookEntry where Product2Id in:Set_ProdId AND Pricebook2Id !=:standardPB.id AND Pricebook2Id in: Set_PB]; // 
             
-           lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_1', null, Set_ProdId,Set_PB,null,null,null);
+           lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_1', null, Set_ProdId,Set_PB,null,null,null,null,null);
             system.debug('**Order_SoqlFactory.Order_ImportOrderItemGroupCreate1.lstPricebookEntryExist :Size**'+lstPricebookEntryExist.size());
      
         }
         else{
            // lstPricebookEntryExist = [Select id,Product2Id,Product2.Name, Pricebook2Id,Product2.IsSuccessorItemActive__c,Product2.SuccessorItem__c,Product2.Stocknumber__c,Product2.StockLevel__c, Product2.PlannedPrintDate__c from PricebookEntry where Product2Id in:Set_ProdId AND Pricebook2Id !=:standardPB.id ]; // 
             
-           lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_2', null, Set_ProdId,null,null,null,null);
+           lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_2', null, Set_ProdId,null,null,null,null,null,null);
             system.debug('**Order_SoqlFactory.Order_ImportOrderItemGroupCreate2.lstPricebookEntryExist :Size**'+lstPricebookEntryExist.size());
      
         }

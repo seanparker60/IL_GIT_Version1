@@ -101,13 +101,13 @@ public with sharing class Order_ImportOrderSuccessorUpdate {
         
         if(Set_PB.size()>0){
             //   lstPricebookEntryExist = [Select id,Product2Id, Pricebook2Id,Product2.IsSuccessorItemActive__c,Product2.SuccessorItem__c,Product2.SuccessorItem__r.IsActive,Product2.Stocknumber__c,Product2.StockLevel__c, Product2.PlannedPrintDate__c from PricebookEntry where Product2Id in:Set_ProdId AND Pricebook2Id !=:standardPB.id AND Pricebook2Id in: Set_PB]; // 
-            lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_1', null, Set_ProdId,Set_PB,null,null,null);
+            lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_1', null, Set_ProdId,Set_PB,null,null,null,null,null);
             system.debug('**Order_SoqlFactory.Order_ImportOrderSuccessorUpdate1.lstPricebookEntryExist :Size**'+lstPricebookEntryExist.size());
                  
         }
         else{
            // lstPricebookEntryExist = [Select id,Product2Id, Pricebook2Id,Product2.IsSuccessorItemActive__c,Product2.SuccessorItem__c,Product2.SuccessorItem__r.IsActive,Product2.Stocknumber__c,Product2.StockLevel__c, Product2.PlannedPrintDate__c from PricebookEntry where Product2Id in:Set_ProdId AND Pricebook2Id !=:standardPB.id]; //       
-            lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_2', null, Set_ProdId,null,null,null,null);
+            lstPricebookEntryExist = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_2', null, Set_ProdId,null,null,null,null,null,null);
             system.debug('**Order_SoqlFactory.Order_ImportOrderItemGroupCreate2.lstPricebookEntryExist :Size**'+lstPricebookEntryExist.size());
      
         }
@@ -151,7 +151,7 @@ public with sharing class Order_ImportOrderSuccessorUpdate {
             Pricebook2Id = null;
         }
         //PricebookEntry[] lstPricebookSuccessor = [Select id,Product2Id, UnitPrice, Pricebook2Id,Product2.IsSuccessorItemActive__c,Product2.SuccessorItem__c,Product2.Stocknumber__c,Product2.StockLevel__c, Product2.PlannedPrintDate__c, Product2.Type__c from PricebookEntry where Product2Id in:Set_Successor AND Pricebook2Id =:lstPricebookEntryExist[0].Pricebook2Id ]; // 
-        PricebookEntry[] lstPricebookSuccessor = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_3', null, null,null,Pricebook2Id,null,Set_Successor);
+        PricebookEntry[] lstPricebookSuccessor = Order_SoqlFactory.returnPricebookEntry('SuccessorPricebookentrycreate_3', null, null,null,Pricebook2Id,null,Set_Successor,null,null);
         system.debug('**Order_SoqlFactory.Order_ImportOrderItemGroupCreate2.lstPricebookEntryExist :Size**'+lstPricebookEntryExist.size());
  
 
